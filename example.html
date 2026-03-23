@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NestJS Auth - Client-Side Encryption Demo</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .tab:hover {
+      border-color: #667eea;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: transparent;
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .response {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      display: none;
+    }
+
+    .response.success {
+      border-left-color: #28a745;
+      background: #d4edda;
+    }
+
+    .response.error {
+      border-left-color: #dc3545;
+      background: #f8d7da;
+    }
+
+    .response h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .response pre {
+      font-size: 12px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .info-box {
+      background: #e3f2fd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-left: 4px solid #2196f3;
+    }
+
+    .info-box h4 {
+      color: #1976d2;
+      margin-bottom: 8px;
+    }
+
+    .info-box p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .feature {
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .feature h4 {
+      font-size: 14px;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .feature p {
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔐 Secure Authentication</h1>
+      <p>Client-side password encryption with RSA-2048</p>
+    </div>
+
+    <div class="content">
+      <div class="info-box">
+        <h4>🔒 How It Works</h4>
+        <p>Your password is encrypted in your browser using RSA-2048 before being sent to the server. This ensures your password is never transmitted in plain text.</p>
+        <p style="margin-top: 10px; font-size: 12px; color: #666;">
+          <strong>Requirements:</strong> API server must be running at <code id="api-url-display">http://localhost:3000</code>
+        </p>
+      </div>
+      
+      <div id="connection-status" class="info-box" style="display: none; background: #fff3cd; border-left-color: #ffc107;">
+        <h4>⚠️ Connection Status</h4>
+        <p id="connection-message">Checking API connection...</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Login</div>
+        <div class="tab" onclick="switchTab('register')">Register</div>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="form-container active">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="user@example.com" value="user@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" value="user123">
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="use-encryption" checked>
+          <label for="use-encryption" style="margin-bottom: 0; font-weight: normal;">
+            Use client-side encryption (recommended)
+          </label>
+        </div>
+
+        <button onclick="handleLogin()" type="button">
+          <span id="login-btn-text">🔐 Secure Login</span>
+          <span id="login-loading" class="loading" style="display: none;"></span>
+        </button>
+        
+        <p style="text-align: center; margin-top: 15px; font-size: 12px; color: #666;">
+          Test credentials: <code>user@example.com</code> / <code>user123</code>
+        </p>
+
+        <div id="login-response" class="response"></div>
+      </div>
+
+      <!-- Register Form -->
+      <div id="register-form" class="form-container">
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" placeholder="user@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" placeholder="Minimum 6 characters">
+        </div>
+
+        <div class="form-group">
+          <label for="register-role">Role</label>
+          <select id="register-role">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="register-use-encryption" checked>
+          <label for="register-use-encryption" style="margin-bottom: 0; font-weight: normal;">
+            Use client-side encryption (recommended)
+          </label>
+        </div>
+
+        <button onclick="handleRegister()" type="button">
+          <span id="register-btn-text">🔐 Secure Register</span>
+          <span id="register-loading" class="loading" style="display: none;"></span>
+        </button>
+        
+        <p style="text-align: center; margin-top: 15px; font-size: 12px; color: #666;">
+          Enter your email and password (min 6 characters) to create a new account
+        </p>
+
+        <div id="register-response" class="response"></div>
+      </div>
+
+    
+    </div>
+  </div>
+
+  <script>
+    // API Configuration
+    // Change this if your API is running on a different URL
+    const API_URL = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000' 
+      : `${window.location.protocol}//${window.location.hostname}:3000`;
+
+    // Cache for public key
+    let cachedPublicKey = null;
+    let publicKeyExpiry = 0;
+
+    /**
+     * Get public key from server (with caching)
+     */
+    async function getPublicKey() {
+      // Check cache (valid for 5 minutes)
+      if (cachedPublicKey && Date.now() < publicKeyExpiry) {
+        return cachedPublicKey;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/auth/public-key`, {
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.publicKey) {
+          throw new Error('No public key in response');
+        }
+        
+        cachedPublicKey = data.publicKey;
+        publicKeyExpiry = Date.now() + (5 * 60 * 1000); // 5 minutes
+        console.log('✅ Public key retrieved successfully');
+        return cachedPublicKey;
+      } catch (error) {
+        console.error('Failed to get public key:', error);
+        throw new Error('Failed to retrieve encryption key: ' + error.message);
+      }
+    }
+
+    /**
+     * Convert PEM to ArrayBuffer
+     */
+    function pemToArrayBuffer(pem) {
+      try {
+        // Remove PEM header and footer and whitespace
+        const contents = pem
+          .replace(/-----BEGIN PUBLIC KEY-----/g, '')
+          .replace(/-----END PUBLIC KEY-----/g, '')
+          .replace(/\s/g, '');
+        
+        console.log('🔐 Decoding base64 key...');
+        
+        // Decode base64 to binary string
+        const binary = atob(contents);
+        
+        // Convert to Uint8Array
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        
+        console.log('✅ PEM converted to ArrayBuffer, length:', bytes.length);
+        return bytes.buffer;
+      } catch (error) {
+        console.error('PEM conversion error:', error);
+        throw new Error('Failed to parse public key: ' + error.message);
+      }
+    }
+
+    /**
+     * Encrypt password using RSA-OAEP with SHA-256
+     */
+    async function encryptPassword(password, publicKeyPem) {
+      try {
+        console.log('🔐 Importing public key...');
+        const key = await crypto.subtle.importKey(
+          'spki',
+          pemToArrayBuffer(publicKeyPem),
+          { name: 'RSA-OAEP', hash: 'SHA-256' },
+          false,
+          ['encrypt']
+        );
+        console.log('✅ Public key imported');
+
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        
+        console.log('🔐 Encrypting password...');
+        const encrypted = await crypto.subtle.encrypt(
+          { name: 'RSA-OAEP' },
+          key,
+          data
+        );
+
+        const result = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+        console.log('✅ Password encrypted, length:', result.length);
+        return result;
+      } catch (error) {
+        console.error('Password encryption error:', error);
+        throw new Error('Failed to encrypt password: ' + error.message);
+      }
+    }
+
+    /**
+     * Switch between login and register tabs
+     */
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+      
+      if (tab === 'login') {
+        document.querySelectorAll('.tab')[0].classList.add('active');
+        document.getElementById('login-form').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        document.getElementById('register-form').classList.add('active');
+      }
+    }
+
+    /**
+     * Show response message
+     */
+    function showResponse(elementId, isSuccess, title, message) {
+      const element = document.getElementById(elementId);
+      element.className = `response ${isSuccess ? 'success' : 'error'}`;
+      element.innerHTML = `
+        <h3>${isSuccess ? '✅' : '❌'} ${title}</h3>
+        <pre>${typeof message === 'object' ? JSON.stringify(message, null, 2) : message}</pre>
+      `;
+      element.style.display = 'block';
+    }
+
+    /**
+     * Handle login
+     */
+    async function handleLogin() {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const useEncryption = document.getElementById('use-encryption').checked;
+
+      const btnText = document.getElementById('login-btn-text');
+      const loading = document.getElementById('login-loading');
+      const responseDiv = document.getElementById('login-response');
+
+      // Validation
+      if (!email || !password) {
+        showResponse('login-response', false, 'Validation Error', 'Email and password are required');
+        return;
+      }
+
+      try {
+        btnText.style.display = 'none';
+        loading.style.display = 'inline-block';
+        responseDiv.style.display = 'none';
+
+        let endpoint = `${API_URL}/auth/login`;
+        let body = { email, password };
+
+        var encryptedPassword;
+        if (useEncryption) {
+          try {
+            console.log('🔐 Fetching public key for encryption...');
+            const publicKey = await getPublicKey();
+            console.log('🔐 Encrypting password...');
+            encryptedPassword = await encryptPassword(password, publicKey);
+            endpoint = `${API_URL}/auth/login-encrypted`;
+            body = { email, encryptedPassword };
+            console.log('✅ Password encrypted successfully');
+          } catch (encryptError) {
+            console.error('Encryption error:', encryptError);
+            showResponse('login-response', false, 'Encryption Error', 
+              'Failed to encrypt password: ' + encryptError.message + '. Make sure the API server is running at ' + API_URL);
+            return;
+          }
+        }
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showResponse('login-response', true, 'Login Successful!', data ); //encryptedPassword);
+          
+          // Store token
+          if (data.access_token) {
+            localStorage.setItem('token', data.access_token);
+            console.log('Token stored in localStorage');
+          }
+        } else {
+          showResponse('login-response', false, 'Login Failed', data.message || data);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showResponse('login-response', false, 'Error', 
+          'Connection error: ' + error.message + '. Make sure the API server is running at ' + API_URL);
+      } finally {
+        btnText.style.display = 'inline';
+        loading.style.display = 'none';
+      }
+    }
+
+    /**
+     * Handle registration
+     */
+    async function handleRegister() {
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const role = document.getElementById('register-role').value;
+      const useEncryption = document.getElementById('register-use-encryption').checked;
+
+      const btnText = document.getElementById('register-btn-text');
+      const loading = document.getElementById('register-loading');
+
+      // Validation
+      if (!email || !password) {
+        showResponse('register-response', false, 'Validation Error', 'Email and password are required');
+        return;
+      }
+
+      if (password.length < 6) {
+        showResponse('register-response', false, 'Validation Error', 'Password must be at least 6 characters');
+        return;
+      }
+
+      try {
+        btnText.style.display = 'none';
+        loading.style.display = 'inline-block';
+
+        let endpoint = `${API_URL}/auth/register`;
+        let body = { email, password, role };
+
+        if (useEncryption) {
+          try {
+            console.log('🔐 Fetching public key for encryption...');
+            const publicKey = await getPublicKey();
+            console.log('🔐 Encrypting password...');
+            const encryptedPassword = await encryptPassword(password, publicKey);
+            endpoint = `${API_URL}/auth/register-encrypted`;
+            body = { email, encryptedPassword, role };
+            console.log('✅ Password encrypted successfully');
+          } catch (encryptError) {
+            console.error('Encryption error:', encryptError);
+            showResponse('register-response', false, 'Encryption Error', 
+              'Failed to encrypt password: ' + encryptError.message + '. Make sure the API server is running at ' + API_URL);
+            return;
+          }
+        }
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showResponse('register-response', true, 'Registration Successful!', data);
+          
+          // Store token
+          if (data.access_token) {
+            localStorage.setItem('token', data.access_token);
+            console.log('Token stored in localStorage');
+          }
+        } else {
+          showResponse('register-response', false, 'Registration Failed', data.message || data);
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        showResponse('register-response', false, 'Error', 
+          'Connection error: ' + error.message + '. Make sure the API server is running at ' + API_URL);
+      } finally {
+        btnText.style.display = 'inline';
+        loading.style.display = 'none';
+      }
+    }
+
+    /**
+     * Check API connection status
+     */
+    async function checkApiConnection() {
+      const statusDiv = document.getElementById('connection-status');
+      const messageEl = document.getElementById('connection-message');
+      
+      try {
+        const response = await fetch(`${API_URL}/auth/public-key`, {
+          method: 'GET',
+          mode: 'cors',
+          headers: { 'Accept': 'application/json' }
+        });
+        
+        if (response.ok) {
+          statusDiv.style.display = 'none';
+          console.log('✅ API connection successful');
+          return true;
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (error) {
+        statusDiv.style.display = 'block';
+        statusDiv.style.background = '#f8d7da';
+        statusDiv.style.borderLeftColor = '#dc3545';
+        messageEl.innerHTML = `
+          ❌ Cannot connect to API at <code>${API_URL}</code><br>
+          <small>Error: ${error.message}</small><br>
+          <small style="color: #666;">Make sure to run: <code>npm run start:dev</code></small>
+        `;
+        console.error('API connection failed:', error);
+        return false;
+      }
+    }
+
+    // Initialize
+    console.log('🔐 Password Encryption Demo Loaded');
+    console.log('API URL:', API_URL);
+    
+    // Check API connection on load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('api-url-display').textContent = API_URL;
+      checkApiConnection();
+    });
+    
+    // Also check immediately if DOM is already loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      document.getElementById('api-url-display').textContent = API_URL;
+      checkApiConnection();
+    }
+  </script>
+</body>
+</html>
