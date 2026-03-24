@@ -13,7 +13,7 @@ export class InfoUsahaService {
   }
 
   async findAll() {
-    return await this.prisma.user.infoUsaha.findMany({
+    return await this.prisma.infoUsaha.findMany({
       include: { pengajuan_kredit: true },
     });
   }

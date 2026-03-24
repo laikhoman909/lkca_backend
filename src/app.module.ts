@@ -8,6 +8,7 @@ import { ProductsModule } from './features/products/products.module';
 import { PengajuanKreditModule } from './features/pengajuan-kredit/pengajuan-kredit.module';
 import { InfoUsahaModule } from './features/info-usaha/info-usaha.module';
 import { InfoDebiturModule } from './features/info-debitur/info-debitur.module';
+import { DokumenPersyaratanModule } from './features/dokumen-persyaratan/dokumen-persyaratan.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { InfoDebiturModule } from './features/info-debitur/info-debitur.module';
     PengajuanKreditModule,
     InfoDebiturModule,
     InfoUsahaModule,
+    DokumenPersyaratanModule
   ],
   controllers: [AppController],
   providers: [AppService],
