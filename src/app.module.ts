@@ -13,6 +13,8 @@ import { InfoDebiturBadanUsahaModule } from './features/info-debitur-badan-usaha
 import { KonfirmasiTandaTanganModule } from './features/konfirmasi-tanda-tangan/konfirmasi-tanda-tangan.module';
 import { KronologisTransaksiModule } from './features/kronologis-transaksi/kronologis-transaksi.module';
 import { PembelianRefinancingModule } from './features/pembelian-refinancing/pembelian-refinancing.module';
+import { MutasiRekeningModule } from './features/mutasi-rekening/mutasi-rekening.module';
+import { RecordPaymentModule } from './features/record-payment/record-payment.module';
 
 @Module({
   imports: [
@@ -23,12 +25,13 @@ import { PembelianRefinancingModule } from './features/pembelian-refinancing/pem
     PengajuanKreditModule,
     InfoDebiturPribadiModule,
     InfoDebiturBadanUsahaModule,
-    InfoUsahaModule,
     DokumenPersyaratanModule,
     KonfirmasiTandaTanganModule,
     KronologisTransaksiModule,
+    InfoUsahaModule,
     PembelianRefinancingModule,
-    
+    MutasiRekeningModule,
+    RecordPaymentModule
   ],
   controllers: [AppController],
   providers: [AppService],
