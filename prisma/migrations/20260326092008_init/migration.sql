@@ -41,10 +41,50 @@ CREATE TABLE "pengajuan_kredit" (
     "pokok_hutang" DECIMAL(15,2),
     "status_cadab" JSONB,
     "jenis_pengajuan" JSONB,
+    "merk_type_1" TEXT,
+    "tahun_1" INTEGER,
+    "nopol_1" TEXT,
+    "ph_pengajuan_1" DECIMAL(15,2),
+    "atas_nama_1" TEXT,
+    "merk_type_2" TEXT,
+    "tahun_2" INTEGER,
+    "nopol_2" TEXT,
+    "ph_pengajuan_2" DECIMAL(15,2),
+    "atas_nama_2" TEXT,
+    "merk_type_3" TEXT,
+    "tahun_3" INTEGER,
+    "nopol_3" TEXT,
+    "ph_pengajuan_3" DECIMAL(15,2),
+    "atas_nama_3" TEXT,
+    "merk_type_4" TEXT,
+    "tahun_4" INTEGER,
+    "nopol_4" TEXT,
+    "ph_pengajuan_4" DECIMAL(15,2),
+    "atas_nama_4" TEXT,
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "pengajuan_kredit_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "konfirmasi_tanda_tangan" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
     "penandatanganan_kontrak" JSONB,
     "penjelasan_pasal_penting" JSONB,
     "nama_cmo_sesuai_survey" JSONB,
     "cmo_id" TEXT,
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "konfirmasi_tanda_tangan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "kronologis_transaksi" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
     "mengetahui_itc_dari" JSONB,
     "nama_dealer_sesuai" JSONB,
     "tujuan_pembelian_mobil" JSONB,
@@ -52,14 +92,10 @@ CREATE TABLE "pengajuan_kredit" (
     "pembawa_memiliki_sim" JSONB,
     "cek_kondisi_mobil" JSONB,
     "kondisi_mobil_persen" DECIMAL(5,2),
-    "os_pokok_cabang" DECIMAL(18,2),
-    "bmpk" DECIMAL(5,2),
-    "total_pokok_hutang" DECIMAL(15,2),
-    "total_exposure" DECIMAL(15,2),
     "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tanggal_diubah" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "pengajuan_kredit_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "kronologis_transaksi_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -70,6 +106,16 @@ CREATE TABLE "konfirmasi_pembiayaan" (
     "merk_tipe_sesuai" JSONB,
     "angsuran_tenor_sesuai" JSONB,
     "unit_diterima" JSONB,
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "konfirmasi_pembiayaan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "pembelian_refinancing" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
     "harga_otr" DECIMAL(15,2),
     "besar_down_payment" DECIMAL(15,2),
     "keterangan_dp" TEXT,
@@ -84,11 +130,11 @@ CREATE TABLE "konfirmasi_pembiayaan" (
     "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tanggal_diubah" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "konfirmasi_pembiayaan_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "pembelian_refinancing_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "info_debitur" (
+CREATE TABLE "info_debitur_pribadi" (
     "id" SERIAL NOT NULL,
     "pengajuan_kredit_id" INTEGER NOT NULL,
     "nama_jelas_sesuai_ktp" JSONB,
@@ -103,6 +149,16 @@ CREATE TABLE "info_debitur" (
     "pendidikan_terakhir" JSONB,
     "usia_debitur" INTEGER,
     "kategori_usia" JSONB,
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "info_debitur_pribadi_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "info_debitur_badan_usaha" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
     "nama_jelas_sesuai_akte" JSONB,
     "alamat_kantor_sesuai_akte" JSONB,
     "status_kepemilikan_kantor" JSONB,
@@ -117,23 +173,7 @@ CREATE TABLE "info_debitur" (
     "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tanggal_diubah" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "info_debitur_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "data_kendaraan" (
-    "id" SERIAL NOT NULL,
-    "pengajuan_kredit_id" INTEGER NOT NULL,
-    "urutan" INTEGER NOT NULL DEFAULT 1,
-    "merk_type" TEXT,
-    "tahun" INTEGER,
-    "nopol" TEXT,
-    "ph_pengajuan" DECIMAL(15,2),
-    "atas_nama" TEXT,
-    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "data_kendaraan_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "info_debitur_badan_usaha_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -202,6 +242,16 @@ CREATE TABLE "perhitungan_pendapatan" (
     "biaya_lain" DECIMAL(15,2),
     "total_pengeluaran" DECIMAL(15,2),
     "total_pendapatan" DECIMAL(15,2),
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "perhitungan_pendapatan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "kewajiban_angsuran" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
     "total_pinjaman_lain" DECIMAL(15,2),
     "total_angsuran_itc" DECIMAL(15,2),
     "grand_total_pinjaman" DECIMAL(15,2),
@@ -212,7 +262,26 @@ CREATE TABLE "perhitungan_pendapatan" (
     "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "tanggal_diubah" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "perhitungan_pendapatan_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "kewajiban_angsuran_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "laporan_keuangan" (
+    "id" SERIAL NOT NULL,
+    "pengajuan_kredit_id" INTEGER NOT NULL,
+    "bulan" TEXT,
+    "pendapatan_laba" DECIMAL(15,2),
+    "biaya" DECIMAL(15,2),
+    "net_income" DECIMAL(15,2),
+    "keterangan" TEXT,
+    "urutan" INTEGER NOT NULL DEFAULT 1,
+    "total_aset_lancar" DECIMAL(15,2),
+    "total_hutang_lancar" DECIMAL(15,2),
+    "persen" DECIMAL(5,2),
+    "tanggal_dibuat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "tanggal_diubah" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "laporan_keuangan_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -335,11 +404,13 @@ CREATE TABLE "info_jaminan" (
 CREATE TABLE "keputusan_kredit" (
     "id" SERIAL NOT NULL,
     "pengajuan_kredit_id" INTEGER NOT NULL,
+    "os_pokok_cabang" DECIMAL(18,2),
+    "bmpk" DECIMAL(5,2),
+    "total_pokok_hutang" DECIMAL(15,2),
+    "total_exposure" DECIMAL(15,2),
     "positif_poin" TEXT,
     "negatif_poin" TEXT,
     "hambatan" TEXT,
-    "diverifikasi_oleh" TEXT,
-    "jabatan_verifikator" TEXT,
     "direkomendasikan_oleh" TEXT,
     "jabatan_rekomendator" TEXT,
     "keputusan_ca" JSONB,
@@ -368,13 +439,22 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ALTER TABLE "Product" ADD CONSTRAINT "Product_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "konfirmasi_tanda_tangan" ADD CONSTRAINT "konfirmasi_tanda_tangan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "kronologis_transaksi" ADD CONSTRAINT "kronologis_transaksi_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "konfirmasi_pembiayaan" ADD CONSTRAINT "konfirmasi_pembiayaan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "info_debitur" ADD CONSTRAINT "info_debitur_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "pembelian_refinancing" ADD CONSTRAINT "pembelian_refinancing_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "data_kendaraan" ADD CONSTRAINT "data_kendaraan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "info_debitur_pribadi" ADD CONSTRAINT "info_debitur_pribadi_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "info_debitur_badan_usaha" ADD CONSTRAINT "info_debitur_badan_usaha_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "dokumen_persyaratan" ADD CONSTRAINT "dokumen_persyaratan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -384,6 +464,12 @@ ALTER TABLE "info_usaha" ADD CONSTRAINT "info_usaha_pengajuan_kredit_id_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "perhitungan_pendapatan" ADD CONSTRAINT "perhitungan_pendapatan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "kewajiban_angsuran" ADD CONSTRAINT "kewajiban_angsuran_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "laporan_keuangan" ADD CONSTRAINT "laporan_keuangan_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "mutasi_rekening" ADD CONSTRAINT "mutasi_rekening_pengajuan_kredit_id_fkey" FOREIGN KEY ("pengajuan_kredit_id") REFERENCES "pengajuan_kredit"("id") ON DELETE CASCADE ON UPDATE CASCADE;

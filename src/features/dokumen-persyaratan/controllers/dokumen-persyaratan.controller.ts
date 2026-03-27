@@ -26,18 +26,8 @@ export class DokumenPersyaratanController {
     return this.dokumenPersyaratanService.findByPengajuanId(+pengajuanId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dokumenPersyaratanService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDto: UpdateDokumenPersyaratanDto) {
     return this.dokumenPersyaratanService.update(+id, updateDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dokumenPersyaratanService.remove(+id);
   }
 }

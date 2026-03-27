@@ -4,7 +4,7 @@ import { PrismaService } from 'src/core/db/prisma.service';
 
 @Injectable()
 export class InfoUsahaService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createDto: CreateInfoUsahaDto) {
     return await this.prisma.infoUsaha.create({
@@ -41,13 +41,5 @@ export class InfoUsahaService {
       where: { id },
       data: updateDto,
     });
-  }
-
-  async remove(id: number) {
-    await this.findOne(id);
-    await this.prisma.infoUsaha.delete({
-      where: { id },
-    });
-    return { message: `Info Usaha dengan ID ${id} berhasil dihapus` };
   }
 }

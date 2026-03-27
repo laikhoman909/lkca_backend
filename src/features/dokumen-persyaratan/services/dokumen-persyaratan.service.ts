@@ -49,12 +49,4 @@ export class DokumenPersyaratanService {
       data: updateDto,
     });
   }
-
-  async remove(id: number) {
-    await this.findOne(id);
-    await this.prisma.dokumenPersyaratan.delete({
-      where: { id },
-    });
-    return { message: `Dokumen Persyaratan dengan ID ${id} berhasil dihapus` };
-  }
 }

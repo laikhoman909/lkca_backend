@@ -1,0 +1,1041 @@
+{
+  "info": {
+    "_postman_id": "lkca-api-collection",
+    "name": "LKCA API",
+    "description": "Postman collection for LKCA Credit Analyst Form API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Pengajuan Kredit",
+      "item": [
+        {
+          "name": "Create Pengajuan Kredit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tanggal_telepon\": \"2025-03-24\",\n  \"jam_telepon\": \"10:30\",\n  \"cabang\": \"JAKARTA\",\n  \"nama_cmo\": \"HERYANTO BIN TUGINO\",\n  \"fid_cmo\": 81103,\n  \"nama_debitur\": \"ROMI ALECK SANDER\",\n  \"nama_dealer\": \"SIDO MULYO MOBILINDO\",\n  \"msub\": \"TERLAMPIR\",\n  \"pokok_hutang\": 121000000,\n  \"status_cadab\": {\n    \"key\": \"RO\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"jenis_pengajuan\": {\n    \"key\": \"PEMBELIAN\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"merk_type_1\": \"TOYOTA DYNA 130 HT\",\n  \"tahun_1\": 2011,\n  \"nopol_1\": \"T 8429 DF\",\n  \"ph_pengajuan_1\": 121000000,\n  \"atas_nama_1\": \"ROMI ALECK SANDER\",\n  \"merk_type_2\": \"MITSUBISHI FE 71\",\n  \"tahun_2\": 2015,\n  \"nopol_2\": \"B 1234 XY\",\n  \"ph_pengajuan_2\": 150000000,\n  \"atas_nama_2\": \"ROMI ALECK SANDER\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pengajuan-kredit",
+              "host": ["{{base_url}}"],
+              "path": ["pengajuan-kredit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Pengajuan Kredit",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pengajuan-kredit",
+              "host": ["{{base_url}}"],
+              "path": ["pengajuan-kredit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pengajuan Kredit by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pengajuan-kredit/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pengajuan-kredit", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Pengajuan Kredit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cabang\": \"JAKARTA UPDATED\",\n  \"nama_debitur\": \"ROMI ALECK SANDER UPDATED\",\n  \"merk_type_1\": \"TOYOTA DYNA 130 HT UPDATED\",\n  \"tahun_1\": 2012\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pengajuan-kredit/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pengajuan-kredit", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Pengajuan Kredit",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pengajuan-kredit/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pengajuan-kredit", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Konfirmasi Tanda Tangan",
+      "item": [
+        {
+          "name": "Create Konfirmasi Tanda Tangan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"penandatanganan_kontrak\": {\n    \"key\": \"SUDAH\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"penjelasan_pasal_penting\": {\n    \"key\": \"SUDAH\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"nama_cmo_sesuai_survey\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"cmo_id\": \"81103\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Konfirmasi Tanda Tangan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Konfirmasi Tanda Tangan by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Konfirmasi Tanda Tangan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"penandatanganan_kontrak\": {\n    \"key\": \"SUDAH\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"cmo_id\": \"81103-UPDATED\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Konfirmasi Tanda Tangan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-tanda-tangan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-tanda-tangan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kronologis Transaksi",
+      "item": [
+        {
+          "name": "Create Kronologis Transaksi",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"mengetahui_itc_dari\": {\n    \"key\": \"TEMAN\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"nama_dealer_sesuai\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"tujuan_pembelian_mobil\": {\n    \"key\": \"USAHA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"kendaraan_dibawa_oleh\": {\n    \"key\": \"DEBITUR\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"pembawa_memiliki_sim\": {\n    \"key\": \"ADA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"cek_kondisi_mobil\": {\n    \"key\": \"SUDAH\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"kondisi_mobil_persen\": 80\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Kronologis Transaksi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Kronologis Transaksi by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Kronologis Transaksi",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kondisi_mobil_persen\": 85\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Kronologis Transaksi",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/kronologis-transaksi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["kronologis-transaksi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Konfirmasi Pembiayaan",
+      "item": [
+        {
+          "name": "Create Konfirmasi Pembiayaan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"jenis_transaksi\": {\n    \"key\": \"PEMBELIAN\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"merk_tipe_sesuai\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"angsuran_tenor_sesuai\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"unit_diterima\": {\n    \"key\": \"DITERIMA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Konfirmasi Pembiayaan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Konfirmasi Pembiayaan by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Konfirmasi Pembiayaan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jenis_transaksi\": {\n    \"key\": \"REFINANCING\",\n    \"value\": 2,\n    \"customValue\": \"\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Konfirmasi Pembiayaan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/konfirmasi-pembiayaan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["konfirmasi-pembiayaan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pembelian Refinancing",
+      "item": [
+        {
+          "name": "Create Pembelian Refinancing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"harga_otr\": 150000000,\n  \"besar_down_payment\": 30000000,\n  \"keterangan_dp\": \"DP 20%\",\n  \"nama_penjual\": \"BUDI SANTOSO\",\n  \"telepon_penjual\": \"081234567890\",\n  \"hasil_konfirmasi_penjual\": \"Sudah dikonfirmasi via telepon\",\n  \"kapas_memiliki_mobil\": \"2020-01-15\",\n  \"harga_beli_saat_itu\": 120000000,\n  \"kebutuhan_dana\": 50000000,\n  \"tujuan_kebutuhan_dana\": \"Modal usaha\",\n  \"posisi_bpkb\": \"Kantor Pusat\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Pembelian Refinancing",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pembelian Refinancing by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Pembelian Refinancing",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"harga_otr\": 155000000,\n  \"besar_down_payment\": 35000000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Pembelian Refinancing",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pembelian-refinancing/:id",
+              "host": ["{{base_url}}"],
+              "path": ["pembelian-refinancing", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Info Debitur Pribadi",
+      "item": [
+        {
+          "name": "Create Info Debitur Pribadi",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"nama_jelas_sesuai_ktp\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"tempat_tinggal_sesuai_ktp\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"status_tempat_tinggal\": {\n    \"key\": \"MILIK_SENDIRI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"status_pernikahan\": {\n    \"key\": \"MENIKAH\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"nama_pasangan_sesuai\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"status_asal_usul_cadab\": {\n    \"key\": \"PENDUDUK_LOKAL\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"lama_tinggal\": {\n    \"key\": \"5_TAHUN\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"jumlah_tanggungan\": {\n    \"key\": \"2_ORANG\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"status_anak\": {\n    \"key\": \"ANAK_KANDUNG\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"pendidikan_terakhir\": {\n    \"key\": \"SMA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"usia_debitur\": 35,\n  \"kategori_usia\": {\n    \"key\": \"PRODUKTIF\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Info Debitur Pribadi",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Info Debitur Pribadi by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Info Debitur Pribadi",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usia_debitur\": 36,\n  \"status_pernikahan\": {\n    \"key\": \"BELUM_MENIKAH\",\n    \"value\": 2,\n    \"customValue\": \"\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Info Debitur Pribadi",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-pribadi/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-pribadi", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Info Debitur Badan Usaha",
+      "item": [
+        {
+          "name": "Create Info Debitur Badan Usaha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"nama_jelas_sesuai_akte\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"alamat_kantor_sesuai_akte\": {\n    \"key\": \"SESUAI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"status_kepemilikan_kantor\": {\n    \"key\": \"MILIK_SENDIRI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"lama_menempati\": {\n    \"key\": \"5_TAHUN\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"usia_pemegang_saham\": {\n    \"key\": \"PRODUKTIF\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"jumlah_karyawan\": {\n    \"key\": \"10_ORANG\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"nama_pengurus\": \"BUDI SANTOSO\",\n  \"jabatan_pengurus\": \"DIREKTUR\",\n  \"besar_saham\": 60.00,\n  \"hubungan_pengurus\": \"Saudara\",\n  \"keterangan_pengurus\": \"Pemegang saham mayoritas\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Info Debitur Badan Usaha",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Info Debitur Badan Usaha by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Info Debitur Badan Usaha",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"besar_saham\": 55.00,\n  \"keterangan_pengurus\": \"Updated keterangan\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Info Debitur Badan Usaha",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/info-debitur-badan-usaha/:id",
+              "host": ["{{base_url}}"],
+              "path": ["info-debitur-badan-usaha", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dokumen Persyaratan",
+      "item": [
+        {
+          "name": "Create Dokumen Persyaratan (KTP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"jenis_dokumen\": \"KTP\",\n  \"status_ada\": {\n    \"key\": \"ADA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"tipe_dokumen\": {\n    \"key\": \"ASLI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"keterangan\": \"KTP sesuai dengan nama debitur\",\n  \"urutan\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Dokumen Persyaratan (KK)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"jenis_dokumen\": \"KK\",\n  \"status_ada\": {\n    \"key\": \"ADA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"tipe_dokumen\": {\n    \"key\": \"COPY\",\n    \"value\": 2,\n    \"customValue\": \"\"\n  },\n  \"keterangan\": \"Kartu Keluarga\",\n  \"urutan\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Dokumen Persyaratan (BPKB)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pengajuan_kredit_id\": 1,\n  \"jenis_dokumen\": \"BPKB\",\n  \"status_ada\": {\n    \"key\": \"ADA\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"tipe_dokumen\": {\n    \"key\": \"ASLI\",\n    \"value\": 1,\n    \"customValue\": \"\"\n  },\n  \"keterangan\": \"BPKB Kendaraan\",\n  \"urutan\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Dokumen Persyaratan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by Pengajuan Kredit ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan/pengajuan/:pengajuanKreditId",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan", "pengajuan", ":pengajuanKreditId"],
+              "variable": [
+                {
+                  "key": "pengajuanKreditId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dokumen Persyaratan by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Dokumen Persyaratan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keterangan\": \"KTP sudah diverifikasi\",\n  \"urutan\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Dokumen Persyaratan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/dokumen-persyaratan/:id",
+              "host": ["{{base_url}}"],
+              "path": ["dokumen-persyaratan", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

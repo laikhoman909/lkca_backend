@@ -52,78 +52,89 @@ export class CreatePengajuanKreditDto {
   @Type(() => RadioDto)
   jenis_pengajuan?: RadioDto;
 
-  // Konfirmasi Tanda Tangan (Radio)
+  // Data Kendaraan 1
   @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  penandatanganan_kontrak?: RadioDto;
+  @IsString()
+  merk_type_1?: string;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  penjelasan_pasal_penting?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  nama_cmo_sesuai_survey?: RadioDto;
+  @IsNumber()
+  tahun_1?: number;
 
   @IsOptional()
   @IsString()
-  cmo_id?: string;
-
-  // Kronologis Transaksi (Radio)
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  mengetahui_itc_dari?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  nama_dealer_sesuai?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  tujuan_pembelian_mobil?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  kendaraan_dibawa_oleh?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  pembawa_memiliki_sim?: RadioDto;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => RadioDto)
-  cek_kondisi_mobil?: RadioDto;
+  nopol_1?: string;
 
   @IsOptional()
   @IsNumber()
-  kondisi_mobil_persen?: number;
-
-  // OS & BMPK
-  @IsOptional()
-  @IsNumber()
-  os_pokok_cabang?: number;
+  ph_pengajuan_1?: number;
 
   @IsOptional()
-  @IsNumber()
-  bmpk?: number;
+  @IsString()
+  atas_nama_1?: string;
 
-  // Total
+  // Data Kendaraan 2
   @IsOptional()
-  @IsNumber()
-  total_pokok_hutang?: number;
+  @IsString()
+  merk_type_2?: string;
 
   @IsOptional()
   @IsNumber()
-  total_exposure?: number;
+  tahun_2?: number;
+
+  @IsOptional()
+  @IsString()
+  nopol_2?: string;
+
+  @IsOptional()
+  @IsNumber()
+  ph_pengajuan_2?: number;
+
+  @IsOptional()
+  @IsString()
+  atas_nama_2?: string;
+
+  // Data Kendaraan 3
+  @IsOptional()
+  @IsString()
+  merk_type_3?: string;
+
+  @IsOptional()
+  @IsNumber()
+  tahun_3?: number;
+
+  @IsOptional()
+  @IsString()
+  nopol_3?: string;
+
+  @IsOptional()
+  @IsNumber()
+  ph_pengajuan_3?: number;
+
+  @IsOptional()
+  @IsString()
+  atas_nama_3?: string;
+
+  // Data Kendaraan 4
+  @IsOptional()
+  @IsString()
+  merk_type_4?: string;
+
+  @IsOptional()
+  @IsNumber()
+  tahun_4?: number;
+
+  @IsOptional()
+  @IsString()
+  nopol_4?: string;
+
+  @IsOptional()
+  @IsNumber()
+  ph_pengajuan_4?: number;
+
+  @IsOptional()
+  @IsString()
+  atas_nama_4?: string;
 }
 
 export class UpdatePengajuanKreditDto extends CreatePengajuanKreditDto {}

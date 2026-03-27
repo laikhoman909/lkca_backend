@@ -15,13 +15,16 @@ export class PengajuanKreditService {
   async findAll() {
     return await this.prisma.pengajuanKredit.findMany({
       include: {
-        info_debitur: true,
-        data_kendaraan: true,
+        info_debitur_pribadi: true,
+        info_debitur_badan_usaha: true,
         dokumen_persyaratan: true,
         konfirmasi_pembiayaan: true,
+        pembelian_refinancing: true,
         info_usaha: true,
         perhitungan_pendapatan: true,
+        kewajiban_angsuran: true,
         mutasi_rekening: true,
+        laporan_keuangan: true,
         aset_lain: true,
         record_payment: true,
         data_slik: true,
@@ -36,13 +39,16 @@ export class PengajuanKreditService {
     const pengajuan = await this.prisma.pengajuanKredit.findUnique({
       where: { id },
       include: {
-        info_debitur: true,
-        data_kendaraan: true,
+        info_debitur_pribadi: true,
+        info_debitur_badan_usaha: true,
         dokumen_persyaratan: true,
         konfirmasi_pembiayaan: true,
+        pembelian_refinancing: true,
         info_usaha: true,
         perhitungan_pendapatan: true,
+        kewajiban_angsuran: true,
         mutasi_rekening: true,
+        laporan_keuangan: true,
         aset_lain: true,
         record_payment: true,
         data_slik: true,

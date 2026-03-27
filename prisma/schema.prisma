@@ -78,41 +78,51 @@ model PengajuanKredit {
   // Jenis Pengajuan (Radio)
   jenis_pengajuan           Json?
   
-  // Konfirmasi Tanda Tangan
-  penandatanganan_kontrak   Json?
-  penjelasan_pasal_penting  Json?
-  nama_cmo_sesuai_survey    Json?
-  cmo_id                    String?
+  // Data Kendaraan 1
+  merk_type_1               String?
+  tahun_1                   Int?
+  nopol_1                   String?
+  ph_pengajuan_1            Decimal?  @db.Decimal(15, 2)
+  atas_nama_1               String?
   
-  // Kronologis Transaksi
-  mengetahui_itc_dari       Json?
-  nama_dealer_sesuai        Json?
-  tujuan_pembelian_mobil    Json?
-  kendaraan_dibawa_oleh     Json?
-  pembawa_memiliki_sim      Json?
-  cek_kondisi_mobil         Json?
-  kondisi_mobil_persen      Decimal?  @db.Decimal(5, 2)
+  // Data Kendaraan 2
+  merk_type_2               String?
+  tahun_2                   Int?
+  nopol_2                   String?
+  ph_pengajuan_2            Decimal?  @db.Decimal(15, 2)
+  atas_nama_2               String?
   
-  // OS & BMPK
-  os_pokok_cabang           Decimal?  @db.Decimal(18, 2)
-  bmpk                      Decimal?  @db.Decimal(5, 2)
+  // Data Kendaraan 3
+  merk_type_3               String?
+  tahun_3                   Int?
+  nopol_3                   String?
+  ph_pengajuan_3            Decimal?  @db.Decimal(15, 2)
+  atas_nama_3               String?
   
-  // Total
-  total_pokok_hutang        Decimal?  @db.Decimal(15, 2)
-  total_exposure            Decimal?  @db.Decimal(15, 2)
+  // Data Kendaraan 4
+  merk_type_4               String?
+  tahun_4                   Int?
+  nopol_4                   String?
+  ph_pengajuan_4            Decimal?  @db.Decimal(15, 2)
+  atas_nama_4               String?
   
   // Timestamps
   tanggal_dibuat            DateTime  @default(now())
   tanggal_diubah            DateTime  @updatedAt
   
   // Relations
-  info_debitur              InfoDebitur[]
-  data_kendaraan            DataKendaraan[]
+  info_debitur_pribadi      InfoDebiturPribadi[]
+  info_debitur_badan_usaha  InfoDebiturBadanUsaha[]
   dokumen_persyaratan       DokumenPersyaratan[]
   konfirmasi_pembiayaan     KonfirmasiPembiayaan[]
+  pembelian_refinancing     PembelianRefinancing[]
+  konfirmasi_tanda_tangan   KonfirmasiTandaTangan[]
+  kronologis_transaksi      KronologisTransaksi[]
   info_usaha                InfoUsaha[]
   perhitungan_pendapatan    PerhitunganPendapatan[]
+  kewajiban_angsuran        KewajibanAngsuran[]
   mutasi_rekening           MutasiRekening[]
+  laporan_keuangan          LaporanKeuangan[]
   aset_lain                 AsetLain[]
   record_payment            RecordPayment[]
   data_slik                 DataSlik[]
@@ -123,8 +133,52 @@ model PengajuanKredit {
   @@map("pengajuan_kredit")
 }
 
-// Konfirmasi Pembiayaan (Section 5)
-// Includes: Produk & Jenis Pembiayaan, Pembelian Details, Refinancing Details
+// Konfirmasi Tanda Tangan - Section 3
+model KonfirmasiTandaTangan {
+  id                        Int       @id @default(autoincrement())
+  pengajuan_kredit_id       Int
+  
+  // Konfirmasi Tanda Tangan
+  penandatanganan_kontrak   Json?
+  penjelasan_pasal_penting  Json?
+  nama_cmo_sesuai_survey    Json?
+  cmo_id                    String?
+  
+  // Timestamps
+  tanggal_dibuat            DateTime  @default(now())
+  tanggal_diubah            DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("konfirmasi_tanda_tangan")
+}
+
+// Kronologis Transaksi - Section 4
+model KronologisTransaksi {
+  id                        Int       @id @default(autoincrement())
+  pengajuan_kredit_id       Int
+  
+  // Kronologis Transaksi
+  mengetahui_itc_dari       Json?
+  nama_dealer_sesuai        Json?
+  tujuan_pembelian_mobil    Json?
+  kendaraan_dibawa_oleh     Json?
+  pembawa_memiliki_sim      Json?
+  cek_kondisi_mobil         Json?
+  kondisi_mobil_persen      Decimal?  @db.Decimal(5, 2)
+  
+  // Timestamps
+  tanggal_dibuat            DateTime  @default(now())
+  tanggal_diubah            DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("kronologis_transaksi")
+}
+
+// Konfirmasi Pembiayaan - Section 5 Part 1 (Produk & Jenis Pembiayaan)
 model KonfirmasiPembiayaan {
   id                        Int       @id @default(autoincrement())
   pengajuan_kredit_id       Int
@@ -134,6 +188,21 @@ model KonfirmasiPembiayaan {
   merk_tipe_sesuai          Json?
   angsuran_tenor_sesuai     Json?
   unit_diterima             Json?
+  
+  // Timestamps
+  tanggal_dibuat            DateTime  @default(now())
+  tanggal_diubah            DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("konfirmasi_pembiayaan")
+}
+
+// Pembelian / Refinancing Details - Section 5 Part 2
+model PembelianRefinancing {
+  id                        Int       @id @default(autoincrement())
+  pengajuan_kredit_id       Int
   
   // Pembelian Details
   harga_otr                 Decimal?  @db.Decimal(15, 2)
@@ -157,11 +226,11 @@ model KonfirmasiPembiayaan {
   // Relations
   pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
   
-  @@map("konfirmasi_pembiayaan")
+  @@map("pembelian_refinancing")
 }
 
-// Debtor Information
-model InfoDebitur {
+// Debtor Information - Personal (Section 1 Part 1)
+model InfoDebiturPribadi {
   id                          Int       @id @default(autoincrement())
   pengajuan_kredit_id         Int
   
@@ -178,6 +247,21 @@ model InfoDebitur {
   pendidikan_terakhir         Json?
   usia_debitur                Int?
   kategori_usia               Json?
+  
+  // Timestamps
+  tanggal_dibuat              DateTime  @default(now())
+  tanggal_diubah              DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit            PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("info_debitur_pribadi")
+}
+
+// Debtor Information - Business Entity (Section 1 Part 2)
+model InfoDebiturBadanUsaha {
+  id                          Int       @id @default(autoincrement())
+  pengajuan_kredit_id         Int
   
   // Konfirmasi Latar Belakang Debitur - Badan Usaha (Radio fields)
   nama_jelas_sesuai_akte      Json?
@@ -201,28 +285,7 @@ model InfoDebitur {
   // Relations
   pengajuan_kredit            PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
   
-  @@map("info_debitur")
-}
-
-// Vehicle Data
-model DataKendaraan {
-  id                    Int       @id @default(autoincrement())
-  pengajuan_kredit_id   Int
-  urutan                Int       @default(1)
-  merk_type             String?
-  tahun                 Int?
-  nopol                 String?
-  ph_pengajuan          Decimal?  @db.Decimal(15, 2)
-  atas_nama             String?
-  
-  // Timestamps
-  tanggal_dibuat        DateTime  @default(now())
-  tanggal_diubah        DateTime  @updatedAt
-  
-  // Relations
-  pengajuan_kredit      PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
-  
-  @@map("data_kendaraan")
+  @@map("info_debitur_badan_usaha")
 }
 
 // Required Documents
@@ -289,7 +352,7 @@ model InfoUsaha {
   @@map("info_usaha")
 }
 
-// Income Calculation
+// Income Calculation - Section 7 Part 1
 model PerhitunganPendapatan {
   id                        Int       @id @default(autoincrement())
   pengajuan_kredit_id       Int
@@ -305,6 +368,23 @@ model PerhitunganPendapatan {
   biaya_lain                Decimal?  @db.Decimal(15, 2)
   total_pengeluaran         Decimal?  @db.Decimal(15, 2)
   total_pendapatan          Decimal?  @db.Decimal(15, 2)
+  
+  // Timestamps
+  tanggal_dibuat            DateTime  @default(now())
+  tanggal_diubah            DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("perhitungan_pendapatan")
+}
+
+// Kewajiban / Angsuran - Section 7 Part 2
+model KewajibanAngsuran {
+  id                        Int       @id @default(autoincrement())
+  pengajuan_kredit_id       Int
+  
+  // Kewajiban / Angsuran Lainnya
   total_pinjaman_lain       Decimal?  @db.Decimal(15, 2)
   total_angsuran_itc        Decimal?  @db.Decimal(15, 2)
   grand_total_pinjaman      Decimal?  @db.Decimal(15, 2)
@@ -320,7 +400,35 @@ model PerhitunganPendapatan {
   // Relations
   pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
   
-  @@map("perhitungan_pendapatan")
+  @@map("kewajiban_angsuran")
+}
+
+// Laporan Keuangan - Section 8
+model LaporanKeuangan {
+  id                        Int       @id @default(autoincrement())
+  pengajuan_kredit_id       Int
+  
+  // Monthly Financial Report
+  bulan                     String?
+  pendapatan_laba           Decimal?  @db.Decimal(15, 2)
+  biaya                     Decimal?  @db.Decimal(15, 2)
+  net_income                Decimal?  @db.Decimal(15, 2)
+  keterangan                String?   @db.Text
+  urutan                    Int       @default(1)
+  
+  // Summary
+  total_aset_lancar         Decimal?  @db.Decimal(15, 2)
+  total_hutang_lancar       Decimal?  @db.Decimal(15, 2)
+  persen                    Decimal?  @db.Decimal(5, 2)
+  
+  // Timestamps
+  tanggal_dibuat            DateTime  @default(now())
+  tanggal_diubah            DateTime  @updatedAt
+  
+  // Relations
+  pengajuan_kredit          PengajuanKredit @relation(fields: [pengajuan_kredit_id], references: [id], onDelete: Cascade)
+  
+  @@map("laporan_keuangan")
 }
 
 // Bank Account Mutations
@@ -474,14 +582,18 @@ model KeputusanKredit {
   id                        Int       @id @default(autoincrement())
   pengajuan_kredit_id       Int
   
+  // OS & BMPK
+  os_pokok_cabang           Decimal?  @db.Decimal(18, 2)
+  bmpk                      Decimal?  @db.Decimal(5, 2)
+  
+  // Total
+  total_pokok_hutang        Decimal?  @db.Decimal(15, 2)
+  total_exposure            Decimal?  @db.Decimal(15, 2)
+  
   // Catatan Pertimbangan
   positif_poin              String?   @db.Text
   negatif_poin              String?   @db.Text
   hambatan                  String?   @db.Text
-  
-  // Verifikasi
-  diverifikasi_oleh         String?
-  jabatan_verifikator       String?
   
   // Rekomendasi CA
   direkomendasikan_oleh     String?

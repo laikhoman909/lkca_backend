@@ -21,18 +21,9 @@ export class InfoUsahaController {
     return this.infoUsahaService.findByPengajuanId(+pengajuanId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.infoUsahaService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDto: UpdateInfoUsahaDto) {
     return this.infoUsahaService.update(+id, updateDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.infoUsahaService.remove(+id);
-  }
 }
