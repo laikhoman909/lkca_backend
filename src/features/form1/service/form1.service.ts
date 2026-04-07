@@ -29,7 +29,7 @@ export class Form1Service {
     const created = await tx.keyValue.create({
       data: {
         group:       item.key,
-        label:       item.Value,
+        label:       item.label,
         CustomValue: item.CustomValue ?? null,
         isPreset:    false,
         isSelected:  true,
@@ -45,30 +45,38 @@ export class Form1Service {
   // ─────────────────────────────────────────────
 
   async createForm1(dto: CreateForm1Dto) {
+    const { Form1_0, Form1_1, FormSec1DTO } = dto;
     return this.prisma.$transaction(async (tx) => {
-      const kvIds = await Promise.all(
-        (dto.keyValues ?? []).map((item) => this.resolveKeyValueId(tx, item)),
+      const kvIds1 = await Promise.all(
+        (Form1_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
+      );
+      const kvIds2 = await Promise.all(
+        (Form1_1 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
       );
 
       return tx.form1.create({
         data: {
           formRefId: dto.formRefId,
-          keyValues: {
-            connect: kvIds.map((id) => ({ id })),
+          latarBelakangPribadi: {
+            connect: kvIds1.map((id) => ({ id })),
+          },
+          latarBelakangBu: {
+            connect: kvIds2.map((id) => ({ id })),
           },
           SusunanPengurus: {
-            create: (dto.SusunanPengurus ?? []).map((sp) => ({
-              NamaJabatan: sp.NamaJabatan ?? null,
-              BesarSaham:  sp.BesarSaham  ?? null,
-              Persen:      sp.Persen      ?? null,
-              Hubungan:    sp.Hubungan    ?? null,
-              Keterangan:  sp.Keterangan  ?? null,
+            create: (dto.FormSec1DTO?.Tabel ?? []).map((sp) => ({
+              NamaJabatan: sp.namaJabatan ?? null,
+              BesarSaham:  sp.besarSaham  ?? null,
+              Persen:      sp.persen      ?? null,
+              Hubungan:    sp.hubungan    ?? null
             })),
           },
+          keterangan: FormSec1DTO?.Keterangan
         },
         include: {
-          keyValues:       true,
           SusunanPengurus: true,
+          latarBelakangPribadi: true,
+          latarBelakangBu: true
         },
       });
     });
@@ -76,7 +84,7 @@ export class Form1Service {
 
   async findAllForm1() {
     return this.prisma.form1.findMany({
-      include: { keyValues: true, SusunanPengurus: true },
+      include: { latarBelakangPribadi: true, latarBelakangBu: true, SusunanPengurus: true },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -84,7 +92,7 @@ export class Form1Service {
   async findOneForm1(id: number) {
     return this.prisma.form1.findUnique({
       where: { id },
-      include: { keyValues: true, SusunanPengurus: true },
+      include: { latarBelakangPribadi: true, latarBelakangBu: true, SusunanPengurus: true },
     });
   }
 

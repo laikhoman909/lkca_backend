@@ -16,6 +16,8 @@ import { ProductsModule } from './features/products/products.module';
 // import { MutasiRekeningModule } from './features/mutasi-rekening/mutasi-rekening.module';
 // import { RecordPaymentModule } from './features/record-payment/record-payment.module';
 import { FormModule } from './features/form0/module/form.module';
+import { Form1Module } from './features/form1/form1.module';
+import { Form2Module } from './features/form2/form2.module';
 
 @Module({
   imports: [
@@ -34,7 +36,9 @@ import { FormModule } from './features/form0/module/form.module';
     // MutasiRekeningModule,
     // RecordPaymentModule,
 
-    FormModule
+    FormModule,
+    Form1Module,
+    Form2Module
   ],
   controllers: [AppController],
   providers: [AppService],

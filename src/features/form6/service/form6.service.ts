@@ -27,7 +27,7 @@ export class Form6Service {
     const created = await tx.keyValue.create({
       data: {
         group:       item.key,
-        label:       item.Value,
+        label:       item.label,
         CustomValue: item.CustomValue ?? null,
         isPreset:    false,
         isSelected:  true,
