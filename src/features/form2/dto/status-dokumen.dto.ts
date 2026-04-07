@@ -1,29 +1,26 @@
-import { IsString, IsOptional, IsInt, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { RadioDto } from '../../../common/dto/radio.dto';
+import { IsString, IsOptional, IsInt, ValidateNested, IsBoolean } from 'class-validator';
 
 export class StatusDokumenDto {
 
   @IsOptional()
   @IsString()
   id: string;
-  
-  @IsOptional()
+
   @IsString()
-  jenis_dokumen?: string;
+  key: string;
 
   // Radio fields
   @IsOptional()
-  @IsString()
-  status_ada?: string;
+  @IsBoolean()
+  model1?: boolean;
+
+  @IsOptional()
+  @IsInt()
+  model2?: number;
 
   @IsOptional()
   @IsString()
-  tipe_dokumen?: string;
-
-  @IsOptional()
-  @IsString()
-  keterangan?: string;
+  model3?: string;
 
 }
 

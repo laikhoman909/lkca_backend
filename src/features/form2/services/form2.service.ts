@@ -18,10 +18,10 @@ export class Form2Service {
           formRefId: dto.formRefId,
           dokumen: {
             create: Form2_0?.map((k) => ({
-              jenis_dokumen: k.jenis_dokumen ?? null,
-              status_ada: k.status_ada ?? null,
-              tipe_dokumen: k.tipe_dokumen ?? null,
-              keterangan: k.keterangan ?? null,
+              jenis_dokumen: k.key,
+              status_ada: k.model1 ?? null,
+              tipe_dokumen: (k.model2 != null) ? (k.model2 == 0 ? 'FOTO': 'COPY') : '' ,
+              keterangan: k.model3 ?? null,
             })),
           },
           foto: {
