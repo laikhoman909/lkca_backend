@@ -74,6 +74,8 @@ model KeyValue {
   // Form1/5/6 direct FK back-references
   form1aItems Form1[] @relation("Form1LatarBelakangPribadi")
   form1bItems Form1[] @relation("Form1LatarBelakangBu")
+  form3Items Form3[] @relation("Form3KeyValues")
+  form4Items Form4[] @relation("Form4KeyValues")
   form5Items Form5[] @relation("Form5KeyValues")
   form6Items Form6[] @relation("Form6KeyValues")
 
@@ -175,7 +177,7 @@ model Form2 {
 model DokumenPersyaratan {
   id                    Int       @id @default(autoincrement())
   jenis_dokumen         String?
-  status_ada            String?
+  status_ada            Boolean  @default(false)  
   tipe_dokumen          String?
   keterangan            String?   @db.Text
   
@@ -183,6 +185,34 @@ model DokumenPersyaratan {
   form2       Form2   @relation(fields: [form2Id], references: [id], onDelete: Cascade)
 
   @@map("dokumen_persyaratan")
+}
+
+// ─────────────────────────────────────────────
+// FORM 3 - KONFIRMASI TANDA TANGAN KONTRAK
+// ─────────────────────────────────────────────
+
+model Form3 {
+  id              Int                   @id @default(autoincrement())
+  formRefId       Int
+  keyValues       KeyValue[]            @relation("Form3KeyValues")
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form3")
+}
+
+// ─────────────────────────────────────────────
+// FORM 4 - KONFIRMASI KRONOLOGIS TRANSAKSI
+// ─────────────────────────────────────────────
+
+model Form4 {
+  id              Int                   @id @default(autoincrement())
+  formRefId       Int
+  keyValues       KeyValue[]            @relation("Form4KeyValues")
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form4")
 }
 
 // ─────────────────────────────────────────────
