@@ -18,6 +18,8 @@ import { ProductsModule } from './features/products/products.module';
 import { FormModule } from './features/form0/module/form.module';
 import { Form1Module } from './features/form1/form1.module';
 import { Form2Module } from './features/form2/form2.module';
+import { Form3Module } from './features/form3/form3.module';
+import { Form4Module } from './features/form4/form4.module';
 
 @Module({
   imports: [
@@ -38,7 +40,9 @@ import { Form2Module } from './features/form2/form2.module';
 
     FormModule,
     Form1Module,
-    Form2Module
+    Form2Module,
+    Form3Module,
+    Form4Module
   ],
   controllers: [AppController],
   providers: [AppService],
