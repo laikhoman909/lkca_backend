@@ -7,27 +7,26 @@ import {
   } from 'class-validator';
   import { Type } from 'class-transformer';
 import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
-import { Form1SusunanPengurusDto } from './susunan-pengurus.dto';
+import { FormSec1DTO } from './form-sec1.dto';
   
   export class CreateForm1Dto {
     @IsInt()
     formRefId: number;
   
-    // All checkbox fields sent as shared KeyValueInputDto list
-    // e.g. [
-    //   { key: "NamaJelasSesuaiKtp", Value: "8",  CustomValue: "" },
-    //   { key: "LamaTinggal",        Value: "21", CustomValue: "SEJAK KECIL" }
-    // ]
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => KeyValueInputDto)
-    keyValues?: KeyValueInputDto[];
-  
+    Form1_0?: KeyValueInputDto[];
+
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
-    @Type(() => Form1SusunanPengurusDto)
-    SusunanPengurus?: Form1SusunanPengurusDto[];
+    @Type(() => KeyValueInputDto)
+    Form1_1?: KeyValueInputDto[];
+  
+    @IsOptional()
+    @Type(() => FormSec1DTO)
+    FormSec1DTO?: FormSec1DTO;
   }
   

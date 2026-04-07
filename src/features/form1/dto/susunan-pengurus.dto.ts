@@ -7,24 +7,21 @@ import {
   // FORM 1 - KONFIRMASI LATAR BELAKANG DEBITUR
   // ─────────────────────────────────────────────
   
-  export class Form1SusunanPengurusDto {
+  export class SusunanPengurusDto {
     @IsOptional()
     @IsString()
-    NamaJabatan?: string;
+    namaJabatan?: string;
   
     @IsOptional()
     @IsString()
-    BesarSaham?: string;
+    besarSaham?: string;
   
     @IsOptional()
     @IsString()
-    Persen?: string;
+    persen?: string;
   
     @IsOptional()
     @IsString()
-    Hubungan?: string;
+    hubungan?: string;
   
-    @IsOptional()
-    @IsString()
-    Keterangan?: string;
   }
