@@ -72,11 +72,12 @@ model KeyValue {
   form0JenisPengajuan Form0[] @relation("Form0JenisPengajuan")
 
   // Form1/5/6 direct FK back-references
-  form1Items Form1[] @relation("Form1KeyValues")
+  form1aItems Form1[] @relation("Form1LatarBelakangPribadi")
+  form1bItems Form1[] @relation("Form1LatarBelakangBu")
   form5Items Form5[] @relation("Form5KeyValues")
   form6Items Form6[] @relation("Form6KeyValues")
 
-  @@unique([group, label])
+  @@unique([group, label, CustomValue])
   @@map("key_value")
 }
 
@@ -88,9 +89,11 @@ model KeyList {
   data3   String? @db.VarChar(255)
   data4   String? @db.VarChar(255)
   form0Id Int?
+  form2Id Int?
   form0   Form0?  @relation(fields: [form0Id], references: [id], onDelete: Cascade)
+  form2   Form2?  @relation(fields: [form2Id], references: [id], onDelete: Cascade)
 
-  @@index([form0Id])
+  @@index([form0Id, form2Id])
   @@map("key_list")
 }
 
@@ -130,8 +133,10 @@ model Form0 {
 model Form1 {
   id              Int                   @id @default(autoincrement())
   formRefId       Int
-  keyValues       KeyValue[]            @relation("Form1KeyValues")
+  latarBelakangPribadi       KeyValue[]            @relation("Form1LatarBelakangPribadi")
+  latarBelakangBu            KeyValue[]            @relation("Form1LatarBelakangBu")
   SusunanPengurus Form1SusunanPengurus[]
+  keterangan  String? @db.VarChar(100)
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
@@ -144,12 +149,40 @@ model Form1SusunanPengurus {
   BesarSaham  String? @db.VarChar(100)
   Persen      String? @db.VarChar(20)
   Hubungan    String? @db.VarChar(100)
-  Keterangan  String? @db.VarChar(255)
   form1Id     Int
   form1       Form1   @relation(fields: [form1Id], references: [id], onDelete: Cascade)
 
   @@index([form1Id])
   @@map("form1_susunan_pengurus")
+}
+
+// ─────────────────────────────────────────────
+// FORM 2 - KONFIRMASI DATA YANG DISERAHKAN KE PETUGAS IT
+// ─────────────────────────────────────────────
+
+model Form2 {
+  id                    Int       @id @default(autoincrement())
+  formRefId       Int
+  foto            KeyList[]
+  dokumen         DokumenPersyaratan[]
+  
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  
+  @@map("form2")
+}
+
+model DokumenPersyaratan {
+  id                    Int       @id @default(autoincrement())
+  jenis_dokumen         String?
+  status_ada            String?
+  tipe_dokumen          String?
+  keterangan            String?   @db.Text
+  
+  form2Id     Int
+  form2       Form2   @relation(fields: [form2Id], references: [id], onDelete: Cascade)
+
+  @@map("dokumen_persyaratan")
 }
 
 // ─────────────────────────────────────────────
