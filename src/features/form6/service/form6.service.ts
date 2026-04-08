@@ -52,25 +52,27 @@ export class Form6Service {
   // ─────────────────────────────────────────────
 
   async createForm6(dto: CreateForm6Dto) {
+    const { Form6_0, FormSec6DTO } = dto;
+
     return this.prisma.$transaction(async (tx) => {
       const kvIds = await Promise.all(
-        (dto.keyValues ?? []).map((item) => this.resolveKeyValueId(tx, item)),
+        (Form6_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
       );
 
       return tx.form6.create({
         data: {
           formRefId:                dto.formRefId,
-          NamaPerusahaan:           dto.NamaPerusahaan           ?? null,
-          JenisUsaha:               dto.JenisUsaha               ?? null,
-          AlamatUsahaKantor:        dto.AlamatUsahaKantor        ?? null,
-          AlamatPool:               dto.AlamatPool               ?? null,
-          TeleponHpEmail:           dto.TeleponHpEmail           ?? null,
-          UsahaPekerjaanSebelumnya: dto.UsahaPekerjaanSebelumnya ?? null,
-          UraianUsaha1:             dto.UraianUsaha1             ?? null,
-          UraianUsaha2:             dto.UraianUsaha2             ?? null,
-          UraianUsaha3:             dto.UraianUsaha3             ?? null,
-          ECallRekanan:             dto.ECallRekanan             ?? null,
-          ECallLainnya:             dto.ECallLainnya             ?? null,
+          NamaPerusahaan:           FormSec6DTO?.NamaPerusahaan           ?? null,
+          JenisUsaha:               FormSec6DTO?.JenisUsaha               ?? null,
+          AlamatUsahaKantor:        FormSec6DTO?.AlamatUsahaKantor        ?? null,
+          AlamatPool:               FormSec6DTO?.AlamatPool               ?? null,
+          TeleponHpEmail:           FormSec6DTO?.TeleponHpEmail           ?? null,
+          UsahaPekerjaanSebelumnya: FormSec6DTO?.UsahaPekerjaanSebelumnya ?? null,
+          UraianUsaha1:             FormSec6DTO?.UraianUsaha1             ?? null,
+          UraianUsaha2:             FormSec6DTO?.UraianUsaha2             ?? null,
+          UraianUsaha3:             FormSec6DTO?.UraianUsaha3             ?? null,
+          ECallRekanan:             FormSec6DTO?.ECallRekanan             ?? null,
+          ECallLainnya:             FormSec6DTO?.ECallLainnya             ?? null,
           keyValues: {
             connect: kvIds.map((id) => ({ id })),
           },

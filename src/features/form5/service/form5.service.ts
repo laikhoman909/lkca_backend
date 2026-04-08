@@ -52,23 +52,25 @@ export class Form5Service {
   // ─────────────────────────────────────────────
 
   async createForm5(dto: CreateForm5Dto) {
+    const { Form5_0, FormSec5DTO } = dto;
+
     return this.prisma.$transaction(async (tx) => {
       const kvIds = await Promise.all(
-        (dto.keyValues ?? []).map((item) => this.resolveKeyValueId(tx, item)),
+        (Form5_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
       );
 
       return tx.form5.create({
         data: {
           formRefId:              dto.formRefId,
-          HargaOtr:               dto.HargaOtr               ?? null,
-          BesarDownPayment:       dto.BesarDownPayment        ?? null,
-          NamaTeleponPenjual:     dto.NamaTeleponPenjual      ?? null,
-          HasilKonfirmasiPenjual: dto.HasilKonfirmasiPenjual  ?? null,
-          KapanMemilikiMobil:     dto.KapanMemilikiMobil      ?? null,
-          BerapaHargaBeli:        dto.BerapaHargaBeli         ?? null,
-          BesarKebutuhanDana:     dto.BesarKebutuhanDana      ?? null,
-          TujuanKebutuhanDana:    dto.TujuanKebutuhanDana     ?? null,
-          PosisiBpkb:             dto.PosisiBpkb              ?? null,
+          HargaOtr:               FormSec5DTO?.HargaOtr               ?? null,
+          BesarDownPayment:       FormSec5DTO?.BesarDownPayment        ?? null,
+          NamaTeleponPenjual:     FormSec5DTO?.NamaTeleponPenjual      ?? null,
+          HasilKonfirmasiPenjual: FormSec5DTO?.HasilKonfirmasiPenjual  ?? null,
+          KapanMemilikiMobil:     FormSec5DTO?.KapanMemilikiMobil      ?? null,
+          BerapaHargaBeli:        FormSec5DTO?.BerapaHargaBeli         ?? null,
+          BesarKebutuhanDana:     FormSec5DTO?.BesarKebutuhanDana      ?? null,
+          TujuanKebutuhanDana:    FormSec5DTO?.TujuanKebutuhanDana     ?? null,
+          PosisiBpkb:             FormSec5DTO?.PosisiBpkb              ?? null,
           keyValues: {
             connect: kvIds.map((id) => ({ id })),
           },
