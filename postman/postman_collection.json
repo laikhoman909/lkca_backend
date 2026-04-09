@@ -169,7 +169,8 @@
 									"pm.test('Success true', () => pm.expect(pm.response.json().success).to.eql(true));",
 									"pm.collectionVariables.set('form0_id', pm.response.json().data.id);"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -183,7 +184,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-03-24T11:53:00.000Z\",\n    \"JamTelepon\": \"10:30\",\n    \"Cabang\": \"JAKARTA\",\n    \"NamaCmo\": \"HERYANTO BIN TUGINO\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"kendaraan\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 130 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 1234 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"121000000\",          \"data2\": \"150000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"1\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"5\", \"CustomValue\": \"\" }\n  ]\n}"
+							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-02-29T11:53:00.000Z\",\n    \"JamTelepon\": \"10:30\",\n    \"Cabang\": \"JAKARTA\",\n    \"NamaCmo\": \"LAIKHOMAN\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"Form0_1\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 130 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 1234 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"121000000\",          \"data2\": \"150000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"1\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"5\", \"CustomValue\": \"\" }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form0",
@@ -270,7 +271,8 @@
 									"pm.test('Status 200', () => pm.response.to.have.status(200));",
 									"pm.test('Cabang is BANDUNG', () => pm.expect(pm.response.json().data.Cabang).to.eql('BANDUNG'));"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -284,7 +286,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-03-24T11:53:00.000Z\",\n    \"JamTelepon\": \"14:00\",\n    \"Cabang\": \"BANDUNG\",\n    \"NamaCmo\": \"HERYANTO BIN TUGINO\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"kendaraan\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 150 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 5678 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"150000000\",          \"data2\": \"200000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"2\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"7\", \"CustomValue\": \"\" }\n  ]\n}"
+							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-03-24T11:53:00.000Z\",\n    \"JamTelepon\": \"14:00\",\n    \"Cabang\": \"BANDUNG\",\n    \"NamaCmo\": \"HERYANTO BIN TUGINO\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"Form0_1\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 150 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 5678 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"150000000\",          \"data2\": \"200000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"2\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"7\", \"CustomValue\": \"\" }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form0/{{form0_id}}",
@@ -362,7 +364,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"latarBelakangPribadi\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"label\": \"SESUAI\",       \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"9\", \"label\": \"TIDAK SESUAI\",\"isSelected\": false, \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\", \"label\": \">5 TH\", \"isSelected\": true,  \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"label\": \"1-2 ORG\", \"isSelected\": true,  \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"latarBelakangBu\": [\n\n  ],\n  \"SusunanPengurus\": [\n    { \"NamaJabatan\": \"ROMI ALECK SANDER - DIREKTUR\", \"BesarSaham\": \"100%\", \"Persen\": \"100\", \"Hubungan\": \"DIRI SENDIRI\", \"Keterangan\": \"\" }\n  ]\n}"
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\",   \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABC\"\n  }\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form1",
@@ -485,7 +487,8 @@
 									"pm.test('Success true', () => pm.expect(pm.response.json().success).to.eql(true));",
 									"pm.collectionVariables.set('form5_id', pm.response.json().data.id);"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -499,7 +502,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"keyValues\": [\n    { \"group\": \"JenisTransaksi\",     \"label\": \"PEMBELIAN\",     \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"JenisTransaksi\",     \"label\": \"REFINANCING\",   \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"JenisTransaksi\",     \"label\": \"TRADE-IN\",      \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"MerkTipe\",           \"label\": \"SESUAI\",        \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"MerkTipe\",           \"label\": \"TIDAK SESUAI\",  \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"BesarAngsuranTenor\", \"label\": \"SESUAI\",        \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"BesarAngsuranTenor\", \"label\": \"TIDAK SESUAI\",  \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"UnitSudahDiterima\",  \"label\": \"SUDAH\",         \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"UnitSudahDiterima\",  \"label\": \"BELUM\",         \"isSelected\": true,  \"CustomValue\": \"\" }\n  ],\n  \"HargaOtr\": \"RP 160.000.000\",\n  \"BesarDownPayment\": \"RP 50.000.000 (SUDAH BAYAR CASH RP 25 JT)\",\n  \"NamaTeleponPenjual\": \"\",\n  \"HasilKonfirmasiPenjual\": \"\",\n  \"KapanMemilikiMobil\": \"\",\n  \"BerapaHargaBeli\": \"\",\n  \"BesarKebutuhanDana\": \"\",\n  \"TujuanKebutuhanDana\": \"\",\n  \"PosisiBpkb\": \"\"\n}"
+							"raw": "{\n  \"formRefId\": 1,\n  \"Form5_0\": [\n    { \"key\": \"JenisTransaksi\",     \"Value\": \"50\", \"CustomValue\": \"\" },\n    { \"key\": \"MerkTipe\",           \"Value\": \"54\",  \"CustomValue\": \"\" },\n    { \"key\": \"BesarAngsuranTenor\", \"Value\": \"56\",  \"CustomValue\": \"\" },\n    { \"key\": \"UnitSudahDiterima\",  \"Value\": \"58\", \"CustomValue\": \"\" }\n  ],\n  \"FormSec5DTO\": {\n    \"HargaOtr\": \"RP 160.000.000\",\n    \"BesarDownPayment\": \"RP 50.000.000 (SUDAH BAYAR CASH RP 25 JT)\",\n    \"NamaTeleponPenjual\": \"\",\n    \"HasilKonfirmasiPenjual\": \"\",\n    \"KapanMemilikiMobil\": \"\",\n    \"BerapaHargaBeli\": \"\",\n    \"BesarKebutuhanDana\": \"\",\n    \"TujuanKebutuhanDana\": \"\",\n    \"PosisiBpkb\": \"\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form5",
@@ -620,7 +623,8 @@
 									"pm.test('Success true', () => pm.expect(pm.response.json().success).to.eql(true));",
 									"pm.collectionVariables.set('form6_id', pm.response.json().data.id);"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -634,7 +638,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"NamaPerusahaan\": \"ALEKSA TRANSPORTASI\",\n  \"JenisUsaha\": \"JASA ANGKUTAN EKSPEDISI\",\n  \"AlamatUsahaKantor\": \"JL RAYA KEDEP, TANJUNG UDIK, GUNUNG PUTRI\",\n  \"AlamatPool\": \"\",\n  \"TeleponHpEmail\": \"083161014689\",\n  \"UsahaPekerjaanSebelumnya\": \"\",\n  \"keyValues\": [\n    { \"group\": \"StatusDebitur\",          \"label\": \"PEMILIK\",       \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"StatusDebitur\",          \"label\": \"KARYAWAN\",      \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"LamaUsaha\",              \"label\": \">3-5 TH\",       \"isSelected\": true,  \"CustomValue\": \"14 THN\" },\n    { \"group\": \"StatusKepemilikanTempat\",\"label\": \"MILIK SENDIRI\", \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"StatusKepemilikanTempat\",\"label\": \"SEWA\",          \"isSelected\": false, \"CustomValue\": \"\" },\n    { \"group\": \"JarakTempat\",            \"label\": \"<=30 KM\",       \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"PembayaranGaji\",         \"label\": \"TRANSFER\",      \"isSelected\": true,  \"CustomValue\": \"RP 500.000/BULAN\" },\n    { \"group\": \"StatusKaryawan\",         \"label\": \"TETAP\",         \"isSelected\": true,  \"CustomValue\": \"\" },\n    { \"group\": \"StatusKaryawan\",         \"label\": \"KONTRAK\",       \"isSelected\": false, \"CustomValue\": \"\" }\n  ],\n  \"UraianUsaha1\": \"CADEB MEMILIKI JASA ANGKUTAN EKSPEDISI, LAMA USAHA SUDAH SEKITAR 14 THN.\",\n  \"UraianUsaha2\": \"INFO CADEB JUGA BEKERJA FREELANCE SEBAGAI SOPIR DI PT DUSASPUN.\",\n  \"UraianUsaha3\": \"\",\n  \"ECallRekanan\": \"REKANAN USAHA : DIPA / 083161014689\",\n  \"ECallLainnya\": \"E CALL : INTAN/ADIK / 085776057608\"\n}"
+							"raw": "{\n  \"formRefId\": 1,\n  \"FormSec6DTO\": {\n    \"NamaPerusahaan\": \"ALEKSA TRANSPORTASI\",\n    \"JenisUsaha\": \"JASA ANGKUTAN EKSPEDISI\",\n    \"AlamatUsahaKantor\": \"JL RAYA KEDEP, TANJUNG UDIK, GUNUNG PUTRI\",\n    \"AlamatPool\": \"\",\n    \"TeleponHpEmail\": \"083161014689\",\n    \"UsahaPekerjaanSebelumnya\": \"\",\n    \"UraianUsaha1\": \"CADEB MEMILIKI JASA ANGKUTAN EKSPEDISI, LAMA USAHA SUDAH SEKITAR 14 THN.\",\n    \"UraianUsaha2\": \"INFO CADEB JUGA BEKERJA FREELANCE SEBAGAI SOPIR DI PT DUSASPUN.\",\n    \"UraianUsaha3\": \"\",\n    \"ECallRekanan\": \"REKANAN USAHA : DIPA / 083161014689\",\n    \"ECallLainnya\": \"E CALL : INTAN/ADIK / 085776057608\"\n  },\n  \"Form6_0\": [\n    { \"key\": \"StatusDebitur\",          \"Value\": \"60\",        \"CustomValue\": \"\" },\n    { \"key\": \"LamaUsaha\",              \"Value\": \"63\",        \"CustomValue\": \"14 THN\" },\n    { \"key\": \"StatusKepemilikanTempat\",\"Value\": \"64\",  \"CustomValue\": \"\" },\n    { \"key\": \"JarakTempat\",            \"Value\": \"66\",        \"CustomValue\": \"\" }\n  ]\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form6",
@@ -734,6 +738,38 @@
 								"api",
 								"form6",
 								"{{form6_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form 2 -",
+			"item": [
+				{
+					"name": "Create Form2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form2_1\": [\n    { \"key\": \"FotoBPKB\", \"data1\": \"8\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"FotoNotice\", \"data1\": \"28-12-2026\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"FotoKiur\", \"data1\": \"TIDAK TERLAMPIR\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"HasilCek\", \"data1\": \"ACTIVE WOORI FINANCE\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" }\n  ],\n  \"Form2_0\": [\n    { \"key\": \"KTPDebitur\", \"model1\": false, \"model2\": 0, \"model3\": \"\"  },\n    { \"key\": \"KTPPengurus\", \"model1\": true, \"model2\": 1, \"model3\": \"\"  },\n    { \"key\": \"KartuKeluarga\", \"model1\": true, \"model2\": 0, \"model3\": \"\"  }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form2"
 							]
 						}
 					},

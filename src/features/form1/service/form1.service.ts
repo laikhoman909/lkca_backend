@@ -16,21 +16,18 @@ export class Form1Service {
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
     const presetId = parseInt(item.Value, 10);
-
     if (!isNaN(presetId)) {
-      console.log('item.CustomValue' + item.CustomValue);
       if(item.CustomValue){
         const byValue = await tx.keyValue.findMany({
           where: {CustomValue: item.CustomValue , group: item.key }
         });
-        console.log('byValue' + byValue[0].label );
 
         if( byValue.length == 0 ){
-          console.log('aa' + );
+          // console.log('aa' + (byValue[0]?.label ?? '') );
           const created = await tx.keyValue.create({
             data: {
               group:       item.key,
-              label:       byValue[0].label,
+              label:       byValue[0]?.label  ?? '',
               CustomValue: item.CustomValue ?? null,
               isPreset:    false
             },

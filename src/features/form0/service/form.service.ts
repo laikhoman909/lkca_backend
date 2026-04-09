@@ -16,25 +16,27 @@ export class FormService {
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
     const presetId = parseInt(item.Value, 10);
-
     if (!isNaN(presetId)) {
-      await tx.keyValue.update({
-        where: { id: presetId },
-        data: { CustomValue: item.CustomValue ?? null },
-      });
-      return presetId;
-    }
+      if(item.CustomValue){
+        const byValue = await tx.keyValue.findMany({
+          where: {CustomValue: item.CustomValue , group: item.key }
+        });
 
-    // Fallback: create a new custom row if Value is not a valid id
-    const created = await tx.keyValue.create({
-      data: {
-        group:       item.key,
-        label:       item.Value,
-        CustomValue: item.CustomValue ?? null,
-        isPreset:    false
-      },
-    });
-    return created.id;
+        if( byValue.length == 0 ){
+          // console.log('aa' + (byValue[0]?.label ?? '') );
+          const created = await tx.keyValue.create({
+            data: {
+              group:       item.key,
+              label:       byValue[0]?.label  ?? '',
+              CustomValue: item.CustomValue ?? null,
+              isPreset:    false
+            },
+          });
+          return created.id;
+        } 
+      }
+    }
+    return presetId;
   }
 
   // ─────────────────────────────────────────────
