@@ -65,7 +65,6 @@ model KeyValue {
   Description String?  @db.VarChar(255)
   CustomValue String?  @db.VarChar(255)
   isPreset    Boolean  @default(false)    // true = seed data
-  isSelected  Boolean  @default(false)   // true = user selected
 
   // Form0 direct FK back-references
   form0StatusCaDeb    Form0[] @relation("Form0StatusCaDeb")
@@ -93,7 +92,7 @@ model KeyList {
   form0Id Int?
   form2Id Int?
   form0   Form0?  @relation(fields: [form0Id], references: [id], onDelete: Cascade)
-  form2   Form2?  @relation(fields: [form2Id], references: [id], onDelete: Cascade)
+  form2   Form2?  @relation(fields: [form2Id], references: [form0Id], onDelete: Cascade)
 
   @@index([form0Id, form2Id])
   @@map("key_list")
@@ -133,8 +132,7 @@ model Form0 {
 // ─────────────────────────────────────────────
 
 model Form1 {
-  id              Int                   @id @default(autoincrement())
-  formRefId       Int
+  form0Id       Int @id
   latarBelakangPribadi       KeyValue[]            @relation("Form1LatarBelakangPribadi")
   latarBelakangBu            KeyValue[]            @relation("Form1LatarBelakangBu")
   SusunanPengurus Form1SusunanPengurus[]
@@ -152,7 +150,7 @@ model Form1SusunanPengurus {
   Persen      String? @db.VarChar(20)
   Hubungan    String? @db.VarChar(100)
   form1Id     Int
-  form1       Form1   @relation(fields: [form1Id], references: [id], onDelete: Cascade)
+  form1       Form1   @relation(fields: [form1Id], references: [form0Id], onDelete: Cascade)
 
   @@index([form1Id])
   @@map("form1_susunan_pengurus")
@@ -163,14 +161,13 @@ model Form1SusunanPengurus {
 // ─────────────────────────────────────────────
 
 model Form2 {
-  id                    Int       @id @default(autoincrement())
-  formRefId       Int
+  form0Id         Int @id
   foto            KeyList[]
   dokumen         DokumenPersyaratan[]
   
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
-  
+
   @@map("form2")
 }
 
@@ -182,7 +179,7 @@ model DokumenPersyaratan {
   keterangan            String?   @db.Text
   
   form2Id     Int
-  form2       Form2   @relation(fields: [form2Id], references: [id], onDelete: Cascade)
+  form2       Form2   @relation(fields: [form2Id], references: [form0Id], onDelete: Cascade)
 
   @@map("dokumen_persyaratan")
 }
@@ -192,8 +189,7 @@ model DokumenPersyaratan {
 // ─────────────────────────────────────────────
 
 model Form3 {
-  id              Int                   @id @default(autoincrement())
-  formRefId       Int
+  form0Id         Int @id
   keyValues       KeyValue[]            @relation("Form3KeyValues")
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
@@ -206,8 +202,7 @@ model Form3 {
 // ─────────────────────────────────────────────
 
 model Form4 {
-  id              Int                   @id @default(autoincrement())
-  formRefId       Int
+  form0Id         Int @id
   keyValues       KeyValue[]            @relation("Form4KeyValues")
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
@@ -220,8 +215,7 @@ model Form4 {
 // ─────────────────────────────────────────────
 
 model Form5 {
-  id                     Int        @id @default(autoincrement())
-  formRefId              Int
+  form0Id                Int @id
   keyValues              KeyValue[] @relation("Form5KeyValues")
   HargaOtr               String?    @db.VarChar(100)
   BesarDownPayment       String?    @db.VarChar(100)
@@ -243,8 +237,7 @@ model Form5 {
 // ─────────────────────────────────────────────
 
 model Form6 {
-  id                       Int        @id @default(autoincrement())
-  formRefId                Int
+  form0Id                  Int @id
   keyValues                KeyValue[] @relation("Form6KeyValues")
   NamaPerusahaan           String?    @db.VarChar(255)
   JenisUsaha               String?    @db.VarChar(255)
