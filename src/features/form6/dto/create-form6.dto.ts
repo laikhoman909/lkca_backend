@@ -18,6 +18,7 @@ formRefId: number;
 @Type(() => KeyValueInputDto)
 Form6_0?: KeyValueInputDto[];
 
+@ValidateNested()
 @Type(() => FormSec6DTO)
 FormSec6DTO?: FormSec6DTO;
 }

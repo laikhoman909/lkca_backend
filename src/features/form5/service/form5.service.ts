@@ -29,8 +29,7 @@ export class Form5Service {
         group:       item.key,
         label:       item.label,
         CustomValue: item.CustomValue ?? null,
-        isPreset:    false,
-        isSelected:  true,
+        isPreset:    false
       },
     });
     return created.id;
@@ -61,7 +60,7 @@ export class Form5Service {
 
       return tx.form5.create({
         data: {
-          formRefId:              dto.formRefId,
+          form0Id:                dto.formRefId,
           HargaOtr:               FormSec5DTO?.HargaOtr               ?? null,
           BesarDownPayment:       FormSec5DTO?.BesarDownPayment        ?? null,
           NamaTeleponPenjual:     FormSec5DTO?.NamaTeleponPenjual      ?? null,
@@ -87,15 +86,15 @@ export class Form5Service {
     });
   }
 
-  async findOneForm5(id: number) {
+  async findOneForm5(form0Id: number) {
     return this.prisma.form5.findUnique({
-      where: { id },
+      where: { form0Id },
       include: { keyValues: true },
     });
   }
 
-  async removeForm5(id: number) {
-    await this.prisma.form5.delete({ where: { id } });
+  async removeForm5(form0Id: number) {
+    await this.prisma.form5.delete({ where: { form0Id } });
     return { message: 'Form5 deleted successfully' };
   }
 

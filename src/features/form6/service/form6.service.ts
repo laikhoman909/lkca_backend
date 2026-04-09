@@ -29,8 +29,7 @@ export class Form6Service {
         group:       item.key,
         label:       item.label,
         CustomValue: item.CustomValue ?? null,
-        isPreset:    false,
-        isSelected:  true,
+        isPreset:    false
       },
     });
     return created.id;
@@ -61,7 +60,7 @@ export class Form6Service {
 
       return tx.form6.create({
         data: {
-          formRefId:                dto.formRefId,
+          form0Id:                  dto.formRefId,
           NamaPerusahaan:           FormSec6DTO?.NamaPerusahaan           ?? null,
           JenisUsaha:               FormSec6DTO?.JenisUsaha               ?? null,
           AlamatUsahaKantor:        FormSec6DTO?.AlamatUsahaKantor        ?? null,
@@ -89,15 +88,15 @@ export class Form6Service {
     });
   }
 
-  async findOneForm6(id: number) {
+  async findOneForm6(form0Id: number) {
     return this.prisma.form6.findUnique({
-      where: { id },
+      where: { form0Id },
       include: { keyValues: true },
     });
   }
 
-  async removeForm6(id: number) {
-    await this.prisma.form6.delete({ where: { id } });
+  async removeForm6(form0Id: number) {
+    await this.prisma.form6.delete({ where: { form0Id } });
     return { message: 'Form6 deleted successfully' };
   }
 }

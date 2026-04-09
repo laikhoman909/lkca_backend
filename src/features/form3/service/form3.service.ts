@@ -31,8 +31,7 @@ export class Form3Service {
         group:       item.key,
         label:       item.label,
         CustomValue: item.CustomValue ?? null,
-        isPreset:    false,
-        isSelected:  true,
+        isPreset:    false
       },
     });
     return created.id;
@@ -53,7 +52,7 @@ export class Form3Service {
 
       return tx.form3.create({
         data: {
-          formRefId: dto.formRefId,
+          form0Id: dto.formRefId,
           keyValues: {
             connect: kvIds1.map((id) => ({ id })),
           }
@@ -72,15 +71,15 @@ export class Form3Service {
     });
   }
 
-  async findOneForm3(id: number) {
+  async findOneForm3(form0Id: number) {
     return this.prisma.form3.findUnique({
-      where: { id },
+      where: { form0Id },
       include: { keyValues: true },
     });
   }
 
-  async removeForm3(id: number) {
-    await this.prisma.form3.delete({ where: { id } });
+  async removeForm3(form0Id: number) {
+    await this.prisma.form3.delete({ where: { form0Id } });
     return { message: 'Form3 deleted successfully' };
   }
 

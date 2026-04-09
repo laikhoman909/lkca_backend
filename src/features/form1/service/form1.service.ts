@@ -18,24 +18,28 @@ export class Form1Service {
     const presetId = parseInt(item.Value, 10);
 
     if (!isNaN(presetId)) {
-      await tx.keyValue.update({
-        where: { id: presetId },
-        data: { CustomValue: item.CustomValue ?? null },
-      });
-      return presetId;
-    }
+      console.log('item.CustomValue' + item.CustomValue);
+      if(item.CustomValue){
+        const byValue = await tx.keyValue.findMany({
+          where: {CustomValue: item.CustomValue , group: item.key }
+        });
+        console.log('byValue' + byValue[0].label );
 
-    // Fallback: create a new custom row if Value is not a valid id
-    const created = await tx.keyValue.create({
-      data: {
-        group:       item.key,
-        label:       item.label,
-        CustomValue: item.CustomValue ?? null,
-        isPreset:    false,
-        isSelected:  true,
-      },
-    });
-    return created.id;
+        if( byValue.length == 0 ){
+          console.log('aa' + );
+          const created = await tx.keyValue.create({
+            data: {
+              group:       item.key,
+              label:       byValue[0].label,
+              CustomValue: item.CustomValue ?? null,
+              isPreset:    false
+            },
+          });
+          return created.id;
+        } 
+      }
+    }
+    return presetId;
   }
 
 
@@ -56,7 +60,7 @@ export class Form1Service {
 
       return tx.form1.create({
         data: {
-          formRefId: dto.formRefId,
+          form0Id: dto.formRefId,
           latarBelakangPribadi: {
             connect: kvIds1.map((id) => ({ id })),
           },
@@ -89,15 +93,15 @@ export class Form1Service {
     });
   }
 
-  async findOneForm1(id: number) {
+  async findOneForm1(form0Id: number) {
     return this.prisma.form1.findUnique({
-      where: { id },
+      where: { form0Id },
       include: { latarBelakangPribadi: true, latarBelakangBu: true, SusunanPengurus: true },
     });
   }
 
-  async removeForm1(id: number) {
-    await this.prisma.form1.delete({ where: { id } });
+  async removeForm1(form0Id: number) {
+    await this.prisma.form1.delete({ where: { form0Id } });
     return { message: 'Form1 deleted successfully' };
   }
 

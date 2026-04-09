@@ -1,12 +1,8 @@
 import {
     IsString,
-    IsArray,
-    ValidateNested,
     IsOptional,
     IsInt,
   } from 'class-validator';
-  import { Type } from 'class-transformer';
-  import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
 
   // ─────────────────────────────────────────────
   // FORM 6 - KONFIRMASI USAHA / PENDAPATAN

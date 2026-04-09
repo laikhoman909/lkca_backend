@@ -15,7 +15,7 @@ export class Form2Service {
 
       return tx.form2.create({
         data: {
-          formRefId: dto.formRefId,
+          form0Id: dto.formRefId,
           dokumen: {
             create: Form2_0?.map((k) => ({
               jenis_dokumen: k.key,
@@ -50,15 +50,15 @@ export class Form2Service {
     });
   }
 
-  async findOneForm2(id: number) {
+  async findOneForm2(form0Id: number) {
     return this.prisma.form2.findUnique({
-      where: { id },
+      where: { form0Id },
       include: { dokumen: true, foto: true },
     });
   }
 
-  async removeForm2(id: number) {
-    await this.prisma.form2.delete({ where: { id } });
+  async removeForm2(form0Id: number) {
+    await this.prisma.form2.delete({ where: { form0Id } });
     return { message: 'Form2 deleted successfully' };
   }
 

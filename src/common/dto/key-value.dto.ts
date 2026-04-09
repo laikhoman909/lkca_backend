@@ -1,7 +1,6 @@
 import {
     IsString,
     IsOptional,
-    IsBoolean,
   } from 'class-validator';
 
 // ─────────────────────────────────────────────
@@ -26,10 +25,6 @@ export class KeyValueInputDto {
     @IsOptional()
     @IsString()
     CustomValue?: string;
-
-    @IsOptional()
-    @IsBoolean()
-    isSelected: boolean;
 
   }
   

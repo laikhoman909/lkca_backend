@@ -160,7 +160,6 @@ async function main() {
         Description: preset.Description ?? null,
         CustomValue: null,
         isPreset: true,
-        isSelected: false,
       },
     });
   }

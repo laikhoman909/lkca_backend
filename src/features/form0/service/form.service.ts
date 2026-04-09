@@ -31,8 +31,7 @@ export class FormService {
         group:       item.key,
         label:       item.Value,
         CustomValue: item.CustomValue ?? null,
-        isPreset:    false,
-        isSelected:  true,
+        isPreset:    false
       },
     });
     return created.id;

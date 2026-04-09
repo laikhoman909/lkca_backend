@@ -18,6 +18,7 @@ export class CreateForm5Dto {
   @Type(() => KeyValueInputDto)
   Form5_0?: KeyValueInputDto[];
 
+  @ValidateNested()
   @Type(() => FormSec5DTO)
   FormSec5DTO?: FormSec5DTO;
 }
