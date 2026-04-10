@@ -1,32 +1,32 @@
 import {
     IsString,
     IsOptional,
+    IsInt,
   } from 'class-validator';
 
   // ─────────────────────────────────────────────
   // FORM 6 - KONFIRMASI USAHA / PENDAPATAN
   // ─────────────────────────────────────────────
   
-  export class FormSec6DTO {
+  export class FormSec61DTO {
   
     @IsOptional()
     @IsString()
-    Nama?: string;
+    Usaha1?: string;
   
     @IsOptional()
     @IsString()
-    alamatUsaha?: string;
+    Usaha2?: string;
   
     @IsOptional()
     @IsString()
-    alamatPool?: string;
+    Usaha3?: string;
   
     @IsOptional()
     @IsString()
-    telepon?: string;
+    ECall1?: string;
   
     @IsOptional()
     @IsString()
-    usaha?: string;
-  
+    ECall2?: string;
   }

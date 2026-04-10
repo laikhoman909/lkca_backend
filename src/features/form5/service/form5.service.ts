@@ -49,35 +49,33 @@ export class Form5Service {
 
   // ─────────────────────────────────────────────
   // FORM 5
-  // Uses implicit many-to-many with KeyValue via @relation("Form5KeyValues")
+  // Uses implicit many-to-many with KeyValue
   // ─────────────────────────────────────────────
 
   async createForm5(dto: CreateForm5Dto) {
     const { Form5_0, FormSec5DTO } = dto;
+    
+    const kvIds = await Promise.all(
+      (Form5_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
 
-    return this.prisma.$transaction(async (tx) => {
-      const kvIds = await Promise.all(
-        (Form5_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
-      );
-
-      return tx.form5.create({
-        data: {
-          form0Id:                dto.formRefId,
-          HargaOtr:               FormSec5DTO?.HargaOtr               ?? null,
-          BesarDownPayment:       FormSec5DTO?.BesarDownPayment        ?? null,
-          NamaTeleponPenjual:     FormSec5DTO?.NamaTeleponPenjual      ?? null,
-          HasilKonfirmasiPenjual: FormSec5DTO?.HasilKonfirmasiPenjual  ?? null,
-          KapanMemilikiMobil:     FormSec5DTO?.KapanMemilikiMobil      ?? null,
-          BerapaHargaBeli:        FormSec5DTO?.BerapaHargaBeli         ?? null,
-          BesarKebutuhanDana:     FormSec5DTO?.BesarKebutuhanDana      ?? null,
-          TujuanKebutuhanDana:    FormSec5DTO?.TujuanKebutuhanDana     ?? null,
-          PosisiBpkb:             FormSec5DTO?.PosisiBpkb              ?? null,
-          keyValues: {
-            connect: kvIds.map((id) => ({ id })),
-          },
+    return this.prisma.form5.create({
+      data: {
+        form0Id:                dto.formRefId,
+        HargaOtr:               FormSec5DTO?.HargaOtr               ?? null,
+        BesarDownPayment:       FormSec5DTO?.BesarDownPayment        ?? null,
+        NamaTeleponPenjual:     FormSec5DTO?.NamaTeleponPenjual      ?? null,
+        HasilKonfirmasiPenjual: FormSec5DTO?.HasilKonfirmasiPenjual  ?? null,
+        KapanMemilikiMobil:     FormSec5DTO?.KapanMemilikiMobil      ?? null,
+        BerapaHargaBeli:        FormSec5DTO?.BerapaHargaBeli         ?? null,
+        BesarKebutuhanDana:     FormSec5DTO?.BesarKebutuhanDana      ?? null,
+        TujuanKebutuhanDana:    FormSec5DTO?.TujuanKebutuhanDana     ?? null,
+        PosisiBpkb:             FormSec5DTO?.PosisiBpkb              ?? null,
+        keyValues: {
+          connect: kvIds.map((kvId) => ({ id: kvId })),
         },
-        include: { keyValues: true },
-      });
+      },
+      include: { keyValues: true },
     });
   }
 

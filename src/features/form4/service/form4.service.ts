@@ -42,27 +42,26 @@ export class Form4Service {
 
   // ─────────────────────────────────────────────
   // FORM 4
-  // Uses implicit many-to-many with KeyValue via @relation("Form4KeyValues")
+  // Uses implicit many-to-many with KeyValue
   // ─────────────────────────────────────────────
 
-  async createForm4(dto: CreateForm4Dto) {
+  async createForm3(dto: CreateForm4Dto) {
     const { Form4_0 } = dto;
-    return this.prisma.$transaction(async (tx) => {
-      const kvIds1 = await Promise.all(
-        (Form4_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
-      );
 
-      return tx.form4.create({
-        data: {
-          form0Id: dto.formRefId,
-          keyValues: {
-            connect: kvIds1.map((id) => ({ id })),
-          }
-        },
-        include: {
-          keyValues: true
-        },
-      });
+    const kvIds1 = await Promise.all(
+      (Form4_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+  
+    return this.prisma.form4.create({
+      data: {
+        form0Id: dto.formRefId,
+        keyValues: {
+          connect: kvIds1.map((kvId) => ({ id: kvId })),
+        }
+      },
+      include: {
+        keyValues: true
+      },
     });
   }
 

@@ -42,10 +42,45 @@ export class Form1Service {
 
   // ─────────────────────────────────────────────
   // FORM 1
-  // Uses implicit many-to-many with KeyValue via @relation("Form1KeyValues")
+  // Uses implicit many-to-many with KeyValue
   // ─────────────────────────────────────────────
 
   async createForm1(dto: CreateForm1Dto) {
+    const { Form1_0, Form1_1, FormSec1DTO } = dto;
+
+    const kvIds1 = await Promise.all(
+      (Form1_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+    const kvIds2 = await Promise.all(
+      (Form1_1 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+    var kvIds = [...kvIds1, ...kvIds2];
+
+    return this.prisma.form1.create({
+      data: {
+        form0Id: dto.formRefId,
+        latarBelakang: {
+          connect: kvIds.map((kvId) => ({ id: kvId })),
+        },
+        SusunanPengurus: {
+          create: (dto.FormSec1DTO?.Tabel ?? []).map((sp) => ({
+            NamaJabatan: sp.namaJabatan ?? null,
+            BesarSaham:  sp.besarSaham  ?? null,
+            Persen:      sp.persen      ?? null,
+            Hubungan:    sp.hubungan    ?? null
+          })),
+        },
+        keterangan: FormSec1DTO?.Keterangan
+      },
+      include: {
+        SusunanPengurus: true,
+        latarBelakang: true,
+      },
+    });
+
+  }
+
+  async updateForm1(form0Id: number, dto: CreateForm1Dto) {
     const { Form1_0, Form1_1, FormSec1DTO } = dto;
     return this.prisma.$transaction(async (tx) => {
       const kvIds1 = await Promise.all(
@@ -54,15 +89,13 @@ export class Form1Service {
       const kvIds2 = await Promise.all(
         (Form1_1 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
       );
+      var kvIds = [...kvIds1, ...kvIds2];
 
-      return tx.form1.create({
+      return tx.form1.update({
+        where: { form0Id },
         data: {
-          form0Id: dto.formRefId,
-          latarBelakangPribadi: {
-            connect: kvIds1.map((id) => ({ id })),
-          },
-          latarBelakangBu: {
-            connect: kvIds2.map((id) => ({ id })),
+          latarBelakang: {
+            connect: kvIds.map((kvId) => ({ id: kvId })),
           },
           SusunanPengurus: {
             create: (dto.FormSec1DTO?.Tabel ?? []).map((sp) => ({
@@ -76,8 +109,7 @@ export class Form1Service {
         },
         include: {
           SusunanPengurus: true,
-          latarBelakangPribadi: true,
-          latarBelakangBu: true
+          latarBelakang: true
         },
       });
     });
@@ -85,7 +117,7 @@ export class Form1Service {
 
   async findAllForm1() {
     return this.prisma.form1.findMany({
-      include: { latarBelakangPribadi: true, latarBelakangBu: true, SusunanPengurus: true },
+      include: { SusunanPengurus: true, latarBelakang: true },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -93,7 +125,7 @@ export class Form1Service {
   async findOneForm1(form0Id: number) {
     return this.prisma.form1.findUnique({
       where: { form0Id },
-      include: { latarBelakangPribadi: true, latarBelakangBu: true, SusunanPengurus: true },
+      include: { SusunanPengurus: true, latarBelakang: true },
     });
   }
 

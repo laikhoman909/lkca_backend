@@ -10,6 +10,7 @@ import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
 import { FormSec1DTO } from './form-sec1.dto';
   
   export class CreateForm1Dto {
+    @IsOptional()
     @IsInt()
     formRefId: number;
   
