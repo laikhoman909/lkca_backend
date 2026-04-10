@@ -71,12 +71,11 @@ model KeyValue {
   form0JenisPengajuan Form0[] @relation("Form0JenisPengajuan")
 
   // Form1/5/6 direct FK back-references
-  form1aItems Form1[] @relation("Form1LatarBelakangPribadi")
-  form1bItems Form1[] @relation("Form1LatarBelakangBu")
-  form3Items Form3[] @relation("Form3KeyValues")
-  form4Items Form4[] @relation("Form4KeyValues")
-  form5Items Form5[] @relation("Form5KeyValues")
-  form6Items Form6[] @relation("Form6KeyValues")
+  form1Items Form1[] 
+  form3Items Form3[] 
+  form4Items Form4[] 
+  form5Items Form5[] 
+  form6Items Form6[] 
 
   @@unique([group, label, CustomValue])
   @@map("key_value")
@@ -133,8 +132,7 @@ model Form0 {
 
 model Form1 {
   form0Id       Int @id
-  latarBelakangPribadi       KeyValue[]            @relation("Form1LatarBelakangPribadi")
-  latarBelakangBu            KeyValue[]            @relation("Form1LatarBelakangBu")
+  latarBelakang       KeyValue[]   
   SusunanPengurus Form1SusunanPengurus[]
   keterangan  String? @db.VarChar(100)
   createdAt       DateTime              @default(now())
@@ -190,7 +188,7 @@ model DokumenPersyaratan {
 
 model Form3 {
   form0Id         Int @id
-  keyValues       KeyValue[]            @relation("Form3KeyValues")
+  keyValues       KeyValue[]
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
@@ -203,7 +201,7 @@ model Form3 {
 
 model Form4 {
   form0Id         Int @id
-  keyValues       KeyValue[]            @relation("Form4KeyValues")
+  keyValues       KeyValue[]
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
@@ -216,7 +214,7 @@ model Form4 {
 
 model Form5 {
   form0Id                Int @id
-  keyValues              KeyValue[] @relation("Form5KeyValues")
+  keyValues              KeyValue[]
   HargaOtr               String?    @db.VarChar(100)
   BesarDownPayment       String?    @db.VarChar(100)
   NamaTeleponPenjual     String?    @db.VarChar(255)
@@ -238,7 +236,7 @@ model Form5 {
 
 model Form6 {
   form0Id                  Int @id
-  keyValues                KeyValue[] @relation("Form6KeyValues")
+  keyValues                KeyValue[]
   NamaPerusahaan           String?    @db.VarChar(255)
   JenisUsaha               String?    @db.VarChar(255)
   AlamatUsahaKantor        String?    @db.VarChar(255)
@@ -254,4 +252,135 @@ model Form6 {
   updatedAt                DateTime   @updatedAt
 
   @@map("form6")
+}
+
+// ─────────────────────────────────────────────
+// FORM 7 - PERHITUNGAN PENDAPATAN DEBITUR
+// ─────────────────────────────────────────────
+
+model Pendapatan {
+  id      Int     @id @default(autoincrement())
+  key     String  @db.VarChar(100)
+  income1 Int
+  income2 Int
+  income3 Int
+  income4 Int
+  total   Int
+
+  form7Id Int
+  form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
+  
+  @@map("pendapatan")
+}
+
+model Kewajiban {
+  id      Int     @id @default(autoincrement())
+  totalPinjaman     Int
+  totalAngsuran     Int
+  totalPinjamanLain Int
+  netIncome         Int
+  angsuranAjukan    Int
+  dsr           Int
+  pertimbangan      Int
+  rekomendasi       Int
+
+  form7Id Int
+  form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
+  
+  @@map("kewajiban")
+}
+
+model Form7 {
+  form0Id         Int @id
+  pendapatan      Pendapatan[]
+  kewajiban       Kewajiban[]
+  
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form7")
+}
+
+// ─────────────────────────────────────────────
+// FORM 8 - MUTASI REKENING TABUNGAN
+// ─────────────────────────────────────────────
+
+model Form8 {
+  form0Id         Int @id
+  bank            Bank[]
+  laporanKeuangan LaporanKeuangan[]
+  keterangan      String? @db.VarChar(100)
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form8")
+}
+
+model Bank {
+  id                    Int       @id @default(autoincrement())
+  keterangan            String? @db.VarChar(100)
+  atasNama              String? @db.VarChar(100)    
+  mutasi                Mutasi[]
+  nama                  String? @db.VarChar(100) 
+  radio                 String? @db.VarChar(20) 
+  saldoAwal             Int
+  
+  form8Id Int
+  form8   Form8  @relation(fields: [form8Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("bank")
+}
+
+model Mutasi {
+  id                    Int       @id @default(autoincrement())
+  keterangan            String? @db.VarChar(100)
+  debit                 Int    
+  kredit                Int
+  saldo                 Int
+  
+  bankId     Int
+  bank       Bank   @relation(fields: [bankId], references: [id], onDelete: Cascade)
+
+  @@map("mutasi")
+}
+
+model LaporanKeuangan {
+  id                    Int       @id @default(autoincrement())
+  keterangan            String? @db.VarChar(100)
+  pendapatanLaba        Int    
+  biaya                 Int
+  net                   Int
+  
+  form8Id     Int
+  form8       Form8   @relation(fields: [form8Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("laporan_keuangan")
+} 
+
+
+// ─────────────────────────────────────────────
+// FORM 9 - KONFIRMASI ASSETS LAIN YANG DIMILIKI
+// ─────────────────────────────────────────────
+
+model Form9 {
+  form0Id         Int @id
+  aset            Aset[]
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form9")
+}
+
+model Aset {
+  id                    Int       @id @default(autoincrement())
+  merk_tipe_tahun       String?
+  nopol                 String?
+  status                String?
+  nama_bank             String?
+  
+  form9Id     Int
+  form9       Form9   @relation(fields: [form9Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("aset")
 }
