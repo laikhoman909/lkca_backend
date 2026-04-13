@@ -364,7 +364,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 2,\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\",   \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABC\"\n  }\n  \n}"
+							"raw": "{\n  \"formRefId\": 3,\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\", \"Value\": \"72\",  \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"Value\": \"73\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABC\"\n  }\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form1",
@@ -466,6 +466,34 @@
 								"api",
 								"form1",
 								"{{form1_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Form1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\", \"Value\": \"72\",  \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"Value\": \"73\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABCD\"\n  }\n  \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form1/{{form0_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form1",
+								"{{form0_id}}"
 							]
 						}
 					},
@@ -770,6 +798,74 @@
 							"path": [
 								"api",
 								"form2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form 3 - KONFIRMASI TANDA TANGAN KONTRAK",
+			"item": []
+		},
+		{
+			"name": "Form 7 -",
+			"item": [
+				{
+					"name": "Create Form7",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,\n  \"Form7_0\": [\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"HargaPokok\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"PendapatanKotor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"SewaKantor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form7",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form 8 - MUTASI REKENING TABUNGAN",
+			"item": [
+				{
+					"name": "Create Form8",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"\",\n        \"Keterangan\": \"\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form8"
 							]
 						}
 					},
