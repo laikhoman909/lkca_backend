@@ -8,7 +8,6 @@ export class LaporanKeuanganDto {
     @IsOptional()
     @IsString()
     Keterangan: string;
-    Radio?: string;
 
     @IsOptional()
     @IsInt()

@@ -23,10 +23,10 @@ export class CreateForm8Dto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => DataTableSec8Dto)
-  Form8_0: DataTableSec8Dto[];
+  DataTableSec8DTO: DataTableSec8Dto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => DataTableSec8_1Dto)
-  Form8_1?: DataTableSec8_1Dto;
+  DataTableSec8_1DTO?: DataTableSec8_1Dto;
 }

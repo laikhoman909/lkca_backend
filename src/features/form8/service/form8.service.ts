@@ -13,14 +13,14 @@ export class Form8Service {
   // ─────────────────────────────────────────────
 
   async createForm8(dto: CreateForm8Dto) {
-    const { Form8_0, Form8_1 } = dto;
+    const { DataTableSec8DTO, DataTableSec8_1DTO } = dto;
 
     return this.prisma.$transaction(async (tx) => {
       return tx.form8.create({
         data: {
           form0Id:  dto.formRefId,
           bank: {
-            create: Form8_0?.map((k) => ({
+            create: DataTableSec8DTO?.map((k) => ({
               atasNama: k.AtasNama ?? '',
               nama: k.NamaBank ?? '',
               keterangan: k.Keterangan ?? '',
@@ -36,9 +36,9 @@ export class Form8Service {
               }
             })),
           },
-          keterangan: Form8_1?.Keterangan ?? '',
+          keterangan: DataTableSec8_1DTO?.Keterangan ?? '',
           laporanKeuangan: {
-            create: Form8_1?.LaporanKeuangan?.map((k) => ({
+            create: DataTableSec8_1DTO?.LaporanKeuangan?.map((k) => ({
               keterangan: k.Keterangan ?? '',
               pendapatanLaba: k.PendapatanLaba ?? 0,
               biaya: k.Biaya ?? 0,

@@ -12,6 +12,9 @@ import { Form3Module } from './features/form3/form3.module';
 import { Form4Module } from './features/form4/form4.module';
 import { Form5Module } from './features/form5/form5.module';
 import { Form6Module } from './features/form6/form6.module';
+import { Form7Module } from './features/form7/form7.module';
+import { Form8Module } from './features/form8/form8.module';
+import { Form9Module } from './features/form9/form9.module';
 
 @Module({
   imports: [
@@ -25,7 +28,10 @@ import { Form6Module } from './features/form6/form6.module';
     Form3Module,
     Form4Module,
     Form5Module,
-    Form6Module
+    Form6Module,
+    Form7Module,
+    Form8Module,
+    Form9Module,
   ],
   controllers: [AppController],
   providers: [AppService],
