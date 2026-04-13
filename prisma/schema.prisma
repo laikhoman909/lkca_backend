@@ -264,7 +264,6 @@ model Pendapatan {
   income1 Int
   income2 Int
   income3 Int
-  income4 Int
   total   Int
 
   form7Id Int
@@ -275,14 +274,8 @@ model Pendapatan {
 
 model Kewajiban {
   id      Int     @id @default(autoincrement())
-  totalPinjaman     Int
-  totalAngsuran     Int
-  totalPinjamanLain Int
-  netIncome         Int
-  angsuranAjukan    Int
-  dsr           Int
-  pertimbangan      Int
-  rekomendasi       Int
+  key     String  @db.VarChar(100)
+  value   String  @db.VarChar(100)
 
   form7Id Int
   form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
@@ -384,3 +377,7 @@ model Aset {
 
   @@map("aset")
 }
+
+// ─────────────────────────────────────────────
+// FORM 10 - KONFIRMASI ASSETS LAIN YANG DIMILIKI
+// ─────────────────────────────────────────────
