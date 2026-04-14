@@ -3,19 +3,19 @@ import { IsInt, IsOptional, IsString } from "class-validator";
 export class AssetDto {
     @IsOptional()
     @IsString()
-    merk_tipe_tahun: string;
+    Merk?: string;
   
     @IsOptional()
     @IsString()
-    nopol?: number;
+    NoPol?: string;
   
     @IsOptional()
     @IsString()
-    status?: number;
+    Status?: string;
   
     @IsOptional()
-    @IsInt()
-    nama_bank?: number;
+    @IsString()
+    NamaBank?: string;
   
   }
   
