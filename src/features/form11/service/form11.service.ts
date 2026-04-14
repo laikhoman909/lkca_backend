@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
  FormSec11DTO
-} from '../dto/create-form11.dto';
+} from '../dto/form-sec11.dto';
 import { PrismaService } from 'src/core/db/prisma.service';
 
 @Injectable()

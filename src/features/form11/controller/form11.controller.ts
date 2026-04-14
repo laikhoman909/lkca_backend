@@ -12,7 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { Form11Service } from '../service/form11.service';
-import { CreateForm11Dto } from '../dto/create-form11.dto';
+import { FormSec11DTO } from '../dto/form-sec11.dto';
 
 // ─────────────────────────────────────────────
 // FORM 11
@@ -23,7 +23,7 @@ export class Form11Controller {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() dto: CreateForm11Dto) {
+  async create(@Body() dto: FormSec11DTO) {
     const result = await this.formService.createForm11(dto);
     return { success: true, message: 'Form11 created successfully', data: result };
   }
