@@ -27,14 +27,14 @@ export class Form7Service {
               income3: k.income3 ?? 0,
               total: k.total ?? 0
             })),
-          },
-          
-          // kewajiban: {
-          //   create: Form7_1?.map((j) => ({
-          //     key: j.key ,
-          //     value: j.value ?? 0
-          //   })),
-          // }
+          },       
+             
+          kewajiban: {
+            create: Form7_1?.map((j) => ({
+              key: j.key ,
+              value: j.value ?? 0
+            })),
+          }
         },
         include: {
           pendapatan: true,

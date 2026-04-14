@@ -847,7 +847,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"Form7_0\": [\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"HargaPokok\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"PendapatanKotor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"SewaKantor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  }\n  ]\n}",
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form7_0\": [\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"HargaPokok\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"PendapatanKotor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"SewaKantor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  }\n  ],\n  \"Form7_1\": [\n    { \"key\": \"TotalPinjaman\", \"value\": 0   },\n    { \"key\": \"TotalAngsuran\", \"value\": 0   },\n    { \"key\": \"NetIncome\", \"value\": 0   },\n    { \"key\": \"AngsuranDiajukan\", \"value\": 0   }\n  ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"

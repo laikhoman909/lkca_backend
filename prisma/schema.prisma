@@ -275,11 +275,12 @@ model Pendapatan {
 model Kewajiban {
   id      Int     @id @default(autoincrement())
   key     String  @db.VarChar(100)
-  value   String  @db.VarChar(100)
+  value   Int
 
   form7Id Int
   form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
   
+  @@index([form7Id])
   @@map("kewajiban")
 }
 

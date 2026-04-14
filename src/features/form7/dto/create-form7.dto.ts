@@ -28,5 +28,5 @@ export class CreateForm7Dto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => KeyValueDto)
-  Form7_1?: KeyValueDto[];
+  Form7_1: KeyValueDto[];
 }
