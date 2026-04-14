@@ -142,6 +142,28 @@ async function main() {
     // ─── Form6: STATUS KARYAWAN ───
     { group: 'StatusKaryawan', label: 'TETAP',    Description: 'Karyawan tetap' , CustomValue: ''},
     { group: 'StatusKaryawan', label: 'KONTRAK',  Description: 'Karyawan kontrak' , CustomValue: ''},
+
+    // ─── Form3: KONFIRMASI TANDA TANGAN KONTRAK ───
+    { group: 'TandaTangan', label: 'SUDAH',       Description: '' , CustomValue: ''},
+    { group: 'TandaTangan', label: 'BELUM',       Description: '' , CustomValue: ''},
+    { group: 'Penjelasan', label: 'SUDAH', Description: '' , CustomValue: ''},
+    { group: 'Penjelasan', label: 'BELUM', Description: '' , CustomValue: ''},
+    { group: 'NamaCMO', label: 'SUDAH', Description: '' , CustomValue: ''},
+    { group: 'NamaCMO', label: 'BELUM', Description: '' , CustomValue: ''},
+
+    // ─── Form4: KONFIRMASI KRONOLOGIS TRANSAKSI ───
+    { group: 'Mengetahui', label: 'TEMAN',       Description: '' , CustomValue: ''},
+    { group: 'NamaDealer', label: 'SESUAI',       Description: '' , CustomValue: ''},
+    { group: 'NamaDealer', label: 'TIDAK',       Description: '' , CustomValue: ''},
+    { group: 'Tujuan', label: 'USAHA', Description: '' , CustomValue: ''},
+    { group: 'Tujuan', label: 'PRIBADI', Description: '' , CustomValue: ''},
+    { group: 'KendaraanDibawa', label: 'DEBITUR', Description: '' , CustomValue: ''},
+    { group: 'KendaraanDibawa', label: 'PASANGAN', Description: '' , CustomValue: ''},
+    { group: 'PembawaKendaraan', label: 'ADA', Description: '' , CustomValue: ''},
+    { group: 'PembawaKendaraan', label: 'TIDAK', Description: '' , CustomValue: ''},
+    { group: 'SudahCek', label: 'SUDAH', Description: '' , CustomValue: ''},
+    { group: 'SudahCek', label: 'BELUM', Description: '' , CustomValue: ''},
+    
   ];
 
   for (const preset of presets) {
