@@ -103,7 +103,7 @@ model KeyList {
 
 model Form0 {
   id               Int       @id @default(autoincrement())
-  TanggalTelepon   DateTime
+  TanggalTelepon   String    @db.VarChar(15)
   JamTelepon       String    @db.VarChar(10)
   Cabang           String    @db.VarChar(100)
   NamaCmo          String    @db.VarChar(255)
@@ -370,7 +370,7 @@ model Aset {
   merk_tipe_tahun       String?
   nopol                 String?
   status                String?
-  nama_bank             String?
+  nama_bank             String?   
   
   form9Id     Int
   form9       Form9   @relation(fields: [form9Id], references: [form0Id], onDelete: Cascade)
@@ -379,5 +379,62 @@ model Aset {
 }
 
 // ─────────────────────────────────────────────
-// FORM 10 - KONFIRMASI ASSETS LAIN YANG DIMILIKI
+// FORM 10 - RECORD PAYMENT DI ITC FINANCE 
+// ─────────────────────────────────────────────
+
+model Form10 {
+  form0Id         Int @id
+  payment         Pembayaran[]
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form10")
+}
+
+model Pembayaran {
+  id                   Int       @id @default(autoincrement())
+  noPinjaman           String?   @db.VarChar(255)
+  atasNama             String?   @db.VarChar(100)
+  besarAngsuran        Int
+  oSPokok              String?   @db.VarChar(100)
+  angsKe               String?   @db.VarChar(4)
+  
+  form10Id     Int
+  form10       Form10   @relation(fields: [form10Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("pembayaran")
+}
+
+// ─────────────────────────────────────────────
+// FORM 11 - SLIK
+// ─────────────────────────────────────────────
+
+model Form11 {
+  form0Id              Int @id
+  pembiayaan           Pembiayaan[]
+  catatan              String?   @db.VarChar(255)
+  keterangan           String?   @db.VarChar(255)
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form11")
+}
+
+model Pembiayaan {
+  id                   Int       @id @default(autoincrement())
+  key                  String?   @db.VarChar(100)
+  jumlahUnit           Int
+  collRendah           String?   @db.VarChar(100)
+  keterangan           String?   @db.VarChar(255)
+  
+  form11Id     Int
+  form11       Form11   @relation(fields: [form11Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("pembiayaan")
+
+}
+
+// ─────────────────────────────────────────────
+// FORM 12 - SLIK
 // ─────────────────────────────────────────────
