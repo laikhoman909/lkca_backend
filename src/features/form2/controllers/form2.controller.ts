@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe, Put } from '@nestjs/common';
 import { Form2Service } from '../services/form2.service';
 import { CreateForm2Dto, UpdateForm2Dto } from '../dto/create-form2.dto';
 
@@ -23,6 +23,12 @@ export class Form2Controller {
     async findOne(@Param('id', ParseIntPipe) id: number) {
       const result = await this.form2Service.findOneForm2(id);
       return { success: true, message: 'Form2 retrieved', data: result };
+    }
+
+    @Put(':id')
+    async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateForm2Dto) {
+      const result = await this.form2Service.updateForm2(id, dto);
+      return { success: true, message: 'Form2 updated successfully', data: result };
     }
   
     @Delete(':id')

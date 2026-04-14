@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e040ea22-44b4-45c7-a183-3b200671190f",
+		"_postman_id": "dff3ec5a-b28d-46ca-ae15-f1fef76e5f86",
 		"name": "ITCF Form API",
 		"description": "Postman collection for ITCF Form Recommendation Credit Analyst API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -666,7 +666,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"FormSec6DTO\": {\n    \"NamaPerusahaan\": \"ALEKSA TRANSPORTASI\",\n    \"JenisUsaha\": \"JASA ANGKUTAN EKSPEDISI\",\n    \"AlamatUsahaKantor\": \"JL RAYA KEDEP, TANJUNG UDIK, GUNUNG PUTRI\",\n    \"AlamatPool\": \"\",\n    \"TeleponHpEmail\": \"083161014689\",\n    \"UsahaPekerjaanSebelumnya\": \"\",\n    \"UraianUsaha1\": \"CADEB MEMILIKI JASA ANGKUTAN EKSPEDISI, LAMA USAHA SUDAH SEKITAR 14 THN.\",\n    \"UraianUsaha2\": \"INFO CADEB JUGA BEKERJA FREELANCE SEBAGAI SOPIR DI PT DUSASPUN.\",\n    \"UraianUsaha3\": \"\",\n    \"ECallRekanan\": \"REKANAN USAHA : DIPA / 083161014689\",\n    \"ECallLainnya\": \"E CALL : INTAN/ADIK / 085776057608\"\n  },\n  \"Form6_0\": [\n    { \"key\": \"StatusDebitur\",          \"Value\": \"60\",        \"CustomValue\": \"\" },\n    { \"key\": \"LamaUsaha\",              \"Value\": \"63\",        \"CustomValue\": \"14 THN\" },\n    { \"key\": \"StatusKepemilikanTempat\",\"Value\": \"64\",  \"CustomValue\": \"\" },\n    { \"key\": \"JarakTempat\",            \"Value\": \"66\",        \"CustomValue\": \"\" }\n  ]\n  \n}"
+							"raw": "{\n  \"formRefId\": 1,\n  \"FormSec6DTO\": {\n    \"Nama\": \"ALEKSA TRANSPORTASI\",\n    \"usaha\": \"JASA ANGKUTAN EKSPEDISI\",\n    \"alamatUsaha\": \"JL RAYA KEDEP, TANJUNG UDIK, GUNUNG PUTRI\",\n    \"alamatPool\": \"\",\n    \"telepon\": \"083161014689\"\n    \n  },\n  \"FormSec6_1DTO\": {\n    \"Usaha1\": \"CADEB MEMILIKI JASA ANGKUTAN EKSPEDISI, LAMA USAHA SUDAH SEKITAR 14 THN.\",\n    \"Usaha2\": \"INFO CADEB JUGA BEKERJA FREELANCE SEBAGAI SOPIR DI PT DUSASPUN.\",\n    \"Usaha3\": \"\",\n    \"ECall1\": \"REKANAN USAHA : DIPA / 083161014689\",\n    \"ECall2\": \"E CALL : INTAN/ADIK / 085776057608\"\n  },\n  \"Form6_0\": [\n    { \"key\": \"StatusDebitur\",          \"Value\": \"60\",        \"CustomValue\": \"\" },\n    { \"key\": \"LamaUsaha\",              \"Value\": \"63\",        \"CustomValue\": \"14 THN\" },\n    { \"key\": \"StatusKepemilikanTempat\",\"Value\": \"64\",  \"CustomValue\": \"\" },\n    { \"key\": \"JarakTempat\",            \"Value\": \"66\",        \"CustomValue\": \"\" }\n  ]\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form6",
@@ -774,7 +774,7 @@
 			]
 		},
 		{
-			"name": "Form 2 -",
+			"name": "Form 2 - Konfirmasi Data",
 			"item": [
 				{
 					"name": "Create Form2",
@@ -807,10 +807,38 @@
 		},
 		{
 			"name": "Form 3 - KONFIRMASI TANDA TANGAN KONTRAK",
-			"item": []
+			"item": [
+				{
+					"name": "Create Form3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form3_0\": [\n    { \"key\": \"TandaTangan\",    \"Value\": \"89\", \"CustomValue\": \"\" },\n    { \"key\": \"Penjelasan\", \"Value\": \"92\", \"CustomValue\": \"\" },\n    { \"key\": \"NamaCMO\", \"Value\": \"94\", \"CustomValue\": \"\" }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Form 7 -",
+			"name": "Form 7 - PERHITUNGAN PENDAPATAN DEBITUR",
 			"item": [
 				{
 					"name": "Create Form7",
@@ -851,7 +879,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"\",\n        \"Keterangan\": \"\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
+							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"\",\n        \"Keterangan\": \"\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -872,6 +900,74 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Form 9 - KONFIRMASI ASSETS",
+			"item": [
+				{
+					"name": "Create Form9",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,\n  \"Form9_0\": [\n    { \"Merk\": \"\", \"NoPol\": \"\", \"Status\": \"\", \"NamaBank\": \"\"  }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form 4 - KONFIRMASI KRONOLOGIS TRANSAKSI",
+			"item": [
+				{
+					"name": "Create Form4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form4_0\": [\n    { \"key\": \"NamaDealer\", \"Value\": \"96\", \"CustomValue\": \"\" },\n    { \"key\": \"Tujuan\", \"Value\": \"99\", \"CustomValue\": \"\" },\n    { \"key\": \"KendaraanDibawa\", \"Value\": \"101\", \"CustomValue\": \"\" },\n    { \"key\": \"PembawaKendaraan\", \"Value\": \"102\", \"CustomValue\": \"\" },\n    { \"key\": \"SudahCek\", \"Value\": \"104\", \"CustomValue\": \"\" }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form 10 - RECORD PAYMENT",
+			"item": []
 		}
 	],
 	"variable": [

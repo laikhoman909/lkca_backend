@@ -86,6 +86,6 @@ export class KeyValueDto {
 
   @IsOptional()
   @IsInt()
-  value: number;
+  value?: number;
 
 }
