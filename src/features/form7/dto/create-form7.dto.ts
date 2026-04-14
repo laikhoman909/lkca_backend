@@ -22,7 +22,7 @@ export class CreateForm7Dto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => KeyIncomeDto)
-  Form7_0: KeyIncomeDto[];
+  Form7_0?: KeyIncomeDto[];
 
   @IsOptional()
   @IsArray()

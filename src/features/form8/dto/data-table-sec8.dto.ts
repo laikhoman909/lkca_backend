@@ -12,7 +12,7 @@ import { MutasiDto } from './mutasi.dto';
 export class DataTableSec8Dto {
     @IsOptional()
     @IsString()
-    Keterangan: string;
+    Keterangan?: string;
   
     @IsOptional()
     @IsString()

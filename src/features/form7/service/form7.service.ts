@@ -21,7 +21,7 @@ export class Form7Service {
           form0Id:  dto.formRefId,
           pendapatan: {
             create: Form7_0?.map((k) => ({
-              key: k.key ?? '',
+              key: k.key ,
               income1: k.income1 ?? 0,
               income2: k.income2 ?? 0,
               income3: k.income3 ?? 0,
@@ -31,7 +31,7 @@ export class Form7Service {
           
           // kewajiban: {
           //   create: Form7_1?.map((j) => ({
-          //     key: j.key ?? '',
+          //     key: j.key ,
           //     value: j.value ?? 0
           //   })),
           // }

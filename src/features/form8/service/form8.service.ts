@@ -23,12 +23,12 @@ export class Form8Service {
             create: DataTableSec8DTO?.map((k) => ({
               atasNama: k.AtasNama ?? '',
               nama: k.NamaBank ?? '',
-              keterangan: k.Keterangan ?? '',
+              keterangan: k.Keterangan ?? null,
               radio: k.Radio ?? '',
               saldoAwal: k.SaldoAwal ?? 0,
               mutasi: {
                 create: k.Mutasi?.map((j) => ({
-                  keterangan: j.Keterangan ?? '',
+                  keterangan: j.Keterangan ?? null,
                   debit: j.Debit ?? 0,
                   kredit: j.Kredit ?? 0,
                   saldo: j.Debit ?? 0,
@@ -36,10 +36,10 @@ export class Form8Service {
               }
             })),
           },
-          keterangan: DataTableSec8_1DTO?.Keterangan ?? '',
+          keterangan: DataTableSec8_1DTO?.Keterangan ?? null,
           laporanKeuangan: {
             create: DataTableSec8_1DTO?.LaporanKeuangan?.map((k) => ({
-              keterangan: k.Keterangan ?? '',
+              keterangan: k.Keterangan ?? null,
               pendapatanLaba: k.PendapatanLaba ?? 0,
               biaya: k.Biaya ?? 0,
               net: k.Net ?? 0

@@ -11,7 +11,7 @@ import { LaporanKeuanganDto } from './laporan-keuangan-dto';
 export class DataTableSec8_1Dto {
     @IsOptional()
     @IsString()
-    Keterangan: string;
+    Keterangan?: string;
 
     @IsOptional()
     @IsArray()

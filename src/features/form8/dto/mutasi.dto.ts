@@ -7,7 +7,7 @@ import {
 export class MutasiDto {
     @IsOptional()
     @IsString()
-    Keterangan: string;
+    Keterangan?: string;
 
     @IsOptional()
     @IsInt()

@@ -7,7 +7,7 @@ import {
 export class LaporanKeuanganDto {
     @IsOptional()
     @IsString()
-    Keterangan: string;
+    Keterangan?: string;
 
     @IsOptional()
     @IsInt()
