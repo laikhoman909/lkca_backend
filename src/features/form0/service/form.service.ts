@@ -69,7 +69,7 @@ export class FormService {
 
       return tx.form0.create({
         data: {
-          TanggalTelepon:   new Date(Form0.TanggalTelepon),
+          TanggalTelepon:   Form0.TanggalTelepon,
           JamTelepon:       Form0.JamTelepon,
           Cabang:           Form0.Cabang,
           NamaCmo:          Form0.NamaCmo,
@@ -139,7 +139,7 @@ export class FormService {
       return tx.form0.update({
         where: { id },
         data: {
-          TanggalTelepon:   new Date(Form0.TanggalTelepon),
+          TanggalTelepon:   Form0.TanggalTelepon,
           JamTelepon:       Form0.JamTelepon,
           Cabang:           Form0.Cabang,
           NamaCmo:          Form0.NamaCmo,

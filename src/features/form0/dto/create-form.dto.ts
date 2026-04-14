@@ -1,11 +1,9 @@
 import {
   IsString,
   IsNumber,
-  IsDate,
   IsArray,
   ValidateNested,
   IsOptional,
-  IsInt,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { KeyListItemDto, KeyValueInputDto } from 'src/common/dto/key-value.dto';
@@ -15,9 +13,8 @@ import { KeyListItemDto, KeyValueInputDto } from 'src/common/dto/key-value.dto';
 // ─────────────────────────────────────────────
 
 export class Form0ItemDto {
-  @IsDate()
-  @Type(() => Date)
-  TanggalTelepon: Date;
+  @IsString()
+  TanggalTelepon: string;
 
   @IsString()
   JamTelepon: string;
