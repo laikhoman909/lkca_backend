@@ -3,6 +3,10 @@ import { IsInt, IsOptional, IsString } from "class-validator";
 export class AssetDto {
     @IsOptional()
     @IsString()
+    Nama?: string;
+  
+    @IsOptional()
+    @IsString()
     Merk?: string;
   
     @IsOptional()
