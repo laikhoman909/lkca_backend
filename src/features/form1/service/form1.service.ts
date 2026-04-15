@@ -83,6 +83,8 @@ export class Form1Service {
   async updateForm1(form0Id: number, dto: CreateForm1Dto) {
     const { Form1_0, Form1_1, FormSec1DTO } = dto;
     return this.prisma.$transaction(async (tx) => {
+      await tx.form1SusunanPengurus.deleteMany({ where: { form1Id: form0Id } });
+
       const kvIds1 = await Promise.all(
         (Form1_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
       );

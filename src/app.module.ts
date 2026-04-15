@@ -17,7 +17,9 @@ import { Form8Module } from './features/form8/form8.module';
 import { Form9Module } from './features/form9/form9.module';
 import { Form10Module } from './features/form10/form10.module';
 import { Form11Module } from './features/form11/form11.module';
-
+import { Form12Module } from './features/form12/form12.module';
+import { Form13Module } from './features/form13/form13.module';
+import { Form14Module } from './features/form14/form14.module';
 @Module({
   imports: [
     // Feature modules
@@ -36,6 +38,9 @@ import { Form11Module } from './features/form11/form11.module';
     Form9Module,
     Form10Module,
     Form11Module,
+    Form12Module,
+    Form13Module,
+    Form14Module
   ],
   controllers: [AppController],
   providers: [AppService],

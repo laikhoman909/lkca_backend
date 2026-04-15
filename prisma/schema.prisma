@@ -368,6 +368,7 @@ model Form9 {
 
 model Aset {
   id                    Int       @id @default(autoincrement())
+  nama                  String?
   merk_tipe_tahun       String?
   nopol                 String?
   status                String?
@@ -437,5 +438,67 @@ model Pembiayaan {
 }
 
 // ─────────────────────────────────────────────
-// FORM 12 - SLIK
+// FORM 12 - KONFIRMASI KEWAJIBAN DEBITUR KEPADA PIHAK LAIN DILUAR SLIK
 // ─────────────────────────────────────────────
+
+model Form12 {
+  form0Id              Int @id
+  kewajiban            KewajibanLuar[]
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form12")
+}
+
+model KewajibanLuar {
+  id                   Int       @id @default(autoincrement())
+  bank                 String?   @db.VarChar(255)
+  merk                 String?   @db.VarChar(100)
+  besarAngsuran        Int
+  angsKe               Int
+  keterangan           String?   @db.VarChar(255)
+  
+  form12Id     Int
+  form12       Form12   @relation(fields: [form12Id], references: [form0Id], onDelete: Cascade)
+
+  @@map("kewajiban_luar")
+
+}
+
+// ─────────────────────────────────────────────
+// FORM 13 - INFORMASI HARGA JAMINAN & LTV
+// ─────────────────────────────────────────────
+ 
+model Form13 {
+  form0Id       Int @id
+  dpGross               Int
+  hargaPasar            Int
+  hargaRata             Int
+  hargaReal             Int 
+  hargaTerendah         Int
+  hargaTertinggi        Int
+  referensi             String?   @db.VarChar(100)
+  ltv            Int
+  sph            Int
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form13")
+}
+
+// ─────────────────────────────────────────────
+// FORM 14 - CATATAN PERTIMBANGAN
+// ─────────────────────────────────────────────
+ 
+model Form14 {
+  form0Id       Int @id
+  positifPoin             String?   @db.VarChar(100)
+  negatifPoin             String?   @db.VarChar(100)
+
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@map("form14")
+}
