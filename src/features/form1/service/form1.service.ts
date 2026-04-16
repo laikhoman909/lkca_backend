@@ -82,21 +82,21 @@ export class Form1Service {
 
   async updateForm1(form0Id: number, dto: CreateForm1Dto) {
     const { Form1_0, Form1_1, FormSec1DTO } = dto;
+    const kvIds1 = await Promise.all(
+      (Form1_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+    const kvIds2 = await Promise.all(
+      (Form1_1 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+    var kvIds = [...kvIds1, ...kvIds2];
+
     return this.prisma.$transaction(async (tx) => {
       await tx.form1SusunanPengurus.deleteMany({ where: { form1Id: form0Id } });
-
-      const kvIds1 = await Promise.all(
-        (Form1_0 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
-      );
-      const kvIds2 = await Promise.all(
-        (Form1_1 ?? []).map((item) => this.resolveKeyValueId(tx, item)),
-      );
-      var kvIds = [...kvIds1, ...kvIds2];
-
       return tx.form1.update({
         where: { form0Id },
         data: {
           latarBelakang: {
+            set:     [],
             connect: kvIds.map((kvId) => ({ id: kvId })),
           },
           SusunanPengurus: {
@@ -107,7 +107,9 @@ export class Form1Service {
               Hubungan:    sp.hubungan    ?? null
             })),
           },
-          keterangan: FormSec1DTO?.Keterangan
+          keterangan: FormSec1DTO?.Keterangan,
+          updatedAt: new Date()
+
         },
         include: {
           SusunanPengurus: true,

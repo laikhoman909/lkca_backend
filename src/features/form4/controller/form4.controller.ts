@@ -40,6 +40,12 @@ import { CreateForm4Dto } from '../dto/create-form4.dto';
       const result = await this.formService.findOneForm4(id);
       return { success: true, message: 'Form4 retrieved', data: result };
     }
+
+    @Put(':id')
+    async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateForm4Dto) {
+      const result = await this.formService.updateForm4(id, dto);
+      return { success: true, message: 'Form4 updated successfully', data: result };
+    }
   
     @Delete(':id')
     @HttpCode(HttpStatus.OK)

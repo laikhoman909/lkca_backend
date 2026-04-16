@@ -158,6 +158,7 @@ export class FormService {
               data4: k.data4 ?? null,
             })),
           },
+          updatedAt: new Date()
         },
         include: {
           kendaraan:      true,

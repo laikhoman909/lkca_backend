@@ -44,6 +44,8 @@ export class Form2Service {
   async updateForm2(form0Id: number,dto: CreateForm2Dto) {
     const { Form2_0, Form2_1 } = dto;
     return this.prisma.$transaction(async (tx) => {
+      await tx.dokumenPersyaratan.deleteMany({ where: { form2Id: form0Id } });
+      await tx.keyList.deleteMany({ where: { form2Id: form0Id } });
       return tx.form2.update({
         where: { form0Id },
         data: {
@@ -64,7 +66,7 @@ export class Form2Service {
               data4: k.data4 ?? null,
             })),
           },
-          
+          updatedAt: new Date()
         },
         include: {
           foto:    true,

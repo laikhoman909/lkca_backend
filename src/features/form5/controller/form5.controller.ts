@@ -9,6 +9,7 @@ import {
     HttpCode,
     HttpStatus,
     Query,
+    Put,
   } from '@nestjs/common';
 import { Form5Service } from '../service/form5.service';
 import { CreateForm5Dto } from '../dto/create-form5.dto';
@@ -37,6 +38,12 @@ import { CreateForm5Dto } from '../dto/create-form5.dto';
     async findOne(@Param('id', ParseIntPipe) id: number) {
       const result = await this.formService.findOneForm5(id);
       return { success: true, message: 'Form5 retrieved', data: result };
+    }
+
+    @Put(':id')
+    async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateForm5Dto) {
+      const result = await this.formService.updateForm5(id, dto);
+      return { success: true, message: 'Form5 updated successfully', data: result };
     }
   
     @Delete(':id')

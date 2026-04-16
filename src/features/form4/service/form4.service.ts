@@ -65,6 +65,30 @@ export class Form4Service {
     });
   }
 
+  async updateForm4(form0Id: number, dto: CreateForm4Dto) {
+    const { Form4_0 } = dto;
+
+    const kvIds1 = await Promise.all(
+      (Form4_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+  
+    return this.prisma.$transaction(async (tx) => {
+      return this.prisma.form4.update({
+        where: { form0Id },
+        data: {
+          keyValues: {
+            set: [],
+            connect: kvIds1.map((kvId) => ({ id: kvId })),
+          },
+          updatedAt: new Date()
+        },
+        include: {
+          keyValues: true
+        },
+      });
+    });
+  }
+
   async findAllForm4() {
     return this.prisma.form4.findMany({
       include: { keyValues: true },

@@ -81,6 +81,39 @@ export class Form6Service {
     });
   }
 
+  async updateForm6(form0Id: number, dto: CreateForm6Dto) {
+    const { Form6_0, FormSec6DTO, FormSec6_1DTO } = dto;
+
+    const kvIds = await Promise.all(
+      (Form6_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
+    );
+
+    return this.prisma.$transaction(async (tx) => {
+      return tx.form6.update({
+        where: { form0Id }, 
+        data: {
+          NamaPerusahaan:           FormSec6DTO?.Nama                 ?? null,
+          JenisUsaha:               FormSec6DTO?.usaha                ?? null,
+          AlamatUsahaKantor:        FormSec6DTO?.alamatUsaha          ?? null,
+          AlamatPool:               FormSec6DTO?.alamatPool           ?? null,
+          TeleponHpEmail:           FormSec6DTO?.telepon              ?? null,
+          UsahaPekerjaanSebelumnya: FormSec6DTO?.usaha                ?? null,
+          UraianUsaha1:             FormSec6_1DTO?.Usaha1             ?? null,
+          UraianUsaha2:             FormSec6_1DTO?.Usaha2             ?? null,
+          UraianUsaha3:             FormSec6_1DTO?.Usaha3             ?? null,
+          ECallRekanan:             FormSec6_1DTO?.ECall1             ?? null,
+          ECallLainnya:             FormSec6_1DTO?.ECall2             ?? null,
+          keyValues: {
+            set: [],
+            connect: kvIds.map((kvId) => ({ id: kvId })),
+          },
+          updatedAt: new Date()
+        },
+        include: { keyValues: true },
+      });
+    });
+  }
+
   async findAllForm6() {
     return this.prisma.form6.findMany({
       include: { keyValues: true },
