@@ -37,6 +37,32 @@ export class Form11Service {
     });
   }
 
+  async updateForm11(form0Id: number, dto: FormSec11DTO) {
+    const { DataTable } = dto;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.pembiayaan.deleteMany({ where: { form11Id: form0Id } });
+      return tx.form11.update({
+        where: {form0Id},
+        data: {
+          catatan: dto.Catatan ?? '',
+          keterangan: dto.Keterangan ?? '',
+          pembiayaan: {
+            create: DataTable?.map((k) => ({
+              key: k.Key ?? null,
+              jumlahUnit: k.JumlahUnit ?? 0,
+              collRendah: k.CollRendah ?? null,
+              keterangan: k.Keterangan ?? null
+            }))
+          },
+        },
+        include: {
+          pembiayaan: true
+        },
+      });
+    });
+  }
+
   async findAllForm11() {
     return this.prisma.form11.findMany({
       include: {

@@ -20,6 +20,10 @@ export class CreateForm8Dto {
   formRefId: number;
 
   @IsOptional()
+  @IsInt()
+  bankId: number;
+
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => DataTableSec8Dto)

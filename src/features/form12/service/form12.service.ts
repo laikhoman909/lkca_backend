@@ -36,6 +36,31 @@ export class Form12Service {
     });
   }
 
+  async updateForm12(form0Id: number, dto: FormSec12DTO) {
+    const { DataTable } = dto;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.kewajibanLuar.deleteMany({ where: { form12Id: form0Id } });
+      return tx.form12.update({
+        where: { form0Id },
+        data: {
+          kewajiban: {
+            create: DataTable?.map((k) => ({
+              bank: k.Bank ?? null,
+              merk: k.Merk ?? null,
+              besarAngsuran: k.BesarAngsuran ?? 0,
+              angsKe: k.AngsuranKe ?? 0,
+              keterangan: k.Keterangan ?? null
+            }))
+          },
+        },
+        include: {
+          kewajiban: true
+        },
+      });
+    });
+  }
+
   async findAllForm12() {
     return this.prisma.form12.findMany({
       include: {

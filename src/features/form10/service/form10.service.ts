@@ -36,6 +36,31 @@ export class Form10Service {
     });
   }
 
+  async updateForm10(form0Id: number, dto: CreateForm10Dto) {
+    const { Form10_0 } = dto;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.pembayaran.deleteMany({ where: { form10Id: form0Id } });
+      return tx.form10.update({
+        where: {form0Id},
+        data: {
+          payment: {
+            create: Form10_0?.map((k) => ({
+              noPinjaman: k.NoPinjaman ?? null,
+              atasNama: k.AtasNama ?? null,
+              besarAngsuran: k.BesarAngsuran ?? 0,
+              oSPokok: k.OSPokok ?? null,
+              angsKe: k.AngsKe ?? null
+            }))
+          },
+        },
+        include: {
+          payment: true
+        },
+      });
+    });
+  }
+
   async findAllForm10() {
     return this.prisma.form10.findMany({
       include: {

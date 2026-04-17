@@ -36,6 +36,32 @@ export class Form9Service {
     });
   }
 
+  async updateForm9(form0Id: number, dto: CreateForm9Dto) {
+    const { Form9_0 } = dto;
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.aset.deleteMany({ where: { form9Id: form0Id } });
+      return tx.form9.update({
+        where: { form0Id },
+        data: {
+          aset: {
+            create: Form9_0?.map((k) => ({
+              nama: k.Nama ?? null,
+              merk_tipe_tahun: k.Merk ?? null,
+              nopol: k.NoPol ?? null,
+              status: k.Status ?? null,
+              nama_bank: k.NamaBank ?? null
+            })),
+          },
+          updatedAt: new Date()
+        },
+        include: {
+          aset: true
+        },
+      });
+    });
+  }
+
   async findAllForm9() {
     return this.prisma.form9.findMany({
       include: {

@@ -24,6 +24,19 @@ export class Form14Service {
     });
   }
 
+  async updateForm14(form0Id: number, dto: FormSec14DTO){
+    return this.prisma.$transaction(async (tx) => {
+      return tx.form14.update({
+        where: { form0Id },
+        data: {
+          form0Id:  dto.formRefId,
+          positifPoin: dto.PositifPoin ?? '',
+          negatifPoin: dto.NegatifPoin ?? ''
+        }
+      });
+    });
+  }
+
   async findAllForm14() {
     return this.prisma.form14.findMany({
       orderBy: { createdAt: 'desc' },

@@ -46,6 +46,12 @@ export class Form8Controller {
   //   return { success: true, message: 'Form8 updated successfully', data: result };
   // }
 
+  @Put(':id')
+  async update8_1(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateForm8Dto) {
+    const result = await this.formService.updateForm8_1(id, dto, dto.bankId);
+    return { success: true, message: 'Form8 updated successfully', data: result };
+  }
+
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number) {

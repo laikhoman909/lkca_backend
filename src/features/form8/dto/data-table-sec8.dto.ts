@@ -10,6 +10,11 @@ import {
 import { MutasiDto } from './mutasi.dto';
 
 export class DataTableSec8Dto {
+
+    @IsOptional()
+    @IsInt()
+    id?: number;
+
     @IsOptional()
     @IsString()
     Keterangan?: string;

@@ -40,11 +40,11 @@ export class Form13Controller {
     return { success: true, message: 'Form13 retrieved', data: result };
   }
 
-  // @Put(':id')
-  // async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateFormDto) {
-  //   const result = await this.formService.updateForm13(id, dto);
-  //   return { success: true, message: 'Form13 updated successfully', data: result };
-  // }
+  @Put(':id')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: FormSec13DTO) {
+    const result = await this.formService.updateForm13(id, dto);
+    return { success: true, message: 'Form13 updated successfully', data: result };
+  }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
