@@ -1,124 +1,133 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/core/db/prisma.service';
-import { RegisterDto } from 'src/features/users/dto/register.dto';
 import { EncryptionService } from '../encryption.service';
 import { EncryptedRegisterDto } from '../dto/encrypted-register.dto';
 import { EncryptedLoginDto } from '../dto/encrypted-login.dto';
-import { UsersService } from 'src/features/users/services/users.service';
 import { UserRole } from 'generated/prisma/enums';
 import { ConfigService } from '@nestjs/config';
+import { EncryptionUtils } from '../encryption.utils';
+import { Role } from 'src/common/types/enums/role.enum';
+import { AuthResponseDto } from '../dto/auth-response.dto';
+import { UserPayload } from 'src/common/types/interface/user-payload.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    private readonly usersService: UsersService,
     private jwtService: JwtService,
-    private readonly configService: ConfigService,
-    private readonly encryptionService: EncryptionService,
+    private readonly configService: ConfigService
   ) {}
 
-  async register(registerDto: RegisterDto) {
-    const { email, password, role } = registerDto;
-
+  async register(registerDto: EncryptedRegisterDto): Promise<AuthResponseDto> {
+    // Check if user already exists
     const existingUser = await this.prisma.user.findUnique({
-      where: { email },
+      where: { email: registerDto.email },
     });
-
     if (existingUser) {
-      throw new BadRequestException('User already exists');
+      throw new ConflictException('User with this email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Generate unique public key for this user
+    const publicKey = EncryptionUtils.generatePublicKey();
 
+    // Hash password with user's unique public key
+    const hashedPassword = EncryptionUtils.hashPassword(
+      registerDto.encryptedPassword,
+      publicKey,
+    );
+
+    // Create user
     const user = await this.prisma.user.create({
       data: {
-        email,
+        email: registerDto.email,
         password: hashedPassword,
-        role,
+        publicKey: publicKey,
+        role: 'USER',
       },
     });
-    const { password: _, ...result } = user;
-    return result;
-  }
 
-  async validateUser(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { email },
-    });
+    // Generate JWT token
+    const payload: UserPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role as Role,
+      publicKey: user.publicKey,
+    };
 
-    if (!user) {
-      return new UnauthorizedException('Invalid email or password');
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return new UnauthorizedException('Invalid email or password');
-    }
-
-    const { password: _, ...result } = user;
-    return result;
-  }
-
-  login(user: { id: string; email: string; role: string }) {
-    const payload = { sub: user.id, email: user.email, role: user.role };
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '7d',
-    });
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: '14d',
-    });
+    const accessToken = this.jwtService.sign(payload);
 
     return {
       accessToken,
-      refreshToken,
+      tokenType: 'Bearer',
+      expiresIn: process.env.JWT_EXPIRATION || '24h',
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role as Role,
+        publicKey: user.publicKey,
+      },
     };
   }
 
-  /**
-   * Register with encrypted password
-   * Password should be encrypted with the public key
-   */
-  async registerEncrypted(encryptedRegisterDto: EncryptedRegisterDto) {
-    const { email, encryptedPassword, role } = encryptedRegisterDto;
+  async login(loginDto: EncryptedLoginDto): Promise<AuthResponseDto> {
+    // Find user by email
+    const user = await this.prisma.user.findUnique({
+      where: { email: loginDto.email },
+    });
 
-    // Decrypt the password using private key
-    let password: string;
-    try {
-      password = this.encryptionService.decryptPassword(encryptedPassword);
-    } catch (error) {
-      throw new BadRequestException('Invalid encrypted password');
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Create new user with hashed password
-    const user = await this.usersService.create(email, password, role);
+    // Verify password using user's unique public key
+    const isValidPassword = EncryptionUtils.verifyPassword(
+      loginDto.encryptedPassword,
+      user.password,
+      user.publicKey,
+    );
+
+    if (!isValidPassword) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
 
     // Generate JWT token
-    return await this.generateToken(user);
+    const payload: UserPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role as Role,
+      publicKey: user.publicKey,
+    };
+
+    const accessToken = this.jwtService.sign(payload);
+
+    return {
+      accessToken,
+      tokenType: 'Bearer',
+      expiresIn: process.env.JWT_EXPIRATION || '24h',
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role as Role,
+        publicKey: user.publicKey,
+      },
+    };
   }
 
-  async loginEncrypted(encryptedLoginDto: EncryptedLoginDto) {
-    const { email, encryptedPassword } = encryptedLoginDto;
+  async validateUser(userId: string): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    return user;
+  }
 
-    // Decrypt the password using private key
-    let password: string;
-    try {
-      password = this.encryptionService.decryptPassword(encryptedPassword);
-    } catch (error) {
-      throw new BadRequestException('Invalid encrypted password');
-    }
-
-    // Validate user credentials
-    const user = await this.usersService.validateUser(email, password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-
-    // Generate JWT token
-    return await this.generateToken(user);
+  async getPublicKey(userId: string): Promise<string> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    return user?.publicKey || '';
   }
 
   /**
