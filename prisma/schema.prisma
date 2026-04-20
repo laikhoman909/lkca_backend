@@ -18,6 +18,7 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String   // Hashed password using bcrypt
+  publicKey         String    @unique
   role      UserRole @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -170,8 +171,8 @@ model Form2 {
 }
 
 model DokumenPersyaratan {
-  id                    Int       @id @default(autoincrement())
-  jenis_dokumen         String?
+  // id                    Int       @id @default(autoincrement())
+  jenis_dokumen         String
   status_ada            Boolean  @default(false)  
   tipe_dokumen          String?
   keterangan            String?   @db.Text
@@ -179,6 +180,7 @@ model DokumenPersyaratan {
   form2Id     Int
   form2       Form2   @relation(fields: [form2Id], references: [form0Id], onDelete: Cascade)
 
+  @@unique([form2Id, jenis_dokumen])
   @@map("dokumen_persyaratan")
 }
 
@@ -259,7 +261,7 @@ model Form6 {
 // ─────────────────────────────────────────────
 
 model Pendapatan {
-  id      Int     @id @default(autoincrement())
+  // id      Int     @id @default(autoincrement())
   key     String  @db.VarChar(100)
   income1 Int
   income2 Int
@@ -269,17 +271,19 @@ model Pendapatan {
   form7Id Int
   form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
   
+  @@unique([form7Id, key])
   @@map("pendapatan")
 }
 
 model Kewajiban {
-  id      Int     @id @default(autoincrement())
+  // id      Int     @id @default(autoincrement())
   key     String  @db.VarChar(100)
   value   Int
 
   form7Id Int
   form7   Form7  @relation(fields: [form7Id], references: [form0Id], onDelete: Cascade)
   
+  @@unique([form7Id, key])
   @@index([form7Id])
   @@map("kewajiban")
 }
@@ -327,7 +331,7 @@ model Bank {
 }
 
 model Mutasi {
-  id                    Int       @id @default(autoincrement())
+  //id                    Int       @id @default(autoincrement())
   keterangan            String? @db.VarChar(100)
   debit                 Int    
   kredit                Int
@@ -336,6 +340,7 @@ model Mutasi {
   bankId     Int
   bank       Bank   @relation(fields: [bankId], references: [id], onDelete: Cascade)
 
+  @@unique([bankId, saldo, debit, kredit])
   @@map("mutasi")
 }
 
@@ -367,16 +372,17 @@ model Form9 {
 }
 
 model Aset {
-  id                    Int       @id @default(autoincrement())
-  nama                  String?
+  // id                    Int       @id @default(autoincrement())
+  nama                  String
   merk_tipe_tahun       String?
   nopol                 String?
   status                String?
-  nama_bank             String?   
+  nama_bank             String   
   
   form9Id     Int
   form9       Form9   @relation(fields: [form9Id], references: [form0Id], onDelete: Cascade)
 
+  @@unique([form9Id, nama_bank])
   @@map("aset")
 }
 
@@ -394,16 +400,17 @@ model Form10 {
 }
 
 model Pembayaran {
-  id                   Int       @id @default(autoincrement())
-  noPinjaman           String?   @db.VarChar(255)
+  // id                   Int       @id @default(autoincrement())
+  noPinjaman           String    @db.VarChar(255)
   atasNama             String?   @db.VarChar(100)
-  besarAngsuran        Int
+  besarAngsuran        String?   @db.VarChar(100)
   oSPokok              String?   @db.VarChar(100)
-  angsKe               String?   @db.VarChar(4)
+  angsKe               String?   @db.VarChar(100)
   
   form10Id     Int
   form10       Form10   @relation(fields: [form10Id], references: [form0Id], onDelete: Cascade)
 
+  @@unique([form10Id, noPinjaman])
   @@map("pembayaran")
 }
 
@@ -424,15 +431,16 @@ model Form11 {
 }
 
 model Pembiayaan {
-  id                   Int       @id @default(autoincrement())
-  key                  String?   @db.VarChar(100)
-  jumlahUnit           Int
+  // id                   Int       @id @default(autoincrement())
+  key                  String    @db.VarChar(100)
+  jumlahUnit           String?   @db.VarChar(50)
   collRendah           String?   @db.VarChar(100)
   keterangan           String?   @db.VarChar(255)
   
   form11Id     Int
   form11       Form11   @relation(fields: [form11Id], references: [form0Id], onDelete: Cascade)
 
+  @@unique([form11Id, key])
   @@map("pembiayaan")
 
 }

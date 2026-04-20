@@ -1,9 +1,9 @@
 import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class AssetDto {
-    @IsOptional()
+  
     @IsString()
-    Nama?: string;
+    Nama: string;
   
     @IsOptional()
     @IsString()
@@ -17,9 +17,8 @@ export class AssetDto {
     @IsString()
     Status?: string;
   
-    @IsOptional()
     @IsString()
-    NamaBank?: string;
+    NamaBank: string;
   
   }
   

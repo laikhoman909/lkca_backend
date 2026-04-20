@@ -21,9 +21,9 @@ export class Form10Service {
           form0Id:  dto.formRefId,
           payment: {
             create: Form10_0?.map((k) => ({
-              noPinjaman: k.NoPinjaman ?? null,
+              noPinjaman: k.NoPinjaman,
               atasNama: k.AtasNama ?? null,
-              besarAngsuran: k.BesarAngsuran ?? 0,
+              besarAngsuran: k.BesarAngsuran ?? null,
               oSPokok: k.OSPokok ?? null,
               angsKe: k.AngsKe ?? null
             }))
@@ -46,9 +46,9 @@ export class Form10Service {
         data: {
           payment: {
             create: Form10_0?.map((k) => ({
-              noPinjaman: k.NoPinjaman ?? null,
+              noPinjaman: k.NoPinjaman,
               atasNama: k.AtasNama ?? null,
-              besarAngsuran: k.BesarAngsuran ?? 0,
+              besarAngsuran: k.BesarAngsuran ?? null,
               oSPokok: k.OSPokok ?? null,
               angsKe: k.AngsKe ?? null
             }))

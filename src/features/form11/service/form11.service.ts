@@ -23,8 +23,8 @@ export class Form11Service {
           keterangan: dto.Keterangan ?? '',
           pembiayaan: {
             create: DataTable?.map((k) => ({
-              key: k.Key ?? null,
-              jumlahUnit: k.JumlahUnit ?? 0,
+              key: k.Key,
+              jumlahUnit: k.JumlahUnit ?? null,
               collRendah: k.CollRendah ?? null,
               keterangan: k.Keterangan ?? null
             }))
@@ -49,8 +49,8 @@ export class Form11Service {
           keterangan: dto.Keterangan ?? '',
           pembiayaan: {
             create: DataTable?.map((k) => ({
-              key: k.Key ?? null,
-              jumlahUnit: k.JumlahUnit ?? 0,
+              key: k.Key ,
+              jumlahUnit: k.JumlahUnit ?? null,
               collRendah: k.CollRendah ?? null,
               keterangan: k.Keterangan ?? null
             }))

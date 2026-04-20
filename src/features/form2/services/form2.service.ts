@@ -17,7 +17,7 @@ export class Form2Service {
           dokumen: {
             create: Form2_0?.map((k) => ({
               jenis_dokumen: k.key,
-              status_ada: k.model1 ?? null,
+              status_ada: k.model1,
               tipe_dokumen: (k.model2 != null) ? (k.model2 == 0 ? 'FOTO': 'COPY') : '' ,
               keterangan: k.model3 ?? null,
             })),
@@ -52,7 +52,7 @@ export class Form2Service {
           dokumen: {
             create: Form2_0?.map((k) => ({
               jenis_dokumen: k.key,
-              status_ada: k.model1 ?? null,
+              status_ada: k.model1,
               tipe_dokumen: (k.model2 != null) ? (k.model2 == 0 ? 'FOTO': 'COPY') : '' ,
               keterangan: k.model3 ?? null,
             })),

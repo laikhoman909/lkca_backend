@@ -1077,7 +1077,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"\",\n        \"Keterangan\": \"\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
+							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"\",\n        \"Keterangan\": \"\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 1, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 2, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 3, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1098,13 +1098,13 @@
 					"response": []
 				},
 				{
-					"name": "Update Form8",
+					"name": "Update Form8 Bank",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"bankId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"saya\",\n        \"Keterangan\": \"informasi\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 0, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ]\n}",
+							"raw": "{\n  \"formRefId\": 1,\n  \"bankId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"saya\",\n        \"Keterangan\": \"informasi\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 1, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 2, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 4, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1112,14 +1112,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/form8/{{form0_id}}",
+							"raw": "{{base_url}}/api/form8/{{form0_id}}/bank",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"form8",
-								"{{form0_id}}"
+								"{{form0_id}}",
+								"bank"
 							]
 						}
 					},
@@ -1314,7 +1315,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"formRefId\": 1,\n    \"Form10_0\": [\n        {\"NoPinjaman\": \"Total\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"OS CABANG\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"BMPK (BATAS MINIMAL PEMBERIAN KREDIT)\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"}\n    ]\n\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Form10_0\": [\n        {\"NoPinjaman\": \"Total\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"OS CABANG\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"BMPK (BATAS MINIMAL PEMBERIAN KREDIT)\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"}\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1341,7 +1342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"formRefId\": 1,\n    \"Form10_0\": [\n        {\"NoPinjaman\": \"Total\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"OS CABANG\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"BMPK (BATAS MINIMAL PEMBERIAN KREDIT)\", \"AtasNama\": \"\", \"BesarAngsuran\": 0, \"OSPokok\": \"\",  \"AngsKe\": \"\"}\n    ]\n\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Form10_0\": [\n        {\"NoPinjaman\": \"Total\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"OS CABANG\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"},\n        {\"NoPinjaman\": \"BMPK (BATAS MINIMAL PEMBERIAN KREDIT)\", \"AtasNama\": \"\", \"BesarAngsuran\": \"0\", \"OSPokok\": \"\",  \"AngsKe\": \"\"}\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1393,7 +1394,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"\",\n    \"Keterangan\": \"\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"\",\n    \"Keterangan\": \"\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1420,7 +1421,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"\",\n    \"Keterangan\": \"\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": 0, \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"\",\n    \"Keterangan\": \"\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": \"1\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": \"2\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": \"3\", \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1428,13 +1429,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/form10/{{form0_id}}",
+							"raw": "{{base_url}}/api/form11/{{form0_id}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
-								"form10",
+								"form11",
 								"{{form0_id}}"
 							]
 						}

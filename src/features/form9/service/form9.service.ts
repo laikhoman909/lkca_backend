@@ -21,7 +21,7 @@ export class Form9Service {
           form0Id:  dto.formRefId,
           aset: {
             create: Form9_0?.map((k) => ({
-              nama: k.Nama ?? null,
+              nama: k.Nama,
               merk_tipe_tahun: k.Merk ?? null,
               nopol: k.NoPol ?? null,
               status: k.Status ?? null,
@@ -46,11 +46,11 @@ export class Form9Service {
         data: {
           aset: {
             create: Form9_0?.map((k) => ({
-              nama: k.Nama ?? null,
+              nama: k.Nama ,
               merk_tipe_tahun: k.Merk ?? null,
               nopol: k.NoPol ?? null,
               status: k.Status ?? null,
-              nama_bank: k.NamaBank ?? null
+              nama_bank: k.NamaBank
             })),
           },
           updatedAt: new Date()

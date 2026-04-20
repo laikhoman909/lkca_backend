@@ -1,13 +1,12 @@
 import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class PembiayaanDto {
-    @IsOptional()
     @IsString()
-    Key?: string;
+    Key: string;
   
     @IsOptional()
-    @IsInt()
-    JumlahUnit?: number;
+    @IsString()
+    JumlahUnit?: string;
   
     @IsOptional()
     @IsString()
