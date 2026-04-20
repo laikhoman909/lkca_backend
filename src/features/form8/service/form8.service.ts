@@ -31,7 +31,7 @@ export class Form8Service {
                   keterangan: j.Keterangan ?? null,
                   debit: j.Debit ?? 0,
                   kredit: j.Kredit ?? 0,
-                  saldo: j.Debit ?? 0,
+                  saldo: j.Saldo ?? 0,
                 })),
               }
             })),
@@ -55,32 +55,13 @@ export class Form8Service {
   }
 
   async updateForm8(form0Id: number, dto: CreateForm8Dto) {
-    const { DataTableSec8DTO, DataTableSec8_1DTO } = dto;
+    const {  DataTableSec8_1DTO } = dto;
 
     return this.prisma.$transaction(async (tx) => {
       await tx.laporanKeuangan.deleteMany({ where: { form8Id: form0Id } });
-      await tx.bank.deleteMany({ where: { id: form0Id } });
-
       return tx.form8.update({
         where: { form0Id },
         data: {
-          bank: {
-            create: DataTableSec8DTO?.map((k) => ({
-              atasNama: k.AtasNama ?? '',
-              nama: k.NamaBank ?? '',
-              keterangan: k.Keterangan ?? null,
-              radio: k.Radio ?? '',
-              saldoAwal: k.SaldoAwal ?? 0,
-              mutasi: {
-                create: k.Mutasi?.map((j) => ({
-                  keterangan: j.Keterangan ?? null,
-                  debit: j.Debit ?? 0,
-                  kredit: j.Kredit ?? 0,
-                  saldo: j.Debit ?? 0,
-                })),
-              }
-            })),
-          },
           keterangan: DataTableSec8_1DTO?.Keterangan ?? null,
           laporanKeuangan: {
             create: DataTableSec8_1DTO?.LaporanKeuangan?.map((k) => ({
@@ -100,11 +81,10 @@ export class Form8Service {
     });
   }
 
-  async updateForm8_1(form0Id: number, dto: CreateForm8Dto, id: number) {
-    const { DataTableSec8DTO, DataTableSec8_1DTO } = dto;
+  async updateBankById(form0Id: number, dto: CreateForm8Dto, id: number) {
+    const { DataTableSec8DTO } = dto;
 
     return this.prisma.$transaction(async (tx) => {
-      await tx.laporanKeuangan.deleteMany({ where: { form8Id: form0Id } });
       await tx.mutasi.deleteMany({ where: { bankId: id } });
 
       return tx.form8.update({
@@ -124,20 +104,11 @@ export class Form8Service {
                       keterangan: j.Keterangan ?? null,
                       debit: j.Debit ?? 0,
                       kredit: j.Kredit ?? 0,
-                      saldo: j.Debit ?? 0,
+                      saldo: j.Saldo ?? 0,
                     }))
                   }
               }
             }
-          }, 
-          keterangan: DataTableSec8_1DTO?.Keterangan ?? null,
-          laporanKeuangan: {
-            create: DataTableSec8_1DTO?.LaporanKeuangan?.map((k) => ({
-              keterangan: k.Keterangan ?? null,
-              pendapatanLaba: k.PendapatanLaba ?? 0,
-              biaya: k.Biaya ?? 0,
-              net: k.Net ?? 0
-            })),
           },
           updatedAt: new Date()
         },
