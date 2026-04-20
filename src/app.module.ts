@@ -3,8 +3,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
-import { UsersModule } from './features/users/users.module';
-import { ProductsModule } from './features/products/products.module';
 import { FormModule } from './features/form0/module/form.module';
 import { Form1Module } from './features/form1/form1.module';
 import { Form2Module } from './features/form2/form2.module';
@@ -24,8 +22,6 @@ import { Form14Module } from './features/form14/form14.module';
   imports: [
     // Feature modules
     AuthModule,
-    ProductsModule,
-    UsersModule,
     FormModule,
     Form1Module,
     Form2Module,
