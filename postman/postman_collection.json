@@ -1661,6 +1661,66 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Footer",
+			"item": [
+				{
+					"name": "Create Form15",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,  \n  \"Signature1\": \"\",\n  \"Signature2\": \"\",\n  \"Keterangan\": \"\",\n  \"RekomendasiCA\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Form15",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,  \n  \"Signature1\": \"\",\n  \"Signature2\": \"\",\n  \"Keterangan\": \"\",\n  \"RekomendasiCA\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/form15/{{form0_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form15",
+								"{{form0_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
