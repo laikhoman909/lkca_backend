@@ -71,17 +71,38 @@ export class Form9Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form9 database result to CreateForm9Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm9Dto(form9: any): CreateForm9Dto | null {
+    if (!form9) return null;
+
+    const result = new CreateForm9Dto();
+    result.formRefId = form9.form0Id;
+
+    // Transform aset to Form9_0
+    if (form9.aset && Array.isArray(form9.aset)) {
+      result.Form9_0 = form9.aset.map((a: any) => ({
+        Nama: a.nama,
+        Merk: a.merk_tipe_tahun,
+        NoPol: a.nopol,
+        Status: a.status,
+        NamaBank: a.nama_bank,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm9(form0Id: number) {
-    return this.prisma.form9.findUnique({
+    const form9 = await this.prisma.form9.findUnique({
       where: { form0Id },
       include: {
         aset: true,
       },
     });
+    return this.transformToCreateForm9Dto(form9);
   }
-
-  async removeForm9(form0Id: number) {
-    await this.prisma.form9.delete({ where: { form0Id } });
     return { message: 'Form9 deleted successfully' };
   }
 

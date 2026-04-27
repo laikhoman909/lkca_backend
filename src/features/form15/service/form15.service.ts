@@ -41,10 +41,26 @@ export class Form15Service {
     });
   }
 
-  async findOneForm15(form0Id: number) {
-    return this.prisma.footer.findUnique({
-      where: { form0Id },
-    });
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form15 database result to FooterDTO format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToFooterDto(form15: any): FooterDTO | null {
+    if (!form15) return null;
+
+    const result = new FooterDTO();
+    result.formRefId = form15.form0Id;
+    result.Signature1 = form15.signature1;
+    result.Signature2 = form15.signature2;
+    result.Keterangan = form15.keterangan;
+    result.RekomendasiCA = form15.rekomendasiCA;
+
+    return result;
   }
 
+  async findOneForm15(form0Id: number) {
+    const form15 = await this.prisma.footer.findUnique({
+      where: { form0Id },
+    });
+    return this.transformToFooterDto(form15);
+  }
 }

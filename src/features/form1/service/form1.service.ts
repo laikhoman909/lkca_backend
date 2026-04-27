@@ -129,7 +129,7 @@ export class Form1Service {
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // HELPER: Transform Form1 database result to CreateForm1Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-  private transformToCreateForm1Dto(form1: any): CreateForm1Dto {
+  private transformToCreateForm1Dto(form1: any): CreateForm1Dto | null {
     if (!form1) return null;
 
     const result = new CreateForm1Dto();

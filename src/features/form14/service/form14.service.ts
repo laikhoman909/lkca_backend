@@ -43,12 +43,26 @@ export class Form14Service {
     });
   }
 
-  async findOneForm14(form0Id: number) {
-    return this.prisma.form14.findUnique({
-      where: { form0Id },
-    });
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form14 database result to FormSec14DTO format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToFormSec14Dto(form14: any): FormSec14DTO | null {
+    if (!form14) return null;
+
+    const result = new FormSec14DTO();
+    result.formRefId = form14.form0Id;
+    result.PositifPoin = form14.positifPoin;
+    result.NegatifPoin = form14.negatifPoin;
+
+    return result;
   }
 
+  async findOneForm14(form0Id: number) {
+    const form14 = await this.prisma.form14.findUnique({
+      where: { form0Id },
+    });
+    return this.transformToFormSec14Dto(form14);
+  }
   async removeForm14(form0Id: number) {
     await this.prisma.form14.delete({ where: { form0Id } });
     return { message: 'Form14 deleted successfully' };

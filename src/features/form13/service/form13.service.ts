@@ -56,12 +56,33 @@ export class Form13Service {
     });
   }
 
-  async findOneForm13(form0Id: number) {
-    return this.prisma.form13.findUnique({
-      where: { form0Id },
-    });
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form13 database result to FormSec13DTO format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToFormSec13Dto(form13: any): FormSec13DTO | null {
+    if (!form13) return null;
+
+    const result = new FormSec13DTO();
+    result.formRefId = form13.form0Id;
+    result.DPGross = form13.dpGross;
+    result.HargaPasar = form13.hargaPasar;
+    result.HargaRataRata = form13.hargaRata;
+    result.HargaReal = form13.hargaReal;
+    result.HargaTertinggi = form13.hargaTertinggi;
+    result.HargaTerendah = form13.hargaTerendah;
+    result.Referensi = form13.referensi;
+    result.ltv = form13.ltv;
+    result.sph = form13.sph;
+
+    return result;
   }
 
+  async findOneForm13(form0Id: number) {
+    const form13 = await this.prisma.form13.findUnique({
+      where: { form0Id },
+    });
+    return this.transformToFormSec13Dto(form13);
+  }
   async removeForm13(form0Id: number) {
     await this.prisma.form13.delete({ where: { form0Id } });
     return { message: 'Form13 deleted successfully' };

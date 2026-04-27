@@ -89,18 +89,47 @@ export class Form7Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form7 database result to CreateForm7Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm7Dto(form7: any): CreateForm7Dto | null {
+    if (!form7) return null;
+
+    const result = new CreateForm7Dto();
+    result.formRefId = form7.form0Id;
+
+    // Transform pendapatan to Form7_0
+    if (form7.pendapatan && Array.isArray(form7.pendapatan)) {
+      result.Form7_0 = form7.pendapatan.map((p: any) => ({
+        key: p.key,
+        income1: p.income1,
+        income2: p.income2,
+        income3: p.income3,
+        total: p.total,
+      }));
+    }
+
+    // Transform kewajiban to Form7_1
+    if (form7.kewajiban && Array.isArray(form7.kewajiban)) {
+      result.Form7_1 = form7.kewajiban.map((k: any) => ({
+        key: k.key,
+        value: k.value,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm7(form0Id: number) {
-    return this.prisma.form7.findUnique({
+    const form7 = await this.prisma.form7.findUnique({
       where: { form0Id },
       include: {
         pendapatan: true,
         kewajiban: true
       },
     });
+    return this.transformToCreateForm7Dto(form7);
   }
-
-  async removeForm7(form0Id: number) {
-    await this.prisma.form7.delete({ where: { form0Id } });
     return { message: 'Form7 deleted successfully' };
   }
 
