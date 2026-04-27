@@ -70,17 +70,38 @@ export class Form10Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form10 database result to CreateForm10Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm10Dto(form10: any): CreateForm10Dto | null {
+    if (!form10) return null;
+
+    const result = new CreateForm10Dto();
+    result.formRefId = form10.form0Id;
+
+    // Transform payment to Form10_0
+    if (form10.payment && Array.isArray(form10.payment)) {
+      result.Form10_0 = form10.payment.map((p: any) => ({
+        NoPinjaman: p.noPinjaman,
+        AtasNama: p.atasNama,
+        BesarAngsuran: p.besarAngsuran,
+        OSPokok: p.oSPokok,
+        AngsKe: p.angsKe,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm10(form0Id: number) {
-    return this.prisma.form10.findUnique({
+    const form10 = await this.prisma.form10.findUnique({
       where: { form0Id },
       include: {
         payment: true,
       },
     });
+    return this.transformToCreateForm10Dto(form10);
   }
-
-  async removeForm10(form0Id: number) {
-    await this.prisma.form10.delete({ where: { form0Id } });
     return { message: 'Form10 deleted successfully' };
   }
 

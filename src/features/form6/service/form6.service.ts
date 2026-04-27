@@ -121,14 +121,53 @@ export class Form6Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form6 database result to CreateForm6Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm6Dto(form6: any): CreateForm6Dto | null {
+    if (!form6) return null;
+
+    const result = new CreateForm6Dto();
+    result.formRefId = form6.form0Id;
+
+    // Transform keyValues to Form6_0
+    if (form6.keyValues && Array.isArray(form6.keyValues)) {
+      result.Form6_0 = form6.keyValues.map((kv: any) => ({
+        key: kv.group,
+        Value: kv.id.toString(),
+        label: kv.label,
+        CustomValue: kv.CustomValue,
+      }));
+    }
+
+    // Transform FormSec6DTO
+    result.FormSec6DTO = {
+      Nama: form6.NamaPerusahaan,
+      alamatUsaha: form6.AlamatUsahaKantor,
+      alamatPool: form6.AlamatPool,
+      telepon: form6.TeleponHpEmail,
+      usaha: form6.JenisUsaha,
+    };
+
+    // Transform FormSec6_1DTO
+    result.FormSec6_1DTO = {
+      Usaha1: form6.UraianUsaha1,
+      Usaha2: form6.UraianUsaha2,
+      Usaha3: form6.UraianUsaha3,
+      ECall1: form6.ECallRekanan,
+      ECall2: form6.ECallLainnya,
+    };
+
+    return result;
+  }
+
   async findOneForm6(form0Id: number) {
-    return this.prisma.form6.findUnique({
+    const form6 = await this.prisma.form6.findUnique({
       where: { form0Id },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm6Dto(form6);
   }
-
-  async removeForm6(form0Id: number) {
     await this.prisma.form6.delete({ where: { form0Id } });
     return { message: 'Form6 deleted successfully' };
   }

@@ -131,19 +131,62 @@ export class Form8Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form8 database result to CreateForm8Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm8Dto(form8: any): CreateForm8Dto | null {
+    if (!form8) return null;
+
+    const result = new CreateForm8Dto();
+    result.formRefId = form8.form0Id;
+    result.bankId = form8.bankId;
+
+    // Transform bank to DataTableSec8DTO
+    if (form8.bank && Array.isArray(form8.bank)) {
+      result.DataTableSec8DTO = form8.bank.map((b: any) => ({
+        id: b.id,
+        Keterangan: b.keterangan,
+        AtasNama: b.atasNama,
+        NamaBank: b.nama,
+        Radio: b.radio,
+        SaldoAwal: b.saldoAwal,
+        Mutasi: b.mutasi?.map((m: any) => ({
+          Keterangan: m.keterangan,
+          Debit: m.debit,
+          Kredit: m.kredit,
+          Saldo: m.saldo,
+        })) || [],
+      }));
+    }
+
+    // Transform laporanKeuangan to DataTableSec8_1DTO
+    if (form8.laporanKeuangan && Array.isArray(form8.laporanKeuangan)) {
+      result.DataTableSec8_1DTO = {
+        Keterangan: form8.keterangan,
+        LaporanKeuangan: form8.laporanKeuangan.map((lk: any) => ({
+          Keterangan: lk.keterangan,
+          PendapatanLaba: lk.pendapatanLaba,
+          Biaya: lk.biaya,
+          Net: lk.net,
+        })),
+      };
+    }
+
+    return result;
+  }
+
   async findOneForm8(form0Id: number) {
-    return this.prisma.form8.findUnique({
+    const form8 = await this.prisma.form8.findUnique({
       where: { form0Id },
       include: {
-        bank: true,
+        bank: {
+          include: { mutasi: true }
+        },
         laporanKeuangan: true
       },
     });
+    return this.transformToCreateForm8Dto(form8);
   }
-
-  async removeForm8(form0Id: number) {
-    await this.prisma.form8.delete({ where: { form0Id } });
-    return { message: 'Form8 deleted successfully' };
   }
 
 }
