@@ -117,11 +117,47 @@ export class Form5Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form5 database result to CreateForm5Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm5Dto(form5: any): CreateForm5Dto | null {
+    if (!form5) return null;
+
+    const result = new CreateForm5Dto();
+    result.formRefId = form5.form0Id;
+
+    // Transform keyValues to Form5_0
+    if (form5.keyValues && Array.isArray(form5.keyValues)) {
+      result.Form5_0 = form5.keyValues.map((kv: any) => ({
+        key: kv.group,
+        Value: kv.id.toString(),
+        label: kv.label,
+        CustomValue: kv.CustomValue,
+      }));
+    }
+
+    // Transform FormSec5DTO
+    result.FormSec5DTO = {
+      HargaOtr: form5.HargaOtr,
+      BesarDownPayment: form5.BesarDownPayment,
+      NamaTeleponPenjual: form5.NamaTeleponPenjual,
+      HasilKonfirmasiPenjual: form5.HasilKonfirmasiPenjual,
+      KapanMemilikiMobil: form5.KapanMemilikiMobil,
+      BerapaHargaBeli: form5.BerapaHargaBeli,
+      BesarKebutuhanDana: form5.BesarKebutuhanDana,
+      TujuanKebutuhanDana: form5.TujuanKebutuhanDana,
+      PosisiBpkb: form5.PosisiBpkb,
+    };
+
+    return result;
+  }
+
   async findOneForm5(form0Id: number) {
-    return this.prisma.form5.findUnique({
+    const form5 = await this.prisma.form5.findUnique({
       where: { form0Id },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm5Dto(form5);
   }
 
   async removeForm5(form0Id: number) {

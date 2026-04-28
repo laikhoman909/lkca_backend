@@ -72,13 +72,38 @@ export class Form11Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form11 database result to FormSec11DTO format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToFormSec11Dto(form11: any): FormSec11DTO | null {
+    if (!form11) return null;
+
+    const result = new FormSec11DTO();
+    result.formRefId = form11.form0Id;
+    result.Catatan = form11.catatan;
+    result.Keterangan = form11.keterangan;
+
+    // Transform pembiayaan to DataTable
+    if (form11.pembiayaan && Array.isArray(form11.pembiayaan)) {
+      result.DataTable = form11.pembiayaan.map((p: any) => ({
+        Key: p.key,
+        JumlahUnit: p.jumlahUnit,
+        CollRendah: p.collRendah,
+        Keterangan: p.keterangan,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm11(form0Id: number) {
-    return this.prisma.form11.findUnique({
+    const form11 = await this.prisma.form11.findUnique({
       where: { form0Id },
       include: {
         pembiayaan: true,
       },
     });
+    return this.transformToFormSec11Dto(form11);
   }
 
   async removeForm11(form0Id: number) {

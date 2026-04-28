@@ -149,10 +149,11 @@ export class Form1Service {
         item.CustomValue = kv.CustomValue;
 
         // Split based on group name pattern (Form1_0 or Form1_1)
-        // if (kv.group && kv.group.startsWith('Form1_0')) {
-        //   form1_0.push(item);
-        // } 
-        form1_0.push(item);
+        if (kv.group && kv.group.startsWith('Bu')) {
+          form1_1.push(item);
+        } else {
+          form1_0.push(item);
+        }
       }
     }
 

@@ -70,13 +70,37 @@ export class Form12Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form12 database result to FormSec12DTO format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToFormSec12Dto(form12: any): FormSec12DTO | null {
+    if (!form12) return null;
+
+    const result = new FormSec12DTO();
+    result.formRefId = form12.form0Id;
+
+    // Transform kewajiban to DataTable
+    if (form12.kewajiban && Array.isArray(form12.kewajiban)) {
+      result.DataTable = form12.kewajiban.map((k: any) => ({
+        Bank: k.bank,
+        Merk: k.merk,
+        BesarAngsuran: k.besarAngsuran,
+        AngsuranKe: k.angsKe,
+        Keterangan: k.keterangan,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm12(form0Id: number) {
-    return this.prisma.form12.findUnique({
+    const form12 = await this.prisma.form12.findUnique({
       where: { form0Id },
       include: {
         kewajiban: true,
       },
     });
+    return this.transformToFormSec12Dto(form12);
   }
 
   async removeForm12(form0Id: number) {
