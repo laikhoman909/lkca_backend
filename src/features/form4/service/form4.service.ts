@@ -96,11 +96,34 @@ export class Form4Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form4 database result to CreateForm4Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm4Dto(form4: any): CreateForm4Dto | null {
+    if (!form4) return null;
+
+    const result = new CreateForm4Dto();
+    result.formRefId = form4.form0Id;
+
+    // Transform keyValues to Form4_0
+    if (form4.keyValues && Array.isArray(form4.keyValues)) {
+      result.Form4_0 = form4.keyValues.map((kv: any) => ({
+        key: kv.group,
+        Value: kv.id.toString(),
+        label: kv.label,
+        CustomValue: kv.CustomValue,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm4(form0Id: number) {
-    return this.prisma.form4.findUnique({
+    const form4 = await this.prisma.form4.findUnique({
       where: { form0Id },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm4Dto(form4);
   }
 
   async removeForm4(form0Id: number) {

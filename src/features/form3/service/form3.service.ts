@@ -95,11 +95,34 @@ export class Form3Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form3 database result to CreateForm3Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm3Dto(form3: any): CreateForm3Dto | null {
+    // if (!form3) return null;
+
+    const result = new CreateForm3Dto();
+    result.formRefId = form3.form0Id;
+
+    // Transform keyValues to Form3_0
+    if (form3.keyValues && Array.isArray(form3.keyValues)) {
+      result.Form3_0 = form3.keyValues.map((kv: any) => ({
+        key: kv.group,
+        Value: kv.id.toString(),
+        label: kv.label,
+        CustomValue: kv.CustomValue,
+      }));
+    }
+
+    return result;
+  }
+
   async findOneForm3(form0Id: number) {
-    return this.prisma.form3.findUnique({
+    const form3 = await this.prisma.form3.findUnique({
       where: { form0Id },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm3Dto(form3);
   }
 
   async removeForm3(form0Id: number) {

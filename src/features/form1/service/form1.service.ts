@@ -9,11 +9,11 @@ import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
 export class Form1Service {
   constructor(private prisma: PrismaService) {}
 
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // HELPER: resolve a KeyValueInputDto to a KeyValue id
   // Value = preset KeyValue id (string from frontend)
   // Updates CustomValue on the existing row, or creates a new one
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
     const presetId = parseInt(item.Value, 10);
     if (!isNaN(presetId)) {
@@ -40,10 +40,10 @@ export class Form1Service {
   }
 
 
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // FORM 1
   // Uses implicit many-to-many with KeyValue
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
   async createForm1(dto: CreateForm1Dto) {
     const { Form1_0, Form1_1, FormSec1DTO } = dto;
@@ -126,11 +126,67 @@ export class Form1Service {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form1 database result to CreateForm1Dto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateForm1Dto(form1: any): CreateForm1Dto {
+    // if (!form1) return null;
+
+    const result = new CreateForm1Dto();
+    result.formRefId = form1.form0Id;
+
+    // Transform latarBelakang (KeyValue entities) to Form1_0 and Form1_1 arrays
+    // Group by the 'group' field to separate Form1_0 and Form1_1
+    const form1_0: KeyValueInputDto[] = [];
+    const form1_1: KeyValueInputDto[] = [];
+
+    if (form1.latarBelakang && Array.isArray(form1.latarBelakang)) {
+      for (const kv of form1.latarBelakang) {
+        const item = new KeyValueInputDto();
+        item.key = kv.group;
+        item.Value = kv.id.toString();
+        item.label = kv.label;
+        item.CustomValue = kv.CustomValue;
+
+        // Split based on group name pattern (Form1_0 or Form1_1)
+        // if (kv.group && kv.group.startsWith('Form1_0')) {
+        //   form1_0.push(item);
+        // } 
+        form1_0.push(item);
+      }
+    }
+
+    result.Form1_0 = form1_0.length > 0 ? form1_0 : undefined;
+    result.Form1_1 = form1_1.length > 0 ? form1_1 : undefined;
+
+    // Transform SusunanPengurus to FormSec1DTO format
+    if (form1.SusunanPengurus && Array.isArray(form1.SusunanPengurus) && form1.SusunanPengurus.length > 0) {
+      result.FormSec1DTO = {
+        Keterangan: form1.keterangan || undefined,
+        Tabel: form1.SusunanPengurus.map((sp: any) => ({
+          namaJabatan: sp.NamaJabatan,
+          besarSaham: sp.BesarSaham,
+          persen: sp.Persen,
+          hubungan: sp.Hubungan,
+        })),
+      };
+    } else if (form1.keterangan) {
+      result.FormSec1DTO = {
+        Keterangan: form1.keterangan,
+        Tabel: [],
+      };
+    }
+
+    return result;
+  }
+
   async findOneForm1(form0Id: number) {
-    return this.prisma.form1.findUnique({
+    // return this.prisma.form1.findUnique({
+    const form1 = await this.prisma.form1.findUnique({
       where: { form0Id },
       include: { SusunanPengurus: true, latarBelakang: true },
     });
+    return this.transformToCreateForm1Dto(form1);
   }
 
   async removeForm1(form0Id: number) {

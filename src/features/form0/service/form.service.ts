@@ -109,8 +109,62 @@ export class FormService {
     });
   }
 
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  // HELPER: Transform Form0 database result to CreateFormDto format
+  // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  private transformToCreateFormDto(form0: any): CreateFormDto | null {
+    if (!form0) return null;
+
+    const result = new CreateFormDto();
+
+    // Transform Form0 (main form data)
+    result.Form0 = {
+      TanggalTelepon: form0.TanggalTelepon,
+      JamTelepon: form0.JamTelepon,
+      Cabang: form0.Cabang,
+      NamaCmo: form0.NamaCmo,
+      FidCmo: form0.FidCmo,
+      NamaDebitur: form0.NamaDebitur,
+      NamaDealer: form0.NamaDealer,
+      Msub: form0.Msub,
+    };
+
+    // Transform kendaraan (Form0_1)
+    if (form0.kendaraan && Array.isArray(form0.kendaraan)) {
+      result.Form0_1 = form0.kendaraan.map((k: any) => ({
+        key: k.key,
+        data1: k.data1,
+        data2: k.data2,
+        data3: k.data3,
+        data4: k.data4,
+      }));
+    }
+
+    // Transform StatusCaDeb and JenisPengajuan (Form0_2)
+    const form0_2: KeyValueInputDto[] = [];
+    if (form0.StatusCaDeb) {
+      form0_2.push({
+        key: 'StatusCaDeb',
+        Value: form0.StatusCaDeb.id.toString(),
+        label: form0.StatusCaDeb.label,
+        CustomValue: form0.StatusCaDeb.CustomValue,
+      });
+    }
+    if (form0.JenisPengajuan) {
+      form0_2.push({
+        key: 'JenisPengajuan',
+        Value: form0.JenisPengajuan.id.toString(),
+        label: form0.JenisPengajuan.label,
+        CustomValue: form0.JenisPengajuan.CustomValue,
+      });
+    }
+    result.Form0_2 = form0_2.length > 0 ? form0_2 : undefined;
+
+    return result;
+  }
+
   async findOneForm0(id: number) {
-    return this.prisma.form0.findUnique({
+    const form0 = await this.prisma.form0.findUnique({
       where: { id },
       include: {
         kendaraan:      true,
@@ -118,8 +172,8 @@ export class FormService {
         JenisPengajuan: true,
       },
     });
+    return this.transformToCreateFormDto(form0);
   }
-
   async updateForm0(id: number, dto: CreateFormDto) {
     const { Form0, Form0_1, Form0_2 } = dto;
 
