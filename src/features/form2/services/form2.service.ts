@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   CreateForm2Dto,
 } from '../dto/create-form2.dto';
+import { StatusDokumenDto } from '../dto/status-dokumen.dto';
 import { PrismaService } from 'src/core/db/prisma.service';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class Form2Service {
 
   async createForm2(dto: CreateForm2Dto) {
     const { Form2_0, Form2_1 } = dto;
-    return this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       return tx.form2.create({
         data: {
           form0Id: dto.formRefId,
@@ -39,6 +40,21 @@ export class Form2Service {
         },
       });
     });
+
+    // Transform dokumen to StatusDokumenDto format
+    if (result.dokumen && Array.isArray(result.dokumen)) {
+      result.dokumen = result.dokumen.map((d: any) => {
+        const dokDto = new StatusDokumenDto();
+        dokDto.id = d.id?.toString();
+        dokDto.key = d.jenis_dokumen;
+        dokDto.model1 = d.status_ada;
+        dokDto.model2 = d.tipe_dokumen === 'FOTO' ? 0 : (d.tipe_dokumen === 'COPY' ? 1 : null);
+        dokDto.model3 = d.keterangan;
+        return dokDto;
+      });
+    }
+
+    return result;
   }
 
   async updateForm2(form0Id: number,dto: CreateForm2Dto) {
