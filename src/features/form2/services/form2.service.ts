@@ -42,19 +42,20 @@ export class Form2Service {
     });
 
     // Transform dokumen to StatusDokumenDto format
-    if (result.dokumen && Array.isArray(result.dokumen)) {
-      result.dokumen = result.dokumen.map((d: any) => {
-        const dokDto = new StatusDokumenDto();
-        dokDto.id = d.id?.toString();
-        dokDto.key = d.jenis_dokumen;
-        dokDto.model1 = d.status_ada;
-        dokDto.model2 = d.tipe_dokumen === 'FOTO' ? 0 : (d.tipe_dokumen === 'COPY' ? 1 : null);
-        dokDto.model3 = d.keterangan;
-        return dokDto;
-      });
-    }
+    const dokumen: StatusDokumenDto[] = (result.dokumen ?? []).map((d: any) => {
+      const dokDto = new StatusDokumenDto();
+      dokDto.id = d.id?.toString();
+      dokDto.key = d.jenis_dokumen;
+      dokDto.model1 = d.status_ada;
+      dokDto.model2 = d.tipe_dokumen === 'FOTO' ? 0 : (d.tipe_dokumen === 'COPY' ? 1 : null);
+      dokDto.model3 = d.keterangan;
+      return dokDto;
+    });
 
-    return result;
+    return {
+      ...result,
+      dokumen,
+    };
   }
 
   async updateForm2(form0Id: number,dto: CreateForm2Dto) {
