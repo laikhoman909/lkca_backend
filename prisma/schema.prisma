@@ -62,6 +62,7 @@ enum UserRole {
 model KeyValue {
   id          Int      @id @default(autoincrement())
   group       String   @db.VarChar(100)   // e.g. "StatusCaDeb", "NamaJelasSesuaiKtp"
+  value       String   @db.VarChar(3)     // 1,2,3
   label       String   @db.VarChar(100)   // e.g. "RO", "A/O", "SESUAI"
   Description String?  @db.VarChar(255)
   CustomValue String?  @db.VarChar(255)
@@ -78,7 +79,7 @@ model KeyValue {
   form5Items Form5[] 
   form6Items Form6[] 
 
-  @@unique([group, label, CustomValue])
+  @@unique([group, value, CustomValue])
   @@map("key_value")
 }
 
