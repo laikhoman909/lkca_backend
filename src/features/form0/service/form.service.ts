@@ -15,28 +15,24 @@ export class FormService {
   // Updates CustomValue on the existing row, or creates a new one
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
+    });
 
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
   // ─────────────────────────────────────────────
@@ -56,7 +52,7 @@ export class FormService {
   async createForm0(dto: CreateFormDto) {
     const { Form0, Form0_1, Form0_2 } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       const statusCaDebItem    = (Form0_2 ?? []).find(i => i.key === 'StatusCaDeb');
       const jenisPengajuanItem = (Form0_2 ?? []).find(i => i.key === 'JenisPengajuan');
 
@@ -96,6 +92,8 @@ export class FormService {
         },
       });
     });
+    return this.transformToCreateFormDto(firstResult);
+
   }
 
   async findAllForm0() {
@@ -113,9 +111,9 @@ export class FormService {
   // HELPER: Transform Form0 database result to CreateFormDto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateFormDto(form0: any): CreateFormDto | null {
-    if (!form0) return null;
 
     const result = new CreateFormDto();
+    result.formRefId = form0.id;
 
     // Transform Form0 (main form data)
     result.Form0 = {
@@ -145,7 +143,7 @@ export class FormService {
     if (form0.StatusCaDeb) {
       form0_2.push({
         key: 'StatusCaDeb',
-        Value: form0.StatusCaDeb.id.toString(),
+        Value: form0.StatusCaDeb.value,
         label: form0.StatusCaDeb.label,
         CustomValue: form0.StatusCaDeb.CustomValue,
       });
@@ -153,7 +151,7 @@ export class FormService {
     if (form0.JenisPengajuan) {
       form0_2.push({
         key: 'JenisPengajuan',
-        Value: form0.JenisPengajuan.id.toString(),
+        Value: form0.JenisPengajuan.value,
         label: form0.JenisPengajuan.label,
         CustomValue: form0.JenisPengajuan.CustomValue,
       });

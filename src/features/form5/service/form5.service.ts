@@ -13,38 +13,24 @@ export class Form5Service {
   // Updates CustomValue on the existing row, or creates a new one
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
-
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
-  }
-
-  // ─────────────────────────────────────────────
-  // HELPER: get all preset options for a group
-  // ─────────────────────────────────────────────
-  async getPresets(group: string) {
-    return this.prisma.keyValue.findMany({
-      where: { group, isPreset: true },
-      orderBy: { id: 'asc' },
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
     });
+
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
   // ─────────────────────────────────────────────
@@ -59,7 +45,7 @@ export class Form5Service {
       (Form5_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
 
-    return this.prisma.form5.create({
+    const firstResult = await this.prisma.form5.create({
       data: {
         form0Id:                dto.formRefId,
         HargaOtr:               FormSec5DTO?.HargaOtr               ?? null,
@@ -77,6 +63,7 @@ export class Form5Service {
       },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm5Dto(firstResult);
   }
 
   async updateForm5(form0Id: number,dto: CreateForm5Dto) {
@@ -121,7 +108,7 @@ export class Form5Service {
   // HELPER: Transform Form5 database result to CreateForm5Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm5Dto(form5: any): CreateForm5Dto | null {
-    if (!form5) return null;
+    // if (!form5) return null;
 
     const result = new CreateForm5Dto();
     result.formRefId = form5.form0Id;
@@ -130,7 +117,7 @@ export class Form5Service {
     if (form5.keyValues && Array.isArray(form5.keyValues)) {
       result.Form5_0 = form5.keyValues.map((kv: any) => ({
         key: kv.group,
-        Value: kv.id.toString(),
+        Value: kv.value,
         label: kv.label,
         CustomValue: kv.CustomValue,
       }));

@@ -15,28 +15,24 @@ export class Form1Service {
   // Updates CustomValue on the existing row, or creates a new one
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
+    });
 
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
 
@@ -56,7 +52,7 @@ export class Form1Service {
     );
     var kvIds = [...kvIds1, ...kvIds2];
 
-    return this.prisma.form1.create({
+    const firstResult = await  this.prisma.form1.create({
       data: {
         form0Id: dto.formRefId,
         latarBelakang: {
@@ -77,6 +73,8 @@ export class Form1Service {
         latarBelakang: true,
       },
     });
+
+    return this.transformToCreateForm1Dto(firstResult);
 
   }
 
@@ -144,7 +142,7 @@ export class Form1Service {
       for (const kv of form1.latarBelakang) {
         const item = new KeyValueInputDto();
         item.key = kv.group;
-        item.Value = kv.id.toString();
+        item.Value = kv.value;
         item.label = kv.label;
         item.CustomValue = kv.CustomValue;
 

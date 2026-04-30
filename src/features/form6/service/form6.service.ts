@@ -13,28 +13,24 @@ export class Form6Service {
   // Updates CustomValue on the existing row, or creates a new one
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
+    });
 
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
   // ─────────────────────────────────────────────
@@ -59,7 +55,7 @@ export class Form6Service {
       (Form6_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
 
-    return this.prisma.form6.create({
+    const firstResult = await this.prisma.form6.create({
       data: {
         form0Id:                  dto.formRefId,
         NamaPerusahaan:           FormSec6DTO?.Nama                 ?? null,
@@ -79,6 +75,7 @@ export class Form6Service {
       },
       include: { keyValues: true },
     });
+    return this.transformToCreateForm6Dto(firstResult);
   }
 
   async updateForm6(form0Id: number, dto: CreateForm6Dto) {
@@ -125,7 +122,7 @@ export class Form6Service {
   // HELPER: Transform Form6 database result to CreateForm6Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm6Dto(form6: any): CreateForm6Dto | null {
-    if (!form6) return null;
+    // if (!form6) return null;
 
     const result = new CreateForm6Dto();
     result.formRefId = form6.form0Id;
@@ -134,7 +131,7 @@ export class Form6Service {
     if (form6.keyValues && Array.isArray(form6.keyValues)) {
       result.Form6_0 = form6.keyValues.map((kv: any) => ({
         key: kv.group,
-        Value: kv.id.toString(),
+        Value: kv.value,
         label: kv.label,
         CustomValue: kv.CustomValue,
       }));

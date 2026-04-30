@@ -15,28 +15,24 @@ export class Form4Service {
   // Updates CustomValue on the existing row, or creates a new one
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
+    });
 
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
 
@@ -52,7 +48,7 @@ export class Form4Service {
       (Form4_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
   
-    return this.prisma.form4.create({
+    const firstResult = await this.prisma.form4.create({
       data: {
         form0Id: dto.formRefId,
         keyValues: {
@@ -63,6 +59,7 @@ export class Form4Service {
         keyValues: true
       },
     });
+    return this.transformToCreateForm4Dto(firstResult);
   }
 
   async updateForm4(form0Id: number, dto: CreateForm4Dto) {
@@ -100,7 +97,7 @@ export class Form4Service {
   // HELPER: Transform Form4 database result to CreateForm4Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm4Dto(form4: any): CreateForm4Dto | null {
-    if (!form4) return null;
+    // if (!form4) return null;
 
     const result = new CreateForm4Dto();
     result.formRefId = form4.form0Id;
@@ -109,7 +106,7 @@ export class Form4Service {
     if (form4.keyValues && Array.isArray(form4.keyValues)) {
       result.Form4_0 = form4.keyValues.map((kv: any) => ({
         key: kv.group,
-        Value: kv.id.toString(),
+        Value: kv.value,
         label: kv.label,
         CustomValue: kv.CustomValue,
       }));

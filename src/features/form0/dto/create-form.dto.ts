@@ -4,6 +4,7 @@ import {
   IsArray,
   ValidateNested,
   IsOptional,
+  IsInt,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { KeyListItemDto, KeyValueInputDto } from 'src/common/dto/key-value.dto';
@@ -39,6 +40,11 @@ export class Form0ItemDto {
 }
 
 export class CreateFormDto {
+
+  @IsOptional()
+  @IsInt()
+    formRefId: number;
+    
   @ValidateNested()
   @Type(() => Form0ItemDto)
   Form0: Form0ItemDto;

@@ -15,7 +15,7 @@ export class Form8Service {
   async createForm8(dto: CreateForm8Dto) {
     const { DataTableSec8DTO, DataTableSec8_1DTO } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form8.create({
         data: {
           form0Id:  dto.formRefId,
@@ -52,6 +52,7 @@ export class Form8Service {
         },
       });
     });
+    return this.transformToCreateForm8Dto(firstResult);
   }
 
   async updateForm8(form0Id: number, dto: CreateForm8Dto) {
@@ -135,7 +136,7 @@ export class Form8Service {
   // HELPER: Transform Form8 database result to CreateForm8Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm8Dto(form8: any): CreateForm8Dto | null {
-    if (!form8) return null;
+    // if (!form8) return null;
 
     const result = new CreateForm8Dto();
     result.formRefId = form8.form0Id;

@@ -15,28 +15,24 @@ export class Form3Service {
   // Updates CustomValue on the existing row, or creates a new one
   // ─────────────────────────────────────────────
   private async resolveKeyValueId(tx: any, item: KeyValueInputDto): Promise<number> {
-    const presetId = parseInt(item.Value, 10);
-    if (!isNaN(presetId)) {
-      if(item.CustomValue){
-        const byValue = await tx.keyValue.findMany({
-          where: {CustomValue: item.CustomValue , group: item.key }
-        });
+    const byValue = await tx.keyValue.findMany({
+      where: {CustomValue: item.CustomValue , group: item.key, value: item.Value }
+    });
 
-        if( byValue.length == 0 ){
-          // console.log('aa' + (byValue[0]?.label ?? '') );
-          const created = await tx.keyValue.create({
-            data: {
-              group:       item.key,
-              label:       byValue[0]?.label  ?? '',
-              CustomValue: item.CustomValue ?? null,
-              isPreset:    false
-            },
-          });
-          return created.id;
-        } 
-      }
-    }
-    return presetId;
+    if( byValue.length == 0 ){
+      // console.log('aa' + (byValue[0]?.label ?? '') );
+      const created = await tx.keyValue.create({
+        data: {
+          group:       item.key,
+          value:       item.Value,
+          label:       byValue[0]?.label  ?? '',
+          CustomValue: item.CustomValue ?? '',
+          isPreset:    false
+        },
+      });
+      return created.id;
+    } 
+    return byValue[0].id;
   }
 
 
@@ -52,7 +48,7 @@ export class Form3Service {
       (Form3_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
   
-    return this.prisma.form3.create({
+    const firstResult = await  this.prisma.form3.create({
       data: {
         form0Id: dto.formRefId,
         keyValues: {
@@ -63,6 +59,7 @@ export class Form3Service {
         keyValues: true
       },
     });
+    return this.transformToCreateForm3Dto(firstResult);
   }
 
   async updateForm3(form0Id: number, dto: CreateForm3Dto) {
@@ -108,7 +105,7 @@ export class Form3Service {
     if (form3.keyValues && Array.isArray(form3.keyValues)) {
       result.Form3_0 = form3.keyValues.map((kv: any) => ({
         key: kv.group,
-        Value: kv.id.toString(),
+        Value: kv.value,
         label: kv.label,
         CustomValue: kv.CustomValue,
       }));
