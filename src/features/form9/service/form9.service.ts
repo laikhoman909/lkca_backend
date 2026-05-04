@@ -15,7 +15,7 @@ export class Form9Service {
   async createForm9(dto: CreateForm9Dto) {
     const { Form9_0 } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form9.create({
         data: {
           form0Id:  dto.formRefId,
@@ -34,6 +34,7 @@ export class Form9Service {
         },
       });
     });
+    return this.transformToCreateForm9Dto(firstResult);
   }
 
   async updateForm9(form0Id: number, dto: CreateForm9Dto) {
@@ -75,7 +76,7 @@ export class Form9Service {
   // HELPER: Transform Form9 database result to CreateForm9Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm9Dto(form9: any): CreateForm9Dto | null {
-    if (!form9) return null;
+    // if (!form9) return null;
 
     const result = new CreateForm9Dto();
     result.formRefId = form9.form0Id;

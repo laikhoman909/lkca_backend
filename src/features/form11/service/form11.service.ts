@@ -15,7 +15,7 @@ export class Form11Service {
   async createForm11(dto: FormSec11DTO) {
     const { DataTable } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form11.create({
         data: {
           form0Id:  dto.formRefId,
@@ -35,12 +35,13 @@ export class Form11Service {
         },
       });
     });
+    return this.transformToFormSec11Dto(firstResult);
   }
 
   async updateForm11(form0Id: number, dto: FormSec11DTO) {
     const { DataTable } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await  this.prisma.$transaction(async (tx) => {
       await tx.pembiayaan.deleteMany({ where: { form11Id: form0Id } });
       return tx.form11.update({
         where: {form0Id},
@@ -61,6 +62,7 @@ export class Form11Service {
         },
       });
     });
+    return this.transformToFormSec11Dto(firstResult);
   }
 
   async findAllForm11() {
@@ -76,7 +78,7 @@ export class Form11Service {
   // HELPER: Transform Form11 database result to FormSec11DTO format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToFormSec11Dto(form11: any): FormSec11DTO | null {
-    if (!form11) return null;
+    // if (!form11) return null;
 
     const result = new FormSec11DTO();
     result.formRefId = form11.form0Id;

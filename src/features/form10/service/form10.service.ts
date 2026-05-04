@@ -15,7 +15,7 @@ export class Form10Service {
   async createForm10(dto: CreateForm10Dto) {
     const { Form10_0 } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form10.create({
         data: {
           form0Id:  dto.formRefId,
@@ -34,6 +34,7 @@ export class Form10Service {
         },
       });
     });
+    return this.transformToCreateForm10Dto(firstResult);
   }
 
   async updateForm10(form0Id: number, dto: CreateForm10Dto) {
@@ -74,7 +75,7 @@ export class Form10Service {
   // HELPER: Transform Form10 database result to CreateForm10Dto format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToCreateForm10Dto(form10: any): CreateForm10Dto | null {
-    if (!form10) return null;
+    // if (!form10) return null;
 
     const result = new CreateForm10Dto();
     result.formRefId = form10.form0Id;

@@ -15,7 +15,7 @@ export class Form12Service {
   async createForm12(dto: FormSec12DTO) {
     const { DataTable } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form12.create({
         data: {
           form0Id:  dto.formRefId,
@@ -34,12 +34,13 @@ export class Form12Service {
         },
       });
     });
+    return this.transformToFormSec12Dto(firstResult);
   }
 
   async updateForm12(form0Id: number, dto: FormSec12DTO) {
     const { DataTable } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await  this.prisma.$transaction(async (tx) => {
       await tx.kewajibanLuar.deleteMany({ where: { form12Id: form0Id } });
       return tx.form12.update({
         where: { form0Id },
@@ -59,6 +60,7 @@ export class Form12Service {
         },
       });
     });
+    return this.transformToFormSec12Dto(firstResult);
   }
 
   async findAllForm12() {
@@ -74,7 +76,7 @@ export class Form12Service {
   // HELPER: Transform Form12 database result to FormSec12DTO format
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   private transformToFormSec12Dto(form12: any): FormSec12DTO | null {
-    if (!form12) return null;
+    // if (!form12) return null;
 
     const result = new FormSec12DTO();
     result.formRefId = form12.form0Id;

@@ -13,7 +13,7 @@ export class Form14Service {
   // ─────────────────────────────────────────────
 
   async createForm14(dto: FormSec14DTO){
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form14.create({
         data: {
           form0Id:  dto.formRefId,
@@ -22,10 +22,11 @@ export class Form14Service {
         }
       });
     });
+    return this.transformToFormSec14Dto(firstResult);
   }
 
   async updateForm14(form0Id: number, dto: FormSec14DTO){
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       return tx.form14.update({
         where: { form0Id },
         data: {
@@ -35,6 +36,7 @@ export class Form14Service {
         }
       });
     });
+    return this.transformToFormSec14Dto(firstResult);
   }
 
   async findAllForm14() {
