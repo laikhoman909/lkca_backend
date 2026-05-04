@@ -19,7 +19,7 @@ export class Form2Service {
             create: Form2_0?.map((k) => ({
               jenis_dokumen: k.key,
               status_ada: k.model1,
-              tipe_dokumen: (k.model2 != null) ? (k.model2 == 0 ? 'FOTO': 'COPY') : '' ,
+              tipe_dokumen: this.convertToText(k.model2 ?? -1),
               keterangan: k.model3 ?? null,
             })),
           },
@@ -47,7 +47,7 @@ export class Form2Service {
       dokDto.id = d.id?.toString();
       dokDto.key = d.jenis_dokumen;
       dokDto.model1 = d.status_ada;
-      dokDto.model2 = d.tipe_dokumen === 'FOTO' ? 0 : (d.tipe_dokumen === 'COPY' ? 1 : -1);
+      dokDto.model2 = this.convertToCode(d.tipe_dokumen);
       dokDto.model3 = d.keterangan;
       return dokDto;
     });
@@ -60,7 +60,7 @@ export class Form2Service {
 
   async updateForm2(form0Id: number,dto: CreateForm2Dto) {
     const { Form2_0, Form2_1 } = dto;
-    return this.prisma.$transaction(async (tx) => {
+    const result = await  this.prisma.$transaction(async (tx) => {
       await tx.dokumenPersyaratan.deleteMany({ where: { form2Id: form0Id } });
       await tx.keyList.deleteMany({ where: { form2Id: form0Id } });
       return tx.form2.update({
@@ -70,7 +70,7 @@ export class Form2Service {
             create: Form2_0?.map((k) => ({
               jenis_dokumen: k.key,
               status_ada: k.model1,
-              tipe_dokumen: (k.model2 != null) ? (k.model2 == 0 ? 'FOTO': 'COPY') : '' ,
+              tipe_dokumen: this.convertToText(k.model2 ?? -1),
               keterangan: k.model3 ?? null,
             })),
           },
@@ -91,6 +91,23 @@ export class Form2Service {
         },
       });
     });
+    
+    // Transform dokumen to StatusDokumenDto format
+    const dokumen: StatusDokumenDto[] = (result.dokumen ?? []).map((d: any) => {
+      const dokDto = new StatusDokumenDto();
+      dokDto.id = d.id?.toString();
+      dokDto.key = d.jenis_dokumen;
+      dokDto.model1 = d.status_ada;
+      dokDto.model2 = this.convertToCode(d.tipe_dokumen);
+      dokDto.model3 = d.keterangan;
+      return dokDto;
+    });
+
+    return {
+      ...result,
+      dokumen,
+    };
+
   }
 
   async findAllForm2() {
@@ -98,6 +115,32 @@ export class Form2Service {
       include: { foto: true, dokumen: true },
       orderBy: { createdAt: 'desc' },
     });
+  }
+
+  private convertToCode(text: string): number {
+    switch (text) {
+      case "ASLI":
+        return 1;
+      case "COPY":
+        return 2;
+      case "TIDAK ADA":
+        return 2;
+      default:
+        return -1;
+    }
+  }
+
+  private convertToText(code: number): string {
+    switch (code) {
+      case 1:
+        return "ASLI";
+      case 2:
+        return "COPY";
+      case 3:
+        return "TIDAK ADA";
+      default:
+        return '';
+    }
   }
 
   // ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -115,7 +158,7 @@ export class Form2Service {
         id: d.id?.toString(),
         key: d.jenis_dokumen,
         model1: d.status_ada,
-        model2: d.tipe_dokumen === 'FOTO' ? 0 : (d.tipe_dokumen === 'COPY' ? 1 : null),
+        model2: this.convertToCode(d.tipe_dokumen),
         model3: d.keterangan,
       }));
     }
