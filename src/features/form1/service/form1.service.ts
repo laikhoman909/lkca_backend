@@ -88,7 +88,7 @@ export class Form1Service {
     );
     var kvIds = [...kvIds1, ...kvIds2];
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       await tx.form1SusunanPengurus.deleteMany({ where: { form1Id: form0Id } });
       return tx.form1.update({
         where: { form0Id },
@@ -115,6 +115,7 @@ export class Form1Service {
         },
       });
     });
+    return firstResult;
   }
 
   async findAllForm1() {

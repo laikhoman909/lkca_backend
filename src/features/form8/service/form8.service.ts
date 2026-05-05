@@ -58,7 +58,7 @@ export class Form8Service {
   async updateForm8(form0Id: number, dto: CreateForm8Dto) {
     const {  DataTableSec8_1DTO } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       await tx.laporanKeuangan.deleteMany({ where: { form8Id: form0Id } });
       return tx.form8.update({
         where: { form0Id },
@@ -80,6 +80,7 @@ export class Form8Service {
         },
       });
     });
+    return this.transformToCreateForm8Dto(firstResult);
   }
 
   async updateBankById(form0Id: number, dto: CreateForm8Dto, id: number) {

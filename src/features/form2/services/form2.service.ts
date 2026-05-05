@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   CreateForm2Dto,
 } from '../dto/create-form2.dto';
@@ -11,51 +11,51 @@ export class Form2Service {
 
   async createForm2(dto: CreateForm2Dto) {
     const { Form2_0, Form2_1 } = dto;
-    const result = await this.prisma.$transaction(async (tx) => {
-      return tx.form2.create({
-        data: {
-          form0Id: dto.formRefId,
-          dokumen: {
-            create: Form2_0?.map((k) => ({
-              jenis_dokumen: k.key,
-              status_ada: k.model1,
-              tipe_dokumen: this.convertToText(k.model2 ?? -1),
-              keterangan: k.model3 ?? null,
-            })),
+      const result = await this.prisma.$transaction(async (tx) => {
+        return tx.form2.create({
+          data: {
+            form0Id: dto.formRefId,
+            dokumen: {
+              create: Form2_0?.map((k) => ({
+                jenis_dokumen: k.key,
+                status_ada: k.model1,
+                tipe_dokumen: this.convertToText(k.model2 ?? -1),
+                keterangan: k.model3 ?? null,
+              })),
+            },
+            foto: {
+              create: Form2_1?.map((k) => ({
+                key:   k.key,
+                data1: k.data1 ?? null,
+                data2: k.data2 ?? null,
+                data3: k.data3 ?? null,
+                data4: k.data4 ?? null,
+              })),
+            },
+            
           },
-          foto: {
-            create: Form2_1?.map((k) => ({
-              key:   k.key,
-              data1: k.data1 ?? null,
-              data2: k.data2 ?? null,
-              data3: k.data3 ?? null,
-              data4: k.data4 ?? null,
-            })),
+          include: {
+            foto:    true,
+            dokumen: true,
           },
-          
-        },
-        include: {
-          foto:    true,
-          dokumen: true,
-        },
+        });
       });
-    });
 
-    // Transform dokumen to StatusDokumenDto format
-    const dokumen: StatusDokumenDto[] = (result.dokumen ?? []).map((d: any) => {
-      const dokDto = new StatusDokumenDto();
-      dokDto.id = d.id?.toString();
-      dokDto.key = d.jenis_dokumen;
-      dokDto.model1 = d.status_ada;
-      dokDto.model2 = this.convertToCode(d.tipe_dokumen);
-      dokDto.model3 = d.keterangan;
-      return dokDto;
-    });
+      // Transform dokumen to StatusDokumenDto format
+      const dokumen: StatusDokumenDto[] = (result.dokumen ?? []).map((d: any) => {
+        const dokDto = new StatusDokumenDto();
+        dokDto.id = d.id?.toString();
+        dokDto.key = d.jenis_dokumen;
+        dokDto.model1 = d.status_ada;
+        dokDto.model2 = this.convertToCode(d.tipe_dokumen);
+        dokDto.model3 = d.keterangan;
+        return dokDto;
+      });
 
-    return {
-      ...result,
-      dokumen,
-    };
+      return {
+        ...result,
+        dokumen,
+      };   
   }
 
   async updateForm2(form0Id: number,dto: CreateForm2Dto) {

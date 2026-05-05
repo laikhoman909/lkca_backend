@@ -40,7 +40,7 @@ export class Form9Service {
   async updateForm9(form0Id: number, dto: CreateForm9Dto) {
     const { Form9_0 } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       await tx.aset.deleteMany({ where: { form9Id: form0Id } });
       return tx.form9.update({
         where: { form0Id },
@@ -61,6 +61,7 @@ export class Form9Service {
         },
       });
     });
+    return this.transformToCreateForm9Dto(firstResult);
   }
 
   async findAllForm9() {

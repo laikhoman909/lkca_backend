@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
   CreateForm7Dto
 } from '../dto/create-form7.dto';
@@ -47,37 +47,45 @@ export class Form7Service {
 
   async updateForm7(form0Id: number, dto: CreateForm7Dto) {
     const { Form7_0, Form7_1 } = dto;
-    
-    return this.prisma.$transaction(async (tx) => {
-      await tx.pendapatan.deleteMany({ where: { form7Id: form0Id } });
-      await tx.kewajiban.deleteMany({ where: { form7Id: form0Id } });
-      return tx.form7.update({
-        where: { form0Id },
-        data: {
-          pendapatan: {
-            create: Form7_0?.map((k) => ({
-              key: k.key ,
-              income1: k.income1 ?? 0,
-              income2: k.income2 ?? 0,
-              income3: k.income3 ?? 0,
-              total: k.total ?? 0
-            }))
-          },       
-             
-          kewajiban: {
-            create: Form7_1?.map((j) => ({
-              key: j.key ,
-              value: j.value ?? 0
-            }))
+    try{
+      const firstResult = await this.prisma.$transaction(async (tx) => {
+        await tx.pendapatan.deleteMany({ where: { form7Id: form0Id } });
+        await tx.kewajiban.deleteMany({ where: { form7Id: form0Id } });
+        return tx.form7.update({
+          where: { form0Id },
+          data: {
+            pendapatan: {
+              create: Form7_0?.map((k) => ({
+                key: k.key ,
+                income1: k.income1 ?? 0,
+                income2: k.income2 ?? 0,
+                income3: k.income3 ?? 0,
+                total: k.total ?? 0
+              }))
+            },       
+              
+            kewajiban: {
+              create: Form7_1?.map((j) => ({
+                key: j.key ,
+                value: j.value ?? 0
+              }))
+            },
+            updatedAt: new Date()
           },
-          updatedAt: new Date()
-        },
-        include: {
-          pendapatan: true,
-          kewajiban: true
-        },
+          include: {
+            pendapatan: true,
+            kewajiban: true
+          },
+        });
       });
-    });
+      return this.transformToCreateForm7Dto(firstResult);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      // Jika error database lainnya, lempar 500
+      throw new InternalServerErrorException('Gagal memproses transaksi: ' + error.message);
+    }
   }
 
   async findAllForm7() {

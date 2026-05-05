@@ -175,7 +175,7 @@ export class FormService {
   async updateForm0(id: number, dto: CreateFormDto) {
     const { Form0, Form0_1, Form0_2 } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = await this.prisma.$transaction(async (tx) => {
       await tx.keyList.deleteMany({ where: { form0Id: id } });
 
       const statusCaDebItem    = (Form0_2 ?? []).find(i => i.key === 'StatusCaDeb');
@@ -219,6 +219,7 @@ export class FormService {
         },
       });
     });
+    return this.transformToCreateFormDto(firstResult);
   }
 
   async removeForm0(id: number) {

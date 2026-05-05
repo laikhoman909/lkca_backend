@@ -69,7 +69,7 @@ export class Form4Service {
       (Form4_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
   
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = this.prisma.$transaction(async (tx) => {
       return this.prisma.form4.update({
         where: { form0Id },
         data: {
@@ -84,6 +84,7 @@ export class Form4Service {
         },
       });
     });
+    return this.transformToCreateForm4Dto(firstResult);
   }
 
   async findAllForm4() {

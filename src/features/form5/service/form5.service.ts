@@ -73,7 +73,7 @@ export class Form5Service {
       (Form5_0 ?? []).map((item) => this.resolveKeyValueId(this.prisma, item)),
     );
 
-    return this.prisma.$transaction(async (tx) => {
+    const firstResult = this.prisma.$transaction(async (tx) => {
       return tx.form5.update({
         where: { form0Id }, 
         data: {
@@ -95,6 +95,7 @@ export class Form5Service {
         include: { keyValues: true },
       });
     });
+    return this.transformToCreateForm5Dto(firstResult);
   }
 
   async findAllForm5() {
