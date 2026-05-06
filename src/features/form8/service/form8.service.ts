@@ -47,7 +47,9 @@ export class Form8Service {
           }
         },
         include: {
-          bank: true,
+          bank: {
+            include: { mutasi: true }
+          },
           laporanKeuangan: true
         },
       });
@@ -56,13 +58,32 @@ export class Form8Service {
   }
 
   async updateForm8(form0Id: number, dto: CreateForm8Dto) {
-    const {  DataTableSec8_1DTO } = dto;
+    const {  DataTableSec8DTO, DataTableSec8_1DTO } = dto;
 
     const firstResult = await this.prisma.$transaction(async (tx) => {
       await tx.laporanKeuangan.deleteMany({ where: { form8Id: form0Id } });
+      await tx.bank.deleteMany({ where: { form8Id: form0Id } });
+
       return tx.form8.update({
         where: { form0Id },
         data: {
+          bank: {
+            create: DataTableSec8DTO?.map((k) => ({
+              atasNama: k.AtasNama ?? '',
+              nama: k.NamaBank ?? '',
+              keterangan: k.Keterangan ?? null,
+              radio: k.Radio ?? '',
+              saldoAwal: k.SaldoAwal ?? 0,
+              mutasi: {
+                create: k.Mutasi?.map((j) => ({
+                  keterangan: j.Keterangan ?? null,
+                  debit: j.Debit ?? 0,
+                  kredit: j.Kredit ?? 0,
+                  saldo: j.Saldo ?? 0,
+                })),
+              }
+            })),
+          },
           keterangan: DataTableSec8_1DTO?.Keterangan ?? null,
           laporanKeuangan: {
             create: DataTableSec8_1DTO?.LaporanKeuangan?.map((k) => ({
@@ -75,7 +96,9 @@ export class Form8Service {
           updatedAt: new Date()
         },
         include: {
-          bank: true,
+          bank: {
+            include: { mutasi: true }
+          },
           laporanKeuangan: true
         },
       });
@@ -116,7 +139,9 @@ export class Form8Service {
         },
         
         include: {
-          bank: true,
+          bank: {
+            include: { mutasi: true }
+          },
           laporanKeuangan: true
         },
       });

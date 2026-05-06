@@ -6,7 +6,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { DataTableSec8Dto } from './data-table-sec8.dto';
-import { LaporanKeuanganDto } from './laporan-keuangan-dto';
 import { DataTableSec8_1Dto } from './data-table-sec81.dto';
 
 // ─────────────────────────────────────────────
