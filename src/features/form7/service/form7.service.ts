@@ -14,47 +14,38 @@ export class Form7Service {
 
   async createForm7(dto: CreateForm7Dto) {
     const { Form7_0, Form7_1 } = dto;
-    try{
-      const firstResult = await this.prisma.$transaction(async (tx) => {
-        return tx.form7.create({
-          data: {
-            form0Id:  dto.formRefId,
-            pendapatan: {
-              create: Form7_0?.map((k) => ({
-                key: k.key ,
-                income1: k.income1 ?? 0,
-                income2: k.income2 ?? 0,
-                income3: k.income3 ?? 0,
-                total: k.total ?? 0
-              })),
-            },       
-              
-            kewajiban: {
-              create: Form7_1?.map((j) => ({
-                key: j.key ,
-                value: j.value ?? 0
-              })),
-            }
-          },
-          include: {
-            pendapatan: true,
-            kewajiban: true
-          },
-        });
+    const firstResult = await this.prisma.$transaction(async (tx) => {
+      return tx.form7.create({
+        data: {
+          form0Id:  dto.formRefId,
+          pendapatan: {
+            create: Form7_0?.map((k) => ({
+              key: k.key ,
+              income1: k.income1 ?? 0,
+              income2: k.income2 ?? 0,
+              income3: k.income3 ?? 0,
+              total: k.total ?? 0
+            })),
+          },       
+            
+          kewajiban: {
+            create: Form7_1?.map((j) => ({
+              key: j.key ,
+              value: j.value ?? 0
+            })),
+          }
+        },
+        include: {
+          pendapatan: true,
+          kewajiban: true
+        },
       });
-      return this.transformToCreateForm7Dto(firstResult);
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-      // Jika error database lainnya, lempar 500
-      throw new InternalServerErrorException('Gagal memproses: ' + error.message);
-    }  
+    });
+    return this.transformToCreateForm7Dto(firstResult);
   }
 
   async updateForm7(form0Id: number, dto: CreateForm7Dto) {
     const { Form7_0, Form7_1 } = dto;
-    try{
       const firstResult = await this.prisma.$transaction(async (tx) => {
         await tx.pendapatan.deleteMany({ where: { form7Id: form0Id } });
         await tx.kewajiban.deleteMany({ where: { form7Id: form0Id } });
@@ -86,13 +77,6 @@ export class Form7Service {
         });
       });
       return this.transformToCreateForm7Dto(firstResult);
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-      // Jika error database lainnya, lempar 500
-      throw new InternalServerErrorException('Gagal memproses: ' + error.message);
-    }
   }
 
   async findAllForm7() {
