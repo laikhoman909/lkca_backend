@@ -12,41 +12,27 @@ datasource db {
   provider = "postgresql"
 }
 
+enum FormStatus {
+  COMPLETE
+  UNCOMPLETE
+  CLOSED
+}
 
 // User model with authentication and role-based access
 model User {
-  id        String   @id @default(uuid())
+  // id        String   @id @default(uuid())
+  nip              String    @id @map("nip")
   email     String   @unique
   password  String   // Hashed password using bcrypt
   publicKey         String    @unique
   role      UserRole @default(USER)
+
+  // Relationships
+  formsOpened    Form0[]  @relation("Requester")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
-  // Relations
-  products  Product[]
-
 }
-
-
-// Product model with full CRUD operations
-model Product {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  price       Decimal  @db.Decimal(10, 2)
-  stock       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-
-  // Relations
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-}
-
 
 // Enum for user roles - ADMIN and USER
 enum UserRole {
@@ -118,13 +104,36 @@ model Form0 {
 
   StatusCaDebId    Int?
   StatusCaDeb      KeyValue? @relation("Form0StatusCaDeb", fields: [StatusCaDebId], references: [id])
-
   JenisPengajuanId Int?
   JenisPengajuan   KeyValue? @relation("Form0JenisPengajuan", fields: [JenisPengajuanId], references: [id])
+  requester   User   @relation("Requester", fields: [requesterId], references: [nip])
+  requesterId String @map("requester")
+  
+  status           FormStatus @default(UNCOMPLETE) @map("status")
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  inputDt  DateTime? @default(now()) @map("input_dt")
+  inputBy  String?   @map("input_by")
+  closedDt DateTime? @map("close_dt")
+  closedBy String?   @map("close_by")
+  updateDt DateTime? @map("update_dt")
+  updateBy String?   @map("update_by")
 
+  form1            Form1?
+  form2            Form2?
+  form3            Form3?
+  form4            Form4?
+  form5            Form5?
+  form6            Form6?
+  form7            Form7?
+  form8            Form8?
+  form9            Form9?
+  form10           Form10?
+  form11           Form11?
+  form12           Form12?
+  form13           Form13?
+  form14           Form14?
+  footer           Footer?
+  
   @@map("form0")
 }
 
@@ -140,6 +149,7 @@ model Form1 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form1")
 }
 
@@ -168,6 +178,7 @@ model Form2 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form2")
 }
 
@@ -195,6 +206,7 @@ model Form3 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form3")
 }
 
@@ -208,6 +220,7 @@ model Form4 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form4")
 }
 
@@ -230,6 +243,7 @@ model Form5 {
   createdAt              DateTime   @default(now())
   updatedAt              DateTime   @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form5")
 }
 
@@ -254,6 +268,7 @@ model Form6 {
   createdAt                DateTime   @default(now())
   updatedAt                DateTime   @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form6")
 }
 
@@ -297,6 +312,7 @@ model Form7 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form7")
 }
 
@@ -313,6 +329,7 @@ model Form8 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form8")
 }
 
@@ -369,6 +386,7 @@ model Form9 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form9")
 }
 
@@ -397,6 +415,7 @@ model Form10 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form10")
 }
 
@@ -428,6 +447,7 @@ model Form11 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form11")
 }
 
@@ -457,6 +477,7 @@ model Form12 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form12")
 }
 
@@ -494,6 +515,7 @@ model Form13 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form13")
 }
 
@@ -509,6 +531,7 @@ model Form14 {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("form14")
 }
 
@@ -523,5 +546,6 @@ model Footer {
   createdAt       DateTime              @default(now())
   updatedAt       DateTime              @updatedAt
 
+  form0       Form0?   @relation(fields: [form0Id], references: [id])
   @@map("footer")
 }
