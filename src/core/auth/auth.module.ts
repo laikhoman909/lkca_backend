@@ -12,7 +12,7 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PassportModule, // Required for JWT authentication
     JwtModule.register({
-      secret: 'JWTSECRE',
+      secret: process.env.JWT_SECRET || '',
       signOptions: { expiresIn: '1h' },
     }),
     DbModule

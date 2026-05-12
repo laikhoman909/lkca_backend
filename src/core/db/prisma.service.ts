@@ -21,7 +21,7 @@ export class PrismaService
         {
           user: process.env.DB_USERNAME,
           database: process.env.DB_DATABASE,
-          port: 5432,
+          port: parseInt(process.env.DB_PORT || '3000'),
           password: process.env.DB_PASSWORD,
           host: process.env.DB_HOST,
         },
@@ -57,7 +57,6 @@ export class PrismaService
     }
 
     // Delete in correct order to respect foreign key constraints
-    await this.product.deleteMany();
     await this.user.deleteMany();
   }
 }

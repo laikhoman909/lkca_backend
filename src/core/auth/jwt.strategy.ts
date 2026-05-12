@@ -9,7 +9,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       // jwtFromRequest: ExtractJwt.fromHeader('x-ticketing-token'),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'JWTSECRE',
+      secretOrKey: process.env.JWT_SECRET || '',
     });
   }
 

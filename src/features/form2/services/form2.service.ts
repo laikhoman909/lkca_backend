@@ -124,7 +124,7 @@ export class Form2Service {
       case "COPY":
         return 2;
       case "TIDAK ADA":
-        return 2;
+        return 3;
       default:
         return -1;
     }

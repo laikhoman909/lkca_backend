@@ -42,6 +42,7 @@ export class AuthService {
     // Create user
     const user = await this.prisma.user.create({
       data: {
+        nip: '',
         email: registerDto.email,
         password: hashedPassword,
         publicKey: publicKey,
@@ -51,7 +52,7 @@ export class AuthService {
 
     // Generate JWT token
     const payload: UserPayload = {
-      sub: user.id,
+      sub: user.nip,
       email: user.email,
       role: user.role as Role,
       publicKey: user.publicKey,
@@ -64,7 +65,7 @@ export class AuthService {
       tokenType: 'Bearer',
       expiresIn: process.env.JWT_EXPIRATION || '24h',
       user: {
-        id: user.id,
+        id: user.nip,
         email: user.email,
         role: user.role as Role,
         publicKey: user.publicKey,
@@ -95,7 +96,7 @@ export class AuthService {
 
     // Generate JWT token
     const payload: UserPayload = {
-      sub: user.id,
+      sub: user.nip,
       email: user.email,
       role: user.role as Role,
       publicKey: user.publicKey,
@@ -108,7 +109,7 @@ export class AuthService {
       tokenType: 'Bearer',
       expiresIn: process.env.JWT_EXPIRATION || '24h',
       user: {
-        id: user.id,
+        id: user.nip,
         email: user.email,
         role: user.role as Role,
         publicKey: user.publicKey,
@@ -118,14 +119,14 @@ export class AuthService {
 
   async validateUser(userId: string): Promise<any> {
     const user = await this.prisma.user.findUnique({
-      where: { id: userId },
+      where: { nip: userId },
     });
     return user;
   }
 
   async getPublicKey(userId: string): Promise<string> {
     const user = await this.prisma.user.findUnique({
-      where: { id: userId },
+      where: { nip: userId },
     });
     return user?.publicKey || '';
   }
@@ -162,9 +163,4 @@ export class AuthService {
     }
   }
 
-  findUserById(id: string) {
-    return this.prisma.user.findUnique({
-      where: { id },
-    });
-  }
 }
