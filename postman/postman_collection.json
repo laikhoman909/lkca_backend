@@ -184,7 +184,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-02-29\",\n    \"JamTelepon\": \"10:30\",\n    \"Cabang\": \"JAKARTA\",\n    \"NamaCmo\": \"LAIKHOMAN\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"Form0_1\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 130 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 1234 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"121000000\",          \"data2\": \"150000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"1\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"5\", \"CustomValue\": \"\" }\n  ]\n}"
+							"raw": "{\n  \"Form0\": {\n    \"TanggalTelepon\": \"2025-02-29\",\n    \"JamTelepon\": \"10:30\",\n    \"Cabang\": \"MEDAN\",\n    \"NamaCmo\": \"LAIKHOMAN\",\n    \"FidCmo\": 81103,\n    \"NamaDebitur\": \"ROMI ALECK SANDER\",\n    \"NamaDealer\": \"SIDO MULYO MOBILINDO\",\n    \"Msub\": \"TERLAMPIR\"\n  },\n  \"Form0_1\": [\n    { \"key\": \"Merk/Type\",   \"data1\": \"TOYOTA DYNA 130 HT\", \"data2\": \"MITSUBISHI FE 71\", \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"Tahun/NoPol\", \"data1\": \"T 8429 DF\",          \"data2\": \"B 1234 XY\",       \"data3\": \"\", \"data4\": \"\" },\n    { \"key\": \"PHPengajuan\", \"data1\": \"121000000\",          \"data2\": \"150000000\",       \"data3\": \"\", \"data4\": \"\" }\n  ],\n  \"Form0_2\": [\n    { \"key\": \"StatusCaDeb\",    \"Value\": \"0\", \"CustomValue\": \"\" },\n    { \"key\": \"JenisPengajuan\", \"Value\": \"0\", \"CustomValue\": \"\" }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form0",
@@ -240,7 +240,8 @@
 									"pm.test('Has StatusCaDeb list', () => pm.expect(pm.response.json().data.StatusCaDeb).to.be.an('array'));",
 									"pm.test('Has JenisPengajuan list', () => pm.expect(pm.response.json().data.JenisPengajuan).to.be.an('array'));"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -364,7 +365,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 3,\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"8\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\", \"Value\": \"72\",  \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"Value\": \"73\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABC\"\n  }\n  \n}"
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form1_0\": [\n    { \"key\": \"NamaJelasSesuaiKtp\", \"Value\": \"0\", \"CustomValue\": \"\" },\n    { \"key\": \"LamaTinggal\", \"Value\": \"1\",  \"CustomValue\": \"SEJAK KECIL\" },\n    { \"key\": \"JumlahTanggungan\", \"Value\": \"2\", \"CustomValue\": \"1 ISTRI, 3 ANAK\" }\n  ],\n  \"Form1_1\": [\n\n  ],\n  \"FormSec1DTO\": {\n    \"Tabel\" : [\n        { \n            \"namaJabatan\": \"LAIKHOMAN - DIREKTUR\", \"besarSaham\": \"100%\", \"persen\": \"100\", \"hubungan\": \"DIRI SENDIRI\"  \n        }\n    ],\n    \"Keterangan\": \"ABC\"\n  }\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form1",
@@ -429,14 +430,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/form1/3",
+							"raw": "{{base_url}}/api/form1/{{form0_id}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"form1",
-								"3"
+								"{{form0_id}}"
 							]
 						}
 					},
@@ -531,7 +532,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"Form5_0\": [\n    { \"key\": \"JenisTransaksi\",     \"Value\": \"50\", \"CustomValue\": \"\" },\n    { \"key\": \"MerkTipe\",           \"Value\": \"54\",  \"CustomValue\": \"\" },\n    { \"key\": \"BesarAngsuranTenor\", \"Value\": \"56\",  \"CustomValue\": \"\" },\n    { \"key\": \"UnitSudahDiterima\",  \"Value\": \"58\", \"CustomValue\": \"\" }\n  ],\n  \"FormSec5DTO\": {\n    \"HargaOtr\": \"RP 160.000.000\",\n    \"BesarDownPayment\": \"RP 50.000.000 (SUDAH BAYAR CASH RP 25 JT)\",\n    \"NamaTeleponPenjual\": \"\",\n    \"HasilKonfirmasiPenjual\": \"\",\n    \"KapanMemilikiMobil\": \"\",\n    \"BerapaHargaBeli\": \"\",\n    \"BesarKebutuhanDana\": \"\",\n    \"TujuanKebutuhanDana\": \"\",\n    \"PosisiBpkb\": \"\"\n    }\n}"
+							"raw": "{\n  \"formRefId\": 2,\n  \"Form5_0\": [\n    { \"key\": \"JenisTransaksi\",     \"Value\": \"50\", \"CustomValue\": \"\" },\n    { \"key\": \"MerkTipe\",           \"Value\": \"54\",  \"CustomValue\": \"\" },\n    { \"key\": \"BesarAngsuranTenor\", \"Value\": \"56\",  \"CustomValue\": \"\" },\n    { \"key\": \"UnitSudahDiterima\",  \"Value\": \"58\", \"CustomValue\": \"\" }\n  ],\n  \"FormSec5DTO\": {\n    \"HargaOtr\": \"RP 160.000.000\",\n    \"BesarDownPayment\": \"RP 50.000.000 (SUDAH BAYAR CASH RP 25 JT)\",\n    \"NamaTeleponPenjual\": \"\",\n    \"HasilKonfirmasiPenjual\": \"\",\n    \"KapanMemilikiMobil\": \"\",\n    \"BerapaHargaBeli\": \"\",\n    \"BesarKebutuhanDana\": \"\",\n    \"TujuanKebutuhanDana\": \"\",\n    \"PosisiBpkb\": \"\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/form5",
@@ -842,7 +843,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"Form2_1\": [\n    { \"key\": \"FotoBPKB\", \"data1\": \"8\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"FotoNotice\", \"data1\": \"28-12-2026\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"FotoKiur\", \"data1\": \"TIDAK TERLAMPIR\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" },\n    { \"key\": \"HasilCek\", \"data1\": \"ACTIVE WOORI FINANCE\", \"data2\": \"\", \"data3\": \"\",  \"data4\": \"\" }\n  ],\n  \"Form2_0\": [\n    { \"key\": \"KTPDebitur\", \"model1\": false, \"model2\": 0, \"model3\": \"\"  },\n    { \"key\": \"KTPPengurus\", \"model1\": true, \"model2\": 1, \"model3\": \"\"  },\n    { \"key\": \"KartuKeluarga\", \"model1\": true, \"model2\": 0, \"model3\": \"\"  }\n  ]\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Form2_1\": [\n        {\n            \"key\": \"FotoBPKB\",\n            \"data1\": \"8\",\n            \"data2\": \"\",\n            \"data3\": \"\",\n            \"data4\": \"\"\n        },\n        {\n            \"key\": \"FotoNotice\",\n            \"data1\": \"28-12-2026\",\n            \"data2\": \"\",\n            \"data3\": \"\",\n            \"data4\": \"\"\n        },\n        {\n            \"key\": \"FotoKiur\",\n            \"data1\": \"TIDAK TERLAMPIR\",\n            \"data2\": \"\",\n            \"data3\": \"\",\n            \"data4\": \"\"\n        },\n        {\n            \"key\": \"HasilCek\",\n            \"data1\": \"ACTIVE WOORI FINANCE\",\n            \"data2\": \"\",\n            \"data3\": \"\",\n            \"data4\": \"\"\n        }\n    ],\n    \"Form2_0\": [\n        {\n            \"key\": \"KTPDebitur\",\n            \"model1\": false,\n            \"model2\": 0,\n            \"model3\": \"\"\n        },\n        {\n            \"key\": \"KTPPengurus\",\n            \"model1\": true,\n            \"model2\": 1,\n            \"model3\": \"\"\n        },\n        {\n            \"key\": \"KartuKeluarga\",\n            \"model1\": true,\n            \"model2\": 0,\n            \"model3\": \"\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -908,6 +909,24 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Form2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/form2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -921,7 +940,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"Form3_0\": [\n    { \"key\": \"TandaTangan\",    \"Value\": \"72\", \"CustomValue\": \"\" },\n    { \"key\": \"Penjelasan\", \"Value\": \"74\", \"CustomValue\": \"\" },\n    { \"key\": \"NamaCMO\", \"Value\": \"77\", \"CustomValue\": \"\" }\n  ]\n}",
+							"raw": "{\n  \"formRefId\": 1,\n  \"Form3_0\": [\n    { \"key\": \"TandaTangan\",    \"Value\": \"0\", \"CustomValue\": \"\" },\n    { \"key\": \"Penjelasan\", \"Value\": \"0\", \"CustomValue\": \"\" },\n    { \"key\": \"NamaCMO\", \"Value\": \"0\", \"CustomValue\": \"\" }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1027,7 +1046,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"formRefId\": 1,\n  \"Form7_0\": [\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"HargaPokok\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"PendapatanKotor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"SewaKantor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  }\n  ],\n  \"Form7_1\": [\n    { \"key\": \"TotalPinjaman\", \"value\": 0   },\n    { \"key\": \"TotalAngsuran\", \"value\": 0   },\n    { \"key\": \"NetIncome\", \"value\": 0   },\n    { \"key\": \"AngsuranDiajukan\", \"value\": 0   }\n  ]\n\n}",
+							"raw": "{\n  \"formRefId\": 1,\n  \"Form7_0\": [\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"Pendapatan\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"HargaPokok\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"PendapatanKotor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  },\n    { \"key\": \"SewaKantor\",     \"income1\": 0, \"income2\": 0, \"income3\": 0, \"total\": 0  }\n  ],\n  \"Form7_1\": [\n    { \"key\": \"TotalPinjaman\", \"value\": 0   },\n    { \"key\": \"TotalAngsuran\", \"value\": 0   },\n    { \"key\": \"NetIncome\", \"value\": 0   },\n    { \"key\": \"AngsuranDiajukan\", \"value\": 0   }\n  ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1133,6 +1152,34 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/form8/{{form0_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"form8",
+								"{{form0_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Form 8",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"formRefId\": 1,\n  \"DataTableSec8DTO\": [\n    {\n        \"AtasNama\": \"andre\",\n        \"Keterangan\": \"info\",\n        \"Mutasi\": [\n            { \"Keterangan\": \"\",  \"Debit\": 1, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Jumlah\",  \"Debit\": 2, \"Kredit\": 0, \"Saldo\": 0 },\n            { \"Keterangan\": \"Rata-Rata/Bulan\",  \"Debit\": 3, \"Kredit\": 0, \"Saldo\": 0 }\n        ],\n        \"NamaBank\": \"\",\n        \"Radio\": \"\",\n        \"SaldoAwal\": 0\n    }    \n  ],\n  \"DataTableSec8_1DTO\":{\n    \"Keterangan\": \"\",\n    \"LaporanKeuangan\": [\n        {\"Keterangan\": \"JUMLAH\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"RATA2/BULAN\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL ASET LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0},\n        {\"Keterangan\": \"TOTAL HUTANG LANCAR\", \"PendapatanLaba\": 0, \"Biaya\": 0, \"Net\": 0}\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_url}}/api/form8/{{form0_id}}",
 							"host": [
@@ -1423,7 +1470,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"\",\n    \"Keterangan\": \"\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": \"1\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": \"2\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": \"3\", \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
+							"raw": "{\n    \"formRefId\": 1,\n    \"Catatan\": \"note\",\n    \"Keterangan\": \"informasi\",\n    \"DataTable\": [\n        {\"Key\": \"MOBIL - AKTIF\", \"JumlahUnit\": \"0\", \"CollRendah\": \"\",  \"Keterangan\": \"asdf\"},\n        {\"Key\": \"MOBIL - LUNAS\", \"JumlahUnit\": \"1\", \"CollRendah\": \"\",  \"Keterangan\": \"jklm\"},\n        {\"Key\": \"PROPERTY - AKTIF\", \"JumlahUnit\": \"2\", \"CollRendah\": \"\",  \"Keterangan\": \"\"},\n        {\"Key\": \"PROPERTY - LUNAS\", \"JumlahUnit\": \"3\", \"CollRendah\": \"\",  \"Keterangan\": \"\"}\n    ]\n\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1780,6 +1827,28 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [

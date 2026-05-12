@@ -20,12 +20,9 @@ enum FormStatus {
 
 // User model with authentication and role-based access
 model User {
-  // id        String   @id @default(uuid())
   nip              String    @id @map("nip")
-  email     String   @unique
-  password  String   // Hashed password using bcrypt
-  publicKey         String    @unique
-  role      UserRole @default(USER)
+  fullName         String    @map("nama_lengkap")
+  role             UserRole @default(USER)
 
   // Relationships
   formsOpened    Form0[]  @relation("Requester")
