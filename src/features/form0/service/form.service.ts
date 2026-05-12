@@ -4,6 +4,8 @@ import {
 } from '../dto/create-form.dto';
 import { PrismaService } from 'src/core/db/prisma.service';
 import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
+import { tokenUser } from 'src/core/auth/dto/tokenUser.dto';
+import { FormStatus, Prisma } from 'generated/prisma/client';
 
 @Injectable()
 export class FormService {
@@ -49,7 +51,7 @@ export class FormService {
   // FORM 0
   // ─────────────────────────────────────────────
 
-  async createForm0(dto: CreateFormDto) {
+  async createForm0(dto: CreateFormDto, user: tokenUser) {
     const { Form0, Form0_1, Form0_2 } = dto;
 
     const firstResult = await this.prisma.$transaction(async (tx) => {
@@ -58,13 +60,12 @@ export class FormService {
 
       const statusCaDebId    = statusCaDebItem
         ? await this.resolveKeyValueId(tx, statusCaDebItem)
-        : null;
+        : 0;
       const jenisPengajuanId = jenisPengajuanItem
         ? await this.resolveKeyValueId(tx, jenisPengajuanItem)
-        : null;
+        : 0;
 
-      return tx.form0.create({
-        data: {
+      var newData: Prisma.Form0CreateInput = {
           TanggalTelepon:   Form0.TanggalTelepon,
           JamTelepon:       Form0.JamTelepon,
           Cabang:           Form0.Cabang,
@@ -73,8 +74,12 @@ export class FormService {
           NamaDebitur:      Form0.NamaDebitur,
           NamaDealer:       Form0.NamaDealer,
           Msub:             Form0.Msub,
-          StatusCaDebId:    statusCaDebId,
-          JenisPengajuanId: jenisPengajuanId,
+          StatusCaDeb:    {
+            connect: { id: statusCaDebId },
+          },
+          JenisPengajuan: {
+            connect: { id: jenisPengajuanId },
+          },
           kendaraan: {
             create: Form0_1?.map((k) => ({
               key:   k.key,
@@ -84,7 +89,13 @@ export class FormService {
               data4: k.data4 ?? null,
             })),
           },
-        },
+          requester: {
+            connect: { nip: user.username },
+          },
+      };
+      
+      return tx.form0.create({
+        data: newData,
         include: {
           kendaraan:      true,
           StatusCaDeb:    true,
@@ -103,7 +114,7 @@ export class FormService {
         StatusCaDeb:    true,
         JenisPengajuan: true,
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { inputDt: 'desc' },
     });
   }
 
@@ -163,7 +174,7 @@ export class FormService {
 
   async findOneForm0(id: number) {
     const form0 = await this.prisma.form0.findUnique({
-      where: { id },
+      where: { id, status: FormStatus.UNCOMPLETE || FormStatus.COMPLETE },
       include: {
         kendaraan:      true,
         StatusCaDeb:    true,
@@ -210,7 +221,7 @@ export class FormService {
               data4: k.data4 ?? null,
             })),
           },
-          updatedAt: new Date()
+          updateDt: new Date()
         },
         include: {
           kendaraan:      true,
@@ -222,9 +233,17 @@ export class FormService {
     return this.transformToCreateFormDto(firstResult);
   }
 
-  async removeForm0(id: number) {
-    await this.prisma.form0.delete({ where: { id } });
-    return { message: 'Form0 deleted successfully' };
+  async removeForm0(id: number, user: tokenUser) {
+    const firstResult = await this.prisma.$transaction(async (tx) => {  
+      await this.prisma.form0.update({
+        where: { id },
+        data: {
+          status: FormStatus.CLOSED,
+          closedBy: user.username,
+          closedDt: new Date(),
+        },
+      });
+    });
   }
 
 }

@@ -10,11 +10,16 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { FormService } from '../service/form.service';
 import {
   CreateFormDto,
 } from '../dto/create-form.dto';
+import { tokenUser } from 'src/core/auth/dto/tokenUser.dto';
+import { User } from 'src/core/decorator/user.decorator';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
 
 // ─────────────────────────────────────────────
 // PRESETS - Get predefined KeyValue options
@@ -33,14 +38,18 @@ export class PresetsController {
 // ─────────────────────────────────────────────
 // FORM 0
 // ─────────────────────────────────────────────
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('api/form0')
 export class Form0Controller {
   constructor(private readonly formService: FormService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() dto: CreateFormDto) {
-    const result = await this.formService.createForm0(dto);
+  async create(
+    @User() UserData: tokenUser,
+    @Body() dto: CreateFormDto
+  ) {
+    const result = await this.formService.createForm0(dto, UserData);
     return { success: true, message: 'Form0 created successfully', data: result };
   }
 
@@ -63,9 +72,10 @@ export class Form0Controller {
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const result = await this.formService.removeForm0(id);
-    return { success: true, ...result };
+  async remove(@Param('id', ParseIntPipe) id: number, @User() UserData: tokenUser) {
+    const result = await this.formService.removeForm0(id, UserData);
+    return {
+      message: 'Form0 removed successfully',
+    };
   }
 }
