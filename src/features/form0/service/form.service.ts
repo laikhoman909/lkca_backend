@@ -109,6 +109,11 @@ export class FormService {
 
   async findAllForm0() {
     return this.prisma.form0.findMany({
+      where: {
+        status: {
+          notIn: [FormStatus.CLOSED]
+        }
+      },
       include: {
         kendaraan:      true,
         StatusCaDeb:    true,
@@ -174,7 +179,11 @@ export class FormService {
 
   async findOneForm0(id: number) {
     const form0 = await this.prisma.form0.findUnique({
-      where: { id, status: FormStatus.UNCOMPLETE || FormStatus.COMPLETE },
+      where: { id, 
+        status: {
+          notIn: [FormStatus.CLOSED]
+        }
+      },
       include: {
         kendaraan:      true,
         StatusCaDeb:    true,
@@ -183,7 +192,8 @@ export class FormService {
     });
     return this.transformToCreateFormDto(form0);
   }
-  async updateForm0(id: number, dto: CreateFormDto) {
+
+  async updateForm0(id: number, dto: CreateFormDto, user: tokenUser) {
     const { Form0, Form0_1, Form0_2 } = dto;
 
     const firstResult = await this.prisma.$transaction(async (tx) => {
@@ -221,6 +231,7 @@ export class FormService {
               data4: k.data4 ?? null,
             })),
           },
+          updateBy: user.username,
           updateDt: new Date()
         },
         include: {

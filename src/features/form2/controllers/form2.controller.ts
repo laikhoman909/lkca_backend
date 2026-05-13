@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpCode, ParseIntPipe, Put, UseGuards } from '@nestjs/common';
 import { Form2Service } from '../services/form2.service';
 import { CreateForm2Dto, UpdateForm2Dto } from '../dto/create-form2.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('api/form2')
 export class Form2Controller {
   constructor(private readonly form2Service: Form2Service) {}
@@ -34,7 +37,6 @@ export class Form2Controller {
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
     async remove(@Param('id', ParseIntPipe) id: number) {
-      const result = await this.form2Service.removeForm2(id);
-      return { success: true, ...result };
+      
     }
 }

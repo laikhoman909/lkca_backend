@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import {
   CreateForm3Dto,
 } from '../dto/create-form3.dto';
 import { PrismaService } from 'src/core/db/prisma.service';
 import { KeyValueInputDto } from 'src/common/dto/key-value.dto';
+import { FormStatus } from 'generated/prisma/enums';
 
 @Injectable()
 export class Form3Service {
@@ -116,6 +117,19 @@ export class Form3Service {
   }
 
   async findOneForm3(form0Id: number) {
+    const existingForm0 = await this.prisma.form0.findUnique({
+      where: { 
+        id: form0Id, 
+        status: {
+          notIn: [FormStatus.CLOSED]
+        }
+      },
+    });
+
+    if (!existingForm0) {
+      throw new ConflictException('Form don t exists');
+    }
+    
     const form3 = await this.prisma.form3.findUnique({
       where: { form0Id },
       include: { keyValues: true },
@@ -124,8 +138,7 @@ export class Form3Service {
   }
 
   async removeForm3(form0Id: number) {
-    await this.prisma.form3.delete({ where: { form0Id } });
-    return { message: 'Form3 deleted successfully' };
+    
   }
 
 }

@@ -10,14 +10,18 @@ import {
     HttpCode,
     HttpStatus,
     Query,
+    UseGuards,
   } from '@nestjs/common';
 import { Form4Service } from '../service/form4.service';
 import { CreateForm4Dto } from '../dto/create-form4.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
   
   
   // ─────────────────────────────────────────────
   // FORM 4
   // ─────────────────────────────────────────────
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Controller('api/form4')
   export class Form4Controller {
     constructor(private readonly formService: Form4Service) {}
@@ -50,7 +54,6 @@ import { CreateForm4Dto } from '../dto/create-form4.dto';
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
     async remove(@Param('id', ParseIntPipe) id: number) {
-      const result = await this.formService.removeForm4(id);
-      return { success: true, ...result };
+      
     }
   }

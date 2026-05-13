@@ -175,6 +175,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjIwMDAyNSIsIm5hbWEiOiJMQUlLSE9NQU4iLCJjYWJhbmciOiIwMDIiLCJyb2xlcyI6IkRldmVsb3BlciIsImRlcHQiOiJJbmZvcm1hdGlvbiBUZWNobm9sb2d5IiwiaWF0IjoxNzc4NTc4MzMxLCJleHAiOjE3Nzg2NjQ3MzF9._4s90mHE_AS8Tw3Fg5OaOARf9HXzSmNPteHy1ikFFCE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -1827,6 +1837,33 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"200025\",\n    \"nama\": \"LAIKHOMAN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

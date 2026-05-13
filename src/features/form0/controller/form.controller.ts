@@ -66,8 +66,11 @@ export class Form0Controller {
   }
 
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateFormDto) {
-    const result = await this.formService.updateForm0(id, dto);
+  async update(@Param('id', ParseIntPipe) id: number, 
+    @Body() dto: CreateFormDto, 
+    @User() UserData: tokenUser
+  ) {
+    const result = await this.formService.updateForm0(id, dto, UserData);
     return { success: true, message: 'Form0 updated successfully', data: result };
   }
 

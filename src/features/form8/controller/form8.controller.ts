@@ -10,13 +10,17 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Form8Service } from '../service/form8.service';
 import { CreateForm8Dto } from '../dto/create-form8.dto';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
 
 // ─────────────────────────────────────────────
 // FORM 8
 // ─────────────────────────────────────────────
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('api/form8')
 export class Form8Controller {
   constructor(private readonly formService: Form8Service) {}
@@ -55,7 +59,6 @@ export class Form8Controller {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const result = await this.formService.removeForm8(id);
-    return { success: true, ...result };
+    
   }
 }

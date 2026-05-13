@@ -10,13 +10,17 @@ import {
     HttpStatus,
     Query,
     Put,
+    UseGuards,
   } from '@nestjs/common';
 import { Form5Service } from '../service/form5.service';
 import { CreateForm5Dto } from '../dto/create-form5.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
   
   // ─────────────────────────────────────────────
   // FORM 5
   // ─────────────────────────────────────────────
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Controller('api/form5')
   export class Form5Controller {
     constructor(private readonly formService: Form5Service) {}
@@ -49,7 +53,6 @@ import { CreateForm5Dto } from '../dto/create-form5.dto';
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
     async remove(@Param('id', ParseIntPipe) id: number) {
-      const result = await this.formService.removeForm5(id);
-      return { success: true, ...result };
+      
     }
   }

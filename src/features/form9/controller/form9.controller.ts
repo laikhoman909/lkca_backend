@@ -10,13 +10,17 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Form9Service } from '../service/form9.service';
 import { CreateForm9Dto } from '../dto/create-form9.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
 
 // ─────────────────────────────────────────────
 // FORM 9
 // ─────────────────────────────────────────────
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('api/form9')
 export class Form9Controller {
   constructor(private readonly formService: Form9Service) {}
@@ -49,7 +53,6 @@ export class Form9Controller {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const result = await this.formService.removeForm9(id);
-    return { success: true, ...result };
+    
   }
 }

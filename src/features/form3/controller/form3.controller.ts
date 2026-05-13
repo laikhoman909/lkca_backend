@@ -10,14 +10,18 @@ import {
     HttpCode,
     HttpStatus,
     Query,
+    UseGuards,
   } from '@nestjs/common';
 import { Form3Service } from '../service/form3.service';
 import { CreateForm3Dto } from '../dto/create-form3.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth-guards';
+import { RolesGuard } from 'src/core/auth/roles/roles.guard';
   
   
   // ─────────────────────────────────────────────
   // FORM 3
   // ─────────────────────────────────────────────
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Controller('api/form3')
   export class Form3Controller {
     constructor(private readonly formService: Form3Service) {}
@@ -50,7 +54,6 @@ import { CreateForm3Dto } from '../dto/create-form3.dto';
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
     async remove(@Param('id', ParseIntPipe) id: number) {
-      const result = await this.formService.removeForm3(id);
-      return { success: true, ...result };
+      
     }
   }
